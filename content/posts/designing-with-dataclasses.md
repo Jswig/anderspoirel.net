@@ -1,72 +1,147 @@
 ---
 title: "designing with dataclasses"
-date: 2025-02-24T01:03:11-08:00
+date: 2025-04-21T13:30:11-08:00
 tags: []
 draft: false
 ---
 
+*Python [dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries)
+(henceforth referred to as ``dict``) are core to the language, available without an
+import, and extremely flexible, which means many Python programmers default to 
+representing data as a ``dict``. However,
+[dataclasses](https://docs.python.org/3/library/dataclasses.html#module-dataclasses)
+are often more appropriate. Here is why a ``dataclass`` can be the better choice, and
+how you can pick between the two.*
 
-[Dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) are one of the first Python features new users learn about. Moreover, they are available without an import and very flexible, so many Python programmers end up using `dict`s for *everything*. 
+> **Note 1**: I use `dataclass` here since it is part the standard library. You might 
+> already be using a 3rd-party libraries for defining "data container" classes, 
+> such as the excellent [attrs](https://www.attrs.org/en/stable/). The patterns discussed 
+> here still apply, just replace `dataclass` with whichever library you are using.
 
-But, `dict`s are not always the best approach for structuring your data. This post goes over why [dataclasses](https://docs.python.org/3/library/dataclasses.html#module-dataclasses) are sometimes more appropriate, and provides guidelines for picking between the two.
+> **Note 2**: If you are coming from a statically typed like Java, Go and Scala, or 
+> think in terms of [mapping types](https://en.wikipedia.org/wiki/Associative_array) and
+> [product types](https://en.wikipedia.org/wiki/Associative_array), you have likely 
+> already internalized the patterns here
 
-> Note 1: I use `dataclass` here since it is in the standard library. You might already be using one of the many excellent 3rd-party libraries for defining "data container" classes, such as [attrs](https://www.attrs.org/en/stable/). The patterns discussed here still apply, just replace `dataclass` with whichever library you are using.
+# What is a `dataclass`?
 
-> Note 2: If you are coming from a statically typed like Java, Go and Scala, or think in terms of [mapping types](https://en.wikipedia.org/wiki/Associative_array) and [product types](https://en.wikipedia.org/wiki/Associative_array) ... this article is not for you! The discussion here is probably obvious to you.
+If you already know what a `dataclass` is, feel free to skip to the next section.
 
-# Heuristics 
+`dataclass` is a class [decorator](https://docs.python.org/3/glossary.html#term-decorator) 
+that generates common methods such as
+`__init__` and `__eq__`, making for more concise class definitions. 
+For instance, this class declaration
+```python
+class Order:
+	def __init__(self, item_id: str, customer_id: str, amount: int):
+		self.item_id = item_id
+		self.customer_id = customer_id
+		self.amount = amount
 
+	def __eq__(self, other)
+		return (
+			self.item_id == other.item_id
+			and self.customer_id == other.customer_id 
+			and self.amount == other.amount
+		)
+
+
+```
+can be replaced with the following:
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Order:
+	item_id: str
+	customer_id: str
+	amount: int
+
+```
+This makes it relatively painless to define classes that act as containers for a
+collection of related fields.
+
+
+# Advantages of a `dataclass` over a `dict`
+
+## Readability
+
+Shows which fields are expected (self-documenting). When I see a ``dataclass``, I know
+exactly what it containts
+
+## Error checking
+
+Raises an error when a field not provided at initialization. Dicts by design do no enforce
+which keys should be present in the day. This helps reduce or debug more easily ``KeyErrors``.
+Type checkers can easily validate that the expected data was provided
+
+
+# Heuristics
+
+These mostly apply when: the dict's keys are known ahead of time, and do not can
 Here are some heuristics I apply to decide whether a piece of data should be stored as  `dict` or a `dataclass`:
 - are member names hardcoded somewhere -> `dataclass`
 	- this means you're expecting an exact name to be present
 - Do fields have different types? -> `dataclass`
-- - Do I loop over the fields without ever calling a field by name -> `dict`
+- Do I loop over the fields without ever calling a field by name -> `dict`
 
 # Example
 
 Now, let's examine how these heuristics apply in a more concrete example. Consider the following code that uploads a directory of files to cloud storage (here S3), assigning each file in cloud storage a key derived from recording metadata stored in the first line of each recording file under the following format:
-```
+
+```text
 id=53,started_at=2021-01-02T11:30:00Z,session_name=daring foolion
 ```
 
 ```python
 import os
+
 import boto3
 
 
 def upload_directory(directory, s3_bucket):
-	recordings = _get_recordings_info(directory)
-	upload_recordings(recordings, s3_bucket)
+	headers_by_file = _get_headers(directory)
+	metadata_by_file = _parse_headers(headers_by_file)
+	s3_key_by_file = _build_s3_keys(metadata_by_file)
+	_upload_to_s3(s3_bucket, s3_key_by_file)
 
 
-def _extract_metadata(directory):
-	recordings = {} # (1)
-	for file_name in os.lisdir(directory):
+def _get_headers(directory):
+	headers = {}
+	for file_name in os.listdir(directory):
 		file_path = os.path.join(directory, file_name)
-		recordings(filepath) = _parse_header(file_path)
-	return recordings
+		with open(file_path, "r") as f:
+			headers[file_path] = f.readline()
+	return headers
 
 
-def _parse_header(filepath):
-	with open(filepath, "r") as f:
-		first_line = f.readline()
-	first_line.removeprefix("#")
-	pairs = first_line.split(",)
-	metadata = {} # (2)
-	for key_value in pairs
-		key, value = key_value.split("=")
-		metadata[key] = value
+def _parse_headers(headers):
+	metadata_by_file = {}
+	for file_path, header in headers.items():
+		header.removeprefix("#")
+		pairs = header.split(",")
+		metadata = {} # (2)
+		for key_value in pairs:
+			key, value = key_value.split("=")
+			metadata[key] = value
+		metadata_by_file[file_path] = metadata
 	return metadata
 
 
-def _upload_to_s3(recordings, s3_bucket)
-	s3_client = boto3.client("s3")
-	for filepath, metadata in recordings.items():
+def _build_s3_keys(metadata_by_file):
+	object_keys = {}
+	for filepath, metadata in metadata_by_file.items():
 		recorder = metadata["id"]
 		started_at = metadata["started_at"]
 		session_name = metadata["session"]
-		object_key = f"{recorder}/{session}_{started_at}"
-		s3.upload_file(filepath, s3_bucket, object_key)
+		object_keys[filepath] = f"{recorder}/{session_name}_{started_at}"
+	return object_keys
+
+
+def _upload_to_s3(s3_bucket, s3_key_by_file):
+	s3_client = boto3.client("s3")
+	for filepath, s3_key in s3_key_by_file.items():
+		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
 Let's see how the code above fares under our heuristics.
@@ -83,97 +158,119 @@ import boto3
 
 @dataclass
 class RecordingMetadata:
-	recorder_id: str
+	recorder_id: int
 	started_at: str
 	session_name: str
-	
+
 
 def upload_directory(directory, s3_bucket):
-	recordings = _extract_metadata(directory)
-	upload_recordings(recordings, s3_bucket)
+	headers_by_file = _get_headers(directory)
+	metadata_by_file = _parse_headers(headers_by_file)
+	s3_key_by_file = _build_s3_keys(metadata_by_file)
+	_upload_to_s3(s3_bucket, s3_key_by_file)
 
 
-def _extract_metadata(directory):
-	recordings = {} # (1)
-	for file_name in os.lisdir(directory):
+def _get_headers(directory):
+	headers = {}
+	for file_name in os.listdir(directory):
 		file_path = os.path.join(directory, file_name)
-		recordings(filepath) = _parse_header(file_path)
-	return recordings
+		with open(file_path, "r") as f:
+			headers[file_path] = f.readline()
+	return headers
 
 
-def _parse_header(filepath):
-	with open(filepath, "r") as f:
-		first_line = f.readline()
-	first_line.removeprefix("# ")
-	pairs = first_line.split(",)
-	metadata = {
-		key: value for key, value in key_value.split("=")
-		for key_value in pairs
-	} 
-	return RecordingMetadata(
-		recorder_id=metadata["recorder_id"]
-		started_at=metadata["started_at"]
-		session_name=metadata["session_name"]
-	)
+def _parse_headers(headers):
+	metadata = {}
+	for file_path, header in headers.items():
+		header.removeprefix("#")
+		pairs = header.split(",")
+		metadata = {} # (2)
+		for key_value in pairs:
+			key, value = key_value.split("=")
+			metadata[key] = value
+		metadata[file_path] = RecordingMetadata(
+			recorder_id=metadata["id"],
+			started_at=metadata["started_at"],
+			session_name=metadata["session"],
+		)
+	return metadata
 
 
-def _upload_to_s3(recordings, s3_bucket)
+def _build_s3_keys(metadata_by_file):
+	object_keys = {}
+	for filepath, metadata in metadata_by_file.items():
+		object_keys[filepath] = (
+			f"{metadata.recorder_id}/{metadata.session_name}_{metadata.started_at}"
+		)
+	return object_keys
+
+
+def _upload_to_s3(s3_bucket, s3_key_by_file):
 	s3_client = boto3.client("s3")
-	for filepath, metadata in recordings.items():
-		object_key = f"{metadata.recorder_id}/{metadata_.session}_{metadata.started_at}"
-		s3.upload_file(filepath, s3_bucket, object_key)
+	for filepath, s3_key in s3_key_by_file.items():
+		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
 If we forgot to provide a piece of data in our code, we are alerted immediately in `_parse_header`, rather than further downstream. While this is not that impactful in a small code listing like this one, it helps a lot in larger codebase, where this lets us get to the source of the error right aways instead of going through dozens of function calls to figure out where data is missing.
 
-Moreover, this boosts code readability, since readers will be able to tell at a glance which 
-data `_upload_to_s3` expects in `recordings`, rather than have to read the entire body of the function. This benefit becomes clearer in codebases with type annotations:
+Moreover, this boosts code readability, since readers will be able to tell at a glance
+which  data `_upload_to_s3` expects in `recordings`, rather than have to read the entire
+body of the function. This benefit becomes clearer in codebases with type annotations:
+
 ```python
-import os
-from dataclasses import dataclass
-
-import boto3
-
 @dataclass
 class RecordingMetadata:
-	recorder_id: str
+	recorder_id: int
 	started_at: str
 	session_name: str
-	
-
-def upload_directory(directory: os.Pathlike, s3_bucket: str):
-	recordings = _extract_metadata(directory)
-	upload_recordings(recordings, s3_bucket)
 
 
-def _extract_metadata(directory: os.Pathlike) -> dict[str, RecordingMetadata]:
-	recordings = {} # (1)
-	for file_name in os.lisdir(directory):
+def upload_directory(directory: os.PathLike, s3_bucket: str):
+	headers_by_file = _get_headers(directory)
+	metadata_by_file = _parse_headers(headers_by_file)
+	s3_key_by_file = _build_s3_keys(metadata_by_file)
+	_upload_to_s3(s3_bucket, s3_key_by_file)
+
+
+def _get_headers(directory: os.PathLike) -> dict[str, str]:
+	headers = {}
+	for file_name in os.listdir(directory):
 		file_path = os.path.join(directory, file_name)
-		recordings(filepath) = _parse_header(file_path)
-	return recordings
+		with open(file_path, "r") as f:
+			headers[file_path] = f.readline()
+	return headers
 
 
-def _parse_header(filepath: os.Pathlike) -> RecordingMetadata:
-	with open(filepath, "r") as f:
-		first_line = f.readline()
-	first_line.removeprefix("# ")
-	pairs = first_line.split(",)
-	metadata = {
-		key: value for key, value in key_value.split("=")
-		for key_value in pairs
-	} 
-	return RecordingMetadata(
-		recorder_id=metadata["recorder_id"]
-		started_at=metadata["started_at"]
-		session_name=metadata["session_name"]
-	)
+def _parse_headers(headers: str) -> RecordingMetadata:
+	metadata = {}
+	for file_path, header in headers.items():
+		header.removeprefix("#")
+		pairs = header.split(",")
+		metadata = {} # (2)
+		for key_value in pairs:
+			key, value = key_value.split("=")
+			metadata[key] = value
+		metadata[file_path] = RecordingMetadata(
+			recorder_id=metadata["id"],
+			started_at=metadata["started_at"],
+			session_name=metadata["session"],
+		)
+	return metadata
 
 
-def _upload_to_s3(recordings: dict[str, RecordingMetadata]  , s3_bucket: str)
+def _build_s3_keys(metadata_by_file: dict[str, RecordingMetadata]) -> dict[str, str]:
+	object_keys = {}
+	for filepath, metadata in metadata_by_file.items():
+		object_keys[filepath] = (
+			f"{metadata.recorder_id}/{metadata.session_name}_{metadata.started_at}"
+		)
+	return object_keys
+
+
+def _upload_to_s3(s3_bucket: str, s3_key_by_file: dict[str, str]):
 	s3_client = boto3.client("s3")
-	for filepath, metadata in recordings.items():
-		object_key = f"{metadata.recorder_id}/{metadata_.session}_{metadata.starte
+	for filepath, s3_key in s3_key_by_file.items():
+		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
 With these type hints, another upside emerge, which is that the task of validating that `RecordingMetadata` are created with all the expected data can be delagated to a type checker (such a `mypy` or `pyright`) rather than checked manually through unit tests.
@@ -190,19 +287,17 @@ class RecordingMetadata:
 	session_name: str
 
 	@classmethod
-	def from_file(cls, path: os.Pathlike):
-		with open(filepath, "r") as f:
-			first_line = f.readline()
+	def from_file_header(cls, header: str):
 		first_line.removeprefix("# ")
-		pairs = first_line.split(",)
+		pairs = first_line.split(",")
 		metadata = {
 			key: value for key, value in key_value.split("=")
 			for key_value in pairs
-		} 
+		}
 		return cls(
-			recorder_id = metadata["recorder_id"]
-			started_at = metadata["started_at"]
-			session_name = metadata["session_name"]
+			recorder_id=metadata["recorder_id"]
+			started_at=metadata["started_at"]
+			session_name=metadata["session_name"]
 		)
 
 	@property
@@ -210,30 +305,49 @@ class RecordingMetadata:
 		return f"{self.recorder_id}/{self.session_name}_{self.started_at}"
 
 
-def upload_directory(directory: os.Pathlike, s3_bucket: str):
-	recordings = _get_recordings_info(directory)
-	upload_recordings(recordings, s3_bucket)
+def upload_directory(directory: os.PathLike, s3_bucket: str):
+	headers_by_file = _get_headers(directory)
+	metadata_by_file = _parse_headers(headers_by_file)
+	_upload_to_s3(s3_bucket, metadata_by_file)
 
 
-def _extract_metadata(directory: os.Pathlike) -> dict[str, RecordingMetadata]:
-	recordings = {} # (1)
-	for file_name in os.lisdir(directory):
+def _get_headers(directory: os.PathLike) -> dict[str, str]:
+	headers = {}
+	for file_name in os.listdir(directory):
 		file_path = os.path.join(directory, file_name)
-		recordings(filepath) = RecoderMetada.from_file(path)
-	return recordings
+		with open(file_path, "r") as f:
+			headers[file_path] = f.readline()
+	return headers
 
 
-def _upload_to_s3(recordings dict[str, RecordingMetadata], s3_bucket: str):
+def _parse_headers(headers: str) -> dict[str, RecordingMetadata]:
+	metadata = {}
+	for file_path, header in headers.items():
+		metadata[file_path] = RecordingMetadata.from_file(header)
+	return metadata
+
+
+def _upload_to_s3(s3_bucket: str, metadata_by_file: dict[str, RecordingMetadata]):
 	s3_client = boto3.client("s3")
-	for filepath, metadata in recordings.items():
-		s3.upload_file(filepath, s3_bucket, metadata.s3_key)
-
+	for filepath, meta_data in metadata_by_file.items():
+		s3_client.upload_file(filepath, s3_bucket, metadata.s3_key)
 ```
 
 # Exceptions
 
-Performance. While attribute access performance for `dataclasse`s is only slightly worse than for dicts, instantiating a `dataclass` is at least 5x slower than a `dict`[^1], so if you're instantiating 1000s of these and you've determined that this is a bottleneck by profiling your code, a `dict` may be preferred
+Near serialization/deserialization code: a lot of libraries take or produce `dict` s at
+their API boundaries, and it may be simpler to just construct the dict directly if the
+`dict` is used directly there without being passed to another function. (once the data
+starts is moved between several functions scopes however, I usually lean towards making
+it a `dataclass`)
 
-Near serialization/deserialization code: a lot of libraries take or produce `dict` s at their API boundaries, and it may be simpler to just construct the dict directly if the `dict` is used directly there without being passed to another function
+Performance. While attribute access performance for `dataclasse`s is only slightly worse
+than for dicts, instantiating a `dataclass` is at least 5x slower than a `dict`[^1],
+so if you're instantiating 1000s of these and you've determined that this is a
+bottleneck by profiling your code, a `dict` may be preferred
 
-[^1]: "If you need to construct that many objects, don't use Python" is a bad argument. Sometimes processing that many objects is needed, but you don't want to write a whole Cython or C extension module and add a compilation step to your build system *just* for one hot loop
+In both of these cases, in codebases that use type checking through for instance
+[mypy](https://mypy.readthedocs.io/en/stable/), a 
+[TypedDict](https://typing.python.org/en/latest/spec/typeddict.html#typeddict)
+can be used instead of the `dataclass` to recover some of the readability and safety
+benefits of the latter.

@@ -20,12 +20,13 @@ Links are not endorsements of every single viewpoint espoused therein etc etc.
 - [Li Haoyi](https://www.lihaoyi.com/)
 - [Hynek Schlawack](https://hynek.me/)
 - [Irrational Exuberance](https://lethain.com/)
+- [Martin Sústrik](https://250bpm.com/index.html)
 - [Matt Dugan](https://matduggan.com/)
 - [Nathaniel J. Smith](https://vorpus.org/blog/)
 - [Sympolymathesy](https://v5.chriskrycho.com/)
 - [Tania Rascia](https://www.taniarascia.com/)
 - [Tom MacWright](https://macwright.com/)
-- [Write More Tests](https://writemoretests.com/2012/02/estimating-like-an-adult-what-to-steal-from-agile)
+- [Write More Tests](https://writemoretests.com/)
 
 ## mathematics, statistics & machine learning
 
