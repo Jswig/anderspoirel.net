@@ -1,9 +1,10 @@
 html {
     --background-color: #1c1e26;
     --background-alt-color: #242630;
-    --border-radius: 2px;
+    --box-border-radius: calc(1rem / 4);
     --highlight-alt-color: #51aaac;
     --highlight-color: #65d7d9;
+    --inline-border-radius: calc(1rem / 8);
     --emphasis-color: #dc7279;
     --font-size: 16px;
     --text-alt-color: #b7b7b7;
@@ -32,18 +33,28 @@ a {
 a:hover {
     color: var(--text-color);
     background-color: var(--highlight-alt-color);
-    border-radius: var(--border-radius);
+    border-radius: var(--inline-border-radius);
 }
 
 a:active {
     color: var(--highlight-color)
 }
 
+blockquote {
+    background: var(--background-alt-color);
+    border-radius: var(--box-border-radius);
+    margin: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+}
+
 code {
     color: var(--text-alt-color-3);
     font-weight: bold;
     background-color: var(--background-alt-color);
-    border-radius: var(--border-radius);
+    border-radius: var(--inline-border-radius);
     padding-left: var(--text-highlight-padding);
     padding-right: var(--text-highlight-padding);
 
@@ -75,7 +86,7 @@ p, li {
 }
 
 pre {
-    border-radius: var(--border-radius);
+    border-radius: var(--box-border-radius);
     padding: 1rem;
     overflow-x: auto;
 }
