@@ -2,9 +2,9 @@
 
 <h1 class="page-title">Anders Poirel's blog</h1>
 
-<h2>recent writing</h2>
+<h2>recent posts</h2>
 
-{{ range first 5 (where .Site.RegularPages.ByPublishDate.Reverse "Type" "writing" ) }}
+{{ range first 5 (where .Site.RegularPages.ByPublishDate.Reverse "Type" "posts" ) }}
 <div>
   <p>{{ partial "list-item.html" . }}</p>
 </div>
