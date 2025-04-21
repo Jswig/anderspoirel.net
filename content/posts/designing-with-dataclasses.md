@@ -18,14 +18,17 @@ how you can pick between the two.*
 > such as the excellent [attrs](https://www.attrs.org/en/stable/). The patterns discussed 
 > here still apply, just replace `dataclass` with whichever library you are using.
 
-> **Note 2**: If you are coming from a statically typed like Java, Go and Scala, or 
-> think in terms of [mapping types](https://en.wikipedia.org/wiki/Associative_array) and
-> [product types](https://en.wikipedia.org/wiki/Associative_array), you have likely 
-> already internalized the patterns here
+> **Note 2**: If you are coming from a statically typed like Java, Go and Scala, 
+> the advice here might feel obvious to you, since these languages' type systems make 
+> ``dict``-like collections less natural to use as containers for heterogeneous data.
+> Ditto if you are the kind of person who thinks in terms of
+> [algrebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type).
+
 
 # What is a `dataclass`?
 
-If you already know what a `dataclass` is, feel free to skip to the next section.
+If you are already familiar with Python's `dataclass` , feel free to skip ahead to the
+next section.
 
 `dataclass` is a class [decorator](https://docs.python.org/3/glossary.html#term-decorator) 
 that generates common methods such as
@@ -79,7 +82,8 @@ Type checkers can easily validate that the expected data was provided
 # Heuristics
 
 These mostly apply when: the dict's keys are known ahead of time, and do not can
-Here are some heuristics I apply to decide whether a piece of data should be stored as  `dict` or a `dataclass`:
+Here are some heuristics I apply to decide whether a piece of data should be stored as
+ `dict` or a `dataclass`:
 - are member names hardcoded somewhere -> `dataclass`
 	- this means you're expecting an exact name to be present
 - Do fields have different types? -> `dataclass`
@@ -87,10 +91,13 @@ Here are some heuristics I apply to decide whether a piece of data should be sto
 
 # Example
 
-Now, let's examine how these heuristics apply in a more concrete example. Consider the following code that uploads a directory of files to cloud storage (here S3), assigning each file in cloud storage a key derived from recording metadata stored in the first line of each recording file under the following format:
+Now, let's examine how these heuristics apply in a more concrete example. Consider
+the following code that uploads a directory of files to cloud storage (here S3),
+assigning each file in cloud storage a key derived from recording metadata stored
+in the first line of each recording file under the following format:
 
 ```text
-id=53,started_at=2021-01-02T11:30:00Z,session_name=daring foolion
+# id=53,started_at=2021-01-02T11:30:00Z,session_name=daring foolion
 ```
 
 ```python
@@ -118,7 +125,7 @@ def _get_headers(directory):
 def _parse_headers(headers):
 	metadata_by_file = {}
 	for file_path, header in headers.items():
-		header.removeprefix("#")
+		header.removeprefix("# ")
 		pairs = header.split(",")
 		metadata = {} # (2)
 		for key_value in pairs:
@@ -146,21 +153,19 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 
 Let's see how the code above fares under our heuristics.
 
-The use of a `dict` for `recordings` in (1) is appropriate - we never hard-code a specific key, and all the elements in this `dict` are of the same type.
+The use of a `dict` for `recordings` in (1) is appropriate - we never hard-code a
+specific key, and all the elements in this `dict` are of the same type.
 
-The `dict` in (2) however, fails test. We refer to keys in the dictionary through hard-coded names. 
+The `dict` in (2) however, fails the test since we refer to keys in the dictionary
+through hard-coded names.
+
+Here is what this code looks like after re-writing (2) to use a ``dataclass`` [^1]
 
 ```python
 import os
 from dataclasses import dataclass
 
 import boto3
-
-@dataclass
-class RecordingMetadata:
-	recorder_id: int
-	started_at: str
-	session_name: str
 
 
 def upload_directory(directory, s3_bucket):
@@ -179,21 +184,28 @@ def _get_headers(directory):
 	return headers
 
 
-def _parse_headers(headers):
-	metadata = {}
-	for file_path, header in headers.items():
-		header.removeprefix("#")
+@dataclass
+class RecordingMetadata:
+	recorder_id: int
+	started_at: str
+	session_name: str
+
+
+def _parse_headers(headers_by_file):
+	metadata_by_file = {}
+	for file_path, header in headers_by_file.items():
+		header.removeprefix("# ")
 		pairs = header.split(",")
 		metadata = {} # (2)
 		for key_value in pairs:
 			key, value = key_value.split("=")
 			metadata[key] = value
-		metadata[file_path] = RecordingMetadata(
+		metadata_by_file[file_path] = RecordingMetadata(
 			recorder_id=metadata["id"],
 			started_at=metadata["started_at"],
 			session_name=metadata["session"],
 		)
-	return metadata
+	return metadata_by_file
 
 
 def _build_s3_keys(metadata_by_file):
@@ -211,25 +223,29 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-If we forgot to provide a piece of data in our code, we are alerted immediately in `_parse_header`, rather than further downstream. While this is not that impactful in a small code listing like this one, it helps a lot in larger codebase, where this lets us get to the source of the error right aways instead of going through dozens of function calls to figure out where data is missing.
+If we forgot to provide a piece of data in our code, we are alerted immediately in
+`_parse_header`, rather than further downstream. While this is not that impactful in a
+small code listing like this one, it helps a lot in larger codebase, where this lets us
+get to the source of the error right aways instead of going through dozens of function
+calls to figure out where data is missing.
 
 Moreover, this boosts code readability, since readers will be able to tell at a glance
 which  data `_upload_to_s3` expects in `recordings`, rather than have to read the entire
 body of the function. This benefit becomes clearer in codebases with type annotations:
 
 ```python
-@dataclass
-class RecordingMetadata:
-	recorder_id: int
-	started_at: str
-	session_name: str
-
-
 def upload_directory(directory: os.PathLike, s3_bucket: str):
 	headers_by_file = _get_headers(directory)
 	metadata_by_file = _parse_headers(headers_by_file)
 	s3_key_by_file = _build_s3_keys(metadata_by_file)
 	_upload_to_s3(s3_bucket, s3_key_by_file)
+
+
+@dataclass
+class RecordingMetadata:
+	recorder_id: int
+	started_at: str
+	session_name: str
 
 
 def _get_headers(directory: os.PathLike) -> dict[str, str]:
@@ -244,7 +260,7 @@ def _get_headers(directory: os.PathLike) -> dict[str, str]:
 def _parse_headers(headers: str) -> RecordingMetadata:
 	metadata = {}
 	for file_path, header in headers.items():
-		header.removeprefix("#")
+		header.removeprefix("# ")
 		pairs = header.split(",")
 		metadata = {} # (2)
 		for key_value in pairs:
@@ -273,13 +289,21 @@ def _upload_to_s3(s3_bucket: str, s3_key_by_file: dict[str, str]):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-With these type hints, another upside emerge, which is that the task of validating that `RecordingMetadata` are created with all the expected data can be delagated to a type checker (such a `mypy` or `pyright`) rather than checked manually through unit tests.
-
+With these type hints, another upside emerge, which is that the task of validating
+that `RecordingMetadata` are created with all the expected data can be delagated to a 
+type checker (such a `mypy` or `pyright`) rather than checked manually through unit tests.
 
 Moreover, once we have explicitly defined the shape of our data
 
-Which, in the author's opinion, tends to make for a more concise and readable codebase when applied with restraint.
+Which, in the author's opinion, tends to make for a more concise and readable codebase 
+when applied with restraint.
 ```python
+def upload_directory(directory: os.PathLike, s3_bucket: str):
+	headers_by_file = _get_headers(directory)
+	metadata_by_file = _parse_headers(headers_by_file)
+	_upload_to_s3(s3_bucket, metadata_by_file)
+
+
 @dataclass
 class RecordingMetadata:
 	recorder_id: str
@@ -305,12 +329,6 @@ class RecordingMetadata:
 		return f"{self.recorder_id}/{self.session_name}_{self.started_at}"
 
 
-def upload_directory(directory: os.PathLike, s3_bucket: str):
-	headers_by_file = _get_headers(directory)
-	metadata_by_file = _parse_headers(headers_by_file)
-	_upload_to_s3(s3_bucket, metadata_by_file)
-
-
 def _get_headers(directory: os.PathLike) -> dict[str, str]:
 	headers = {}
 	for file_name in os.listdir(directory):
@@ -333,16 +351,16 @@ def _upload_to_s3(s3_bucket: str, metadata_by_file: dict[str, RecordingMetadata]
 		s3_client.upload_file(filepath, s3_bucket, metadata.s3_key)
 ```
 
-# Exceptions
+# Exceptions to these heuristics
 
 Near serialization/deserialization code: a lot of libraries take or produce `dict` s at
 their API boundaries, and it may be simpler to just construct the dict directly if the
 `dict` is used directly there without being passed to another function. (once the data
-starts is moved between several functions scopes however, I usually lean towards making
+ is passed to another functions scopes however, I usually lean towards making
 it a `dataclass`)
 
 Performance. While attribute access performance for `dataclasse`s is only slightly worse
-than for dicts, instantiating a `dataclass` is at least 5x slower than a `dict`[^1],
+than for dicts, instantiating a `dataclass` is at least 5x slower than a `dict`,
 so if you're instantiating 1000s of these and you've determined that this is a
 bottleneck by profiling your code, a `dict` may be preferred
 
@@ -351,3 +369,9 @@ In both of these cases, in codebases that use type checking through for instance
 [TypedDict](https://typing.python.org/en/latest/spec/typeddict.html#typeddict)
 can be used instead of the `dataclass` to recover some of the readability and safety
 benefits of the latter.
+
+[^1]: The example here was kept short in the interest of  readability. In a real
+codebase, the code here is short enough that I would probably go in a different
+direction and simplify by in-lining `_build_s3_keys()` into `_parse_headers()`, such
+that the latter returns a mapping of file paths to S3 keys, which still avoids
+passing a heterogeneous `dict` between scopes. 
