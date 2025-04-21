@@ -8,8 +8,8 @@ title = 'Anders Poirel'
     url = "/"
     weight = 1
   [[menu.main]]
-    name = "writing"
-    url = "/writing/"
+    name = "posts"
+    url = "/posts/"
     weight = 2
   [[menu.main]]
     name = "blogroll"
