@@ -12,8 +12,11 @@
 }
 
 #page-body {
-    display: flex;
+    display: grid;
     flex-direction: column;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr;
+    grid-template-areas: "header" "main" "footer";
     margin: var(--toplevel-margin);
     /* forces content to fill entire page vertically.
      * Since we're adding margin around this on both the top and the bottom of this
@@ -25,6 +28,7 @@
 #page-header nav {
     display: flex;
     flex-flow: row wrap;
+    grid-area: "header";
     justify-content: flex-start;
 }
 
@@ -34,18 +38,17 @@
 }
 
 #page-main {
-    display: flex;
-    flex: 1; /* expand to fill body */
-    justify-content: center;
-}
-
-#page-content {
-    width: 88ch;
+    grid-area: "main";
+    max-width: 88ch;
+    margin: 0 auto;
+    overflow-x: auto;
+    width: 100%;
 }
 
 #page-footer {
     display: flex;
     flex-flow: row wrap;
+    grid-area: "footer";
     justify-content: space-between;
     margin-top: 1rem;
 }

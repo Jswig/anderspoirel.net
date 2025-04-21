@@ -16,9 +16,7 @@
       </nav>
     </header>
     <main id="page-main">
-      <div id="page-content">
-        {{ block "main" . }}{{ end }}
-      </div>
+      {{ block "main" . }}{{ end }}
     </main>
     <footer id="page-footer">
       {{ with .Site.GetPage "about-this-site.md" }}
