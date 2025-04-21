@@ -2,8 +2,8 @@
 
 /* prevent inline code styling from interfering */
 .highlight code {color: unset; font-weight: unset;}
-/* Background */ .bg { color:#e5e5e5;background-color:#242630; }
-/* PreWrapper */ .chroma { color:#e5e5e5;background-color:#242630; }
+/* Background */ .bg { color:#e5e5e5;background-color: var(--background-alt-color); }
+/* PreWrapper */ .chroma { color:#e5e5e5;background-color: var(--background-alt-color); }
 /* Other */ .chroma .x {  }
 /* Error */ .chroma .err { color:#f00 }
 /* CodeLine */ .chroma .cl {  }

@@ -7,18 +7,18 @@
     <link rel="stylesheet" href="{{ $css }}">
     <title>{{ .Title }} - {{ .Site.Title }}</title>
   </head>
-  <body id="page-body">
-    <header id="page-header">
+  <body class="page-body">
+    <header class="page-header">
       <nav>
         {{ range .Site.Menus.main }}
         <a href="{{ .URL }}">{{ .Name | safeHTML }}</a>
         {{ end }}
       </nav>
     </header>
-    <main id="page-main">
+    <main class="page-main">
       {{ block "main" . }}{{ end }}
     </main>
-    <footer id="page-footer">
+    <footer class="page-footer">
       {{ with .Site.GetPage "about-this-site.md" }}
       <a href="{{ .Permalink }}">🌐 about this site</a>
       {{ end }}
