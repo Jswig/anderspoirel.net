@@ -50,15 +50,6 @@ title: "cv"
 | AWS (S3, EKS, SQS) |                           |
 | Apache Kafka       |                           |
 
-<!-- ## volunteer experience
-
-**officer, president**, [Data Science at UCSC](https://www.datasciencesc.netlify.app) *(Jan. 2019 - Dec. 2020)*
-
-helped found a student organization for data science education, giving workshops &
-lectures on statistical learning & programming.
-Led team to top 5% scores in several machine learning competitions on
-[Kaggle](https://www.kaggle.com/) and [Driven Data](https://www.drivendata.org/). -->
-
 ## education
 
 **University of California, Santa Cruz** *(2017 - 2021)*
@@ -66,4 +57,4 @@ Led team to top 5% scores in several machine learning competitions on
 - BA computer science *(cum laude)*
 - BA mathematics *(cum laude)*
 - graduate coursework in analysis, optimization, statistics
-
+- several top 5% scores on machine learning competitions on [Kaggle](https://www.kaggle.com/) and [Driven Data](https://www.drivendata.org/)
