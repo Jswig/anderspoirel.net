@@ -88,7 +88,24 @@ p, li {
 pre {
     border-radius: var(--box-border-radius);
     padding: 1rem;
-    overflow-x: auto;
+}
+
+table {
+    border: 1px solid var(--text-color);
+    border-radius: var(--box-border-radius);
+}
+
+thead {
+    border-bottom: 1px solid var(--text-color);
+}
+
+th {
+    padding-bottom: 1rem;
+}
+
+td {
+    padding-left: 1rem;
+    width: 44ch;
 }
 
 /* layout */

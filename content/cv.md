@@ -18,23 +18,52 @@ title: "cv"
 
 **data scientist intern**, [Startup Genome](https://startupgenome.com/) *(Apr. 2020 - Jun. 2020)*
 
-## volunteer experience
+## skills
+
+### fluent/regularly practice
+
+
+| languages & tools       | technical knowledge           |
+| ----------------------- | ----------------------------- |
+| Python                  | data engineering              |
+| Go                      | build systems & DevOps        |
+| Apache Spark/Delta lake | software testing              |
+| Databricks              | software architecture         |
+| Docker                  | API design                    |
+| Pandas/Numpy/Scipy      | databases & data architecture |
+| Dash/Plotly             | performance optimization      |
+| Grafana                 | distributed systems           |
+| TeamCity                |                               |
+| Make                    |                               |
+
+### some experience
+
+| languages & tools  | technical knowledge       |
+| ------------------ | ------------------------- |
+| Javascript         | back-end web development  |
+| Scala              | data visualization        |
+| Kubernetes         | machine learning          |
+| Terraform          | bayesian statistics       |
+| PostgreSQL         | front-end web development |
+| React              |                           |
+| PyTorch            |                           |
+| AWS (S3, EKS, SQS) |                           |
+| Apache Kafka       |                           |
+
+<!-- ## volunteer experience
 
 **officer, president**, [Data Science at UCSC](https://www.datasciencesc.netlify.app) *(Jan. 2019 - Dec. 2020)*
 
 helped found a student organization for data science education, giving workshops &
 lectures on statistical learning & programming.
 Led team to top 5% scores in several machine learning competitions on
-[Kaggle](https://www.kaggle.com/) and [Driven Data](https://www.drivendata.org/).
+[Kaggle](https://www.kaggle.com/) and [Driven Data](https://www.drivendata.org/). -->
 
 ## education
 
 **University of California, Santa Cruz** *(2017 - 2021)*
 
-undergraduate focus on machine learning and pure mathematics with a smattering of
-philosophy. Graduate coursework in real analysis, optimization, frequentist and
-bayesian statistics.
-
 - BA computer science *(cum laude)*
 - BA mathematics *(cum laude)*
+- graduate coursework in analysis, optimization, statistics
 
