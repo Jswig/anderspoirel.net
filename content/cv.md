@@ -58,4 +58,3 @@ title: "cv"
 - BA mathematics *(cum laude)*
 - graduate coursework in analysis, optimization, statistics
 - several top 5% scores on machine learning competitions on [Kaggle](https://www.kaggle.com/) and [Driven Data](https://www.drivendata.org/)
-
