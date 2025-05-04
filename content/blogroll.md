@@ -35,6 +35,7 @@ Links are not endorsements of every single viewpoint espoused therein etc etc.
 - [Entropic Thoughts](https://entropicthoughts.com/index)
 - [Gregory Gundersen](https://gregorygundersen.com/blog/)
 - [Julia Silge](https://juliasilge.com/)
+- [Lilian Weng](https://lilianweng.github.io/)
 - [Linear Layer](https://linearlayer.substack.com/s)
 - [Nick Higham](https://nhigham.com/blog/)
 - [Xi'an's](https://xianblog.wordpress.com/page/2/)

@@ -11,17 +11,17 @@ import, and extremely flexible, which means many Python programmers default to
 representing data as a ``dict``. However,
 [dataclasses](https://docs.python.org/3/library/dataclasses.html#module-dataclasses)
 are often more appropriate. Here is why a ``dataclass`` can be the better choice, and
-how you can pick between the two.*
+how to choose pick between the two.*
 
-> **Note 1**: I use `dataclass` here since it is part the standard library. You might 
-> already be using a 3rd-party libraries for defining "data container" classes, 
-> such as the excellent [attrs](https://www.attrs.org/en/stable/). The patterns discussed 
+> **Note 1**: I use `dataclass` here since it is part the standard library. You might
+> already be using a 3rd-party libraries for defining "data container" classes,
+> such as the excellent [attrs](https://www.attrs.org/en/stable/). The patterns discussed
 > here still apply, just replace `dataclass` with whichever library you are using.
 
-> **Note 2**: If you are coming from a statically typed like Java, Go and Scala, 
-> the advice here might feel obvious to you, since these languages' type systems make 
-> ``dict``-like collections less natural to use as containers for heterogeneous data.
-> Ditto if you are the kind of person who thinks in terms of
+> **Note 2**: If you are coming from a statically typed language such as Java, Go
+> or Scala, the advice here might feel obvious to you, since these languages' type
+> systems make ``dict``-like collections less natural to use as containers for
+> heterogeneous data. Ditto if you are the kind of person who thinks in terms of
 > [algrebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type).
 
 
@@ -30,7 +30,7 @@ how you can pick between the two.*
 If you are already familiar with Python's `dataclass` , feel free to skip ahead to the
 next section.
 
-`dataclass` is a class [decorator](https://docs.python.org/3/glossary.html#term-decorator) 
+`dataclass` is a class [decorator](https://docs.python.org/3/glossary.html#term-decorator)
 that generates common methods such as
 `__init__` and `__eq__`, making for more concise class definitions. 
 For instance, this class declaration
@@ -64,11 +64,11 @@ class Order:
 This makes it relatively painless to define classes that act as containers for a
 collection of related fields.
 
-
 # Advantages of a `dataclass` over a `dict`
 
 ## Readability
 
+A ``dataclass`` can be more readable than a ``dict`` [^1]
 Shows which fields are expected (self-documenting). When I see a ``dataclass``, I know
 exactly what it containts
 
@@ -81,6 +81,8 @@ Type checkers can easily validate that the expected data was provided
 
 # Heuristics
 
+Dataclasses are most useful when I know the desired fields of my data container ahead
+of time
 These mostly apply when: the dict's keys are known ahead of time, and do not can
 Here are some heuristics I apply to decide whether a piece of data should be stored as
  `dict` or a `dataclass`:
@@ -159,7 +161,7 @@ specific key, and all the elements in this `dict` are of the same type.
 The `dict` in (2) however, fails the test since we refer to keys in the dictionary
 through hard-coded names.
 
-Here is what this code looks like after re-writing (2) to use a ``dataclass`` [^1]
+Here is what this code looks like after re-writing (2) to use a ``dataclass`` [^2]
 
 ```python
 import os
@@ -339,6 +341,7 @@ def _get_headers(directory: os.PathLike) -> dict[str, str]:
 
 
 def _parse_headers(headers: str) -> dict[str, RecordingMetadata]:
+	"""Parse headers of each file"""
 	metadata = {}
 	for file_path, header in headers.items():
 		metadata[file_path] = RecordingMetadata.from_file(header)
@@ -359,10 +362,10 @@ their API boundaries, and it may be simpler to just construct the dict directly 
  is passed to another functions scopes however, I usually lean towards making
 it a `dataclass`)
 
-Performance. While attribute access performance for `dataclasse`s is only slightly worse
-than for dicts, instantiating a `dataclass` is at least 5x slower than a `dict`,
-so if you're instantiating 1000s of these and you've determined that this is a
-bottleneck by profiling your code, a `dict` may be preferred
+Performance. While accessing a `dataclass`'s attribute is only slightly slower than
+than accessing a key in a `dict`, instantiating a `dataclass` is at least 5x slower
+than creating a `dict`, so if you're instantiating 1000s of these and you've determined
+that this is a bottleneck by profiling your code, a `dict` may be preferred
 
 In both of these cases, in codebases that use type checking through for instance
 [mypy](https://mypy.readthedocs.io/en/stable/), a 
@@ -370,7 +373,13 @@ In both of these cases, in codebases that use type checking through for instance
 can be used instead of the `dataclass` to recover some of the readability and safety
 benefits of the latter.
 
-[^1]: The example here was kept short in the interest of  readability. In a real
+[^1]: This is not a guarantee - Python is very flexible, and most things can be
+overriden downstream of an object being defined. For instance, unless `slots=True` is
+passed to `@dataclass`, one can assign attributes not defined in the original dataclass
+However, a programmer who is not deliberately writing reader-hostile code will usually
+avoid doing this.
+
+[^2]: The example here was kept short in the interest of  readability. In a real
 codebase, the code here is short enough that I would probably go in a different
 direction and simplify by in-lining `_build_s3_keys()` into `_parse_headers()`, such
 that the latter returns a mapping of file paths to S3 keys, which still avoids
