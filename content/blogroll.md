@@ -9,6 +9,7 @@ Links are not endorsements of every single viewpoint espoused therein etc etc.
 
 ## software engineering
 
+- [Antirez](https://antirez.com/)
 - [Armin Ronacher](https://lucumr.pocoo.org/)
 - [Bob Nystrom](https://journal.stuffwithstuff.com)
 - [Brandur](https://brandur.org/)
