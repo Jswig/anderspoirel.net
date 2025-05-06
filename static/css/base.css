@@ -19,6 +19,7 @@ html {
     font-size: var(--font-size);
     font-family: Consolas, Menlo, "Ubuntu Mono", monospace;
     line-height: 1.6;
+    tab-size: 4;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
