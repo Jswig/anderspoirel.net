@@ -61,28 +61,49 @@ class Order:
 	amount: int
 
 ```
-This makes it relatively painless to define classes that act as containers for a
-collection of related fields.
+This makes it relatively painless to define containers for a collection of related
+attributes.
 
 # Advantages of a `dataclass` over a `dict`
 
 ## Readability
 
-A ``dataclass`` can be more readable than a ``dict`` [^1]
-Shows which fields are expected (self-documenting). When I see a ``dataclass``, I know
-exactly what it containts
+A `dataclass` can be more readable than a `dict`
+Shows which fields are expected (self-documenting).
+When you see a `dataclass`, 
 
-## Error checking
+## Error checking & debugging
 
-Raises an error when a field not provided at initialization. Dicts by design do no enforce
-which keys should be present in the day. This helps reduce or debug more easily ``KeyErrors``.
-Type checkers can easily validate that the expected data was provided
+Representin
+```python
+order = Order(item_id="i1435", amount=10)
+```
+raises
+```text
+----> 1 Order(item_id="i2345", amount=10)
+
+TypeError: Order.__init__() missing 1 required positional argument: 'customer_id'.
+```
+I know exactly where I made a mistake. By constrast, representing this as a `dict`,
+```py
+order = {
+	"item_id": "i1435"
+	"amount" 10
+}
+```
+does not raise an error. If the `"customer_id"` is accessed somewhere downstream,
+```py
+customer = order["customer_id"]
+```
+raises `KeyError: 'customer_id'` and am left backtracking through the
+code to find where I forgot to add `'customer_id'`.
 
 
 # Heuristics
 
 Dataclasses are most useful when I know the desired fields of my data container ahead
-of time
+of time. Dynamically added, I might not be able to define upfront which ones are expectd
+
 These mostly apply when: the dict's keys are known ahead of time, and do not can
 Here are some heuristics I apply to decide whether a piece of data should be stored as
  `dict` or a `dataclass`:
@@ -224,12 +245,6 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 	for filepath, s3_key in s3_key_by_file.items():
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
-
-If we forgot to provide a piece of data in our code, we are alerted immediately in
-`_parse_header`, rather than further downstream. While this is not that impactful in a
-small code listing like this one, it helps a lot in larger codebase, where this lets us
-get to the source of the error right aways instead of going through dozens of function
-calls to figure out where data is missing.
 
 Moreover, this boosts code readability, since readers will be able to tell at a glance
 which  data `_upload_to_s3` expects in `recordings`, rather than have to read the entire
