@@ -9,6 +9,7 @@ Links are not endorsements of every single viewpoint espoused therein etc etc.
 
 ## software engineering
 
+- [Antirez](https://antirez.com/)
 - [Armin Ronacher](https://lucumr.pocoo.org/)
 - [Bob Nystrom](https://journal.stuffwithstuff.com)
 - [Brandur](https://brandur.org/)
@@ -18,6 +19,7 @@ Links are not endorsements of every single viewpoint espoused therein etc etc.
 - [Decyphering Glyph](https://blog.glyph.im/)
 - [Eli Bendersky](https://eli.thegreenplace.net/archives/all)
 - [Li Haoyi](https://www.lihaoyi.com/)
+- [Hilel Wayne](https://www.hillelwayne.com/)
 - [Hynek Schlawack](https://hynek.me/)
 - [Irrational Exuberance](https://lethain.com/)
 - [Martin Sústrik](https://250bpm.com/index.html)

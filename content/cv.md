@@ -20,27 +20,27 @@ title: "cv"
 
 ## skills
 
-### fluent/regularly practice
-
+### fluent or regularly practice (past 2 years)
 
 | languages & tools       | technical knowledge           |
 | ----------------------- | ----------------------------- |
 | Python                  | data engineering              |
 | Go                      | build systems & DevOps        |
-| Apache Spark/Delta lake | software testing              |
+| SQL                     | back-end web development      |
+| Apache Spark+Delta Lake | data analysis                 |
 | Databricks              | software architecture         |
 | Docker                  | API design                    |
-| Pandas/Numpy/Scipy      | databases & data architecture |
-| Dash/Plotly             | performance optimization      |
-| Grafana                 | distributed systems           |
+| Pandas+Numpy+Scipy      | databases & data architecture |
+| Dash+Plotly             | performance optimization      |
+| Grafana                 |                               |
 | TeamCity                |                               |
 | Make                    |                               |
 
-### some experience
+### prior experience
 
 | languages & tools  | technical knowledge       |
 | ------------------ | ------------------------- |
-| Javascript         | back-end web development  |
+| Typescript         | distributed systems       |
 | Scala              | data visualization        |
 | Kubernetes         | machine learning          |
 | Terraform          | bayesian statistics       |
@@ -48,7 +48,7 @@ title: "cv"
 | React              |                           |
 | PyTorch            |                           |
 | AWS (S3, EKS, SQS) |                           |
-| Apache Kafka       |                           |
+| FastAPI, Flask     |                           |
 
 ## education
 
@@ -56,5 +56,5 @@ title: "cv"
 
 - BA computer science *(cum laude)*
 - BA mathematics *(cum laude)*
-- graduate coursework in analysis, optimization, statistics
+- graduate coursework in statistics, analysis and optimization
 - several top 5% scores on machine learning competitions on [Kaggle](https://www.kaggle.com/) and [Driven Data](https://www.drivendata.org/)
