@@ -27,8 +27,7 @@ how to choose pick between the two.*
 
 # What is a `dataclass`?
 
-If you are already familiar with Python's `dataclass` , feel free to skip ahead to the
-next section.
+If you are already familiar with `dataclass` , feel free to skip this section.
 
 `dataclass` is a class [decorator](https://docs.python.org/3/glossary.html#term-decorator)
 that generates common methods such as
@@ -69,22 +68,23 @@ attributes.
 ## Readability
 
 A `dataclass` can be more readable than a `dict`
-Shows which fields are expected (self-documenting).
-When you see a `dataclass`, 
+When I see a `dataclass`, I know almost for sure which data it contains [^1].
 
 ## Error checking & debugging
 
-Representin
+Representing data as a `dataclass` can make debugging a lot faster.
+For instance, if I forget to provide `customer_id` when creating an `Order`,
 ```python
 order = Order(item_id="i1435", amount=10)
 ```
-raises
+it raises
 ```text
 ----> 1 Order(item_id="i2345", amount=10)
 
 TypeError: Order.__init__() missing 1 required positional argument: 'customer_id'.
 ```
-I know exactly where I made a mistake. By constrast, representing this as a `dict`,
+with the exact line where I forgot to provide the `customer_id`. 
+By constrast, representing the same data as a `dict`,
 ```py
 order = {
 	"item_id": "i1435"
@@ -96,15 +96,17 @@ does not raise an error. If the `"customer_id"` is accessed somewhere downstream
 customer = order["customer_id"]
 ```
 raises `KeyError: 'customer_id'` and am left backtracking through the
-code to find where I forgot to add `'customer_id'`.
+code to find where I forgot to add `'customer_id'` originally.
 
+`dataclass`es also work well with type checkers like
+[mypy](https://mypy.readthedocs.io/en/stable/). Since they encourae annotating each
+field with types, code using `dataclass`es can be type checked with very
+little extra effort on the part of the user, which makes using [^2].
 
 # Heuristics
 
-Dataclasses are most useful when I know the desired fields of my data container ahead
-of time. Dynamically added, I might not be able to define upfront which ones are expectd
-
-These mostly apply when: the dict's keys are known ahead of time, and do not can
+Both of these benefits only apply when we know ahead of time the members of our data 
+containers. 
 Here are some heuristics I apply to decide whether a piece of data should be stored as
  `dict` or a `dataclass`:
 - are member names hardcoded somewhere -> `dataclass`
@@ -114,7 +116,7 @@ Here are some heuristics I apply to decide whether a piece of data should be sto
 
 # Example
 
-Now, let's examine how these heuristics apply in a more concrete example. Consider
+Let's see how these heuristics apply in a longer code listing. Consider
 the following code that uploads a directory of files to cloud storage (here S3),
 assigning each file in cloud storage a key derived from recording metadata stored
 in the first line of each recording file under the following format:
@@ -182,7 +184,7 @@ specific key, and all the elements in this `dict` are of the same type.
 The `dict` in (2) however, fails the test since we refer to keys in the dictionary
 through hard-coded names.
 
-Here is what this code looks like after re-writing (2) to use a ``dataclass`` [^2]
+Here is what this code looks like after re-writing (2) to use a ``dataclass`` [^3].
 
 ```python
 import os
@@ -246,9 +248,7 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-Moreover, this boosts code readability, since readers will be able to tell at a glance
-which  data `_upload_to_s3` expects in `recordings`, rather than have to read the entire
-body of the function. This benefit becomes clearer in codebases with type annotations:
+
 
 ```python
 def upload_directory(directory: os.PathLike, s3_bucket: str):
@@ -306,69 +306,6 @@ def _upload_to_s3(s3_bucket: str, s3_key_by_file: dict[str, str]):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-With these type hints, another upside emerge, which is that the task of validating
-that `RecordingMetadata` are created with all the expected data can be delagated to a 
-type checker (such a `mypy` or `pyright`) rather than checked manually through unit tests.
-
-Moreover, once we have explicitly defined the shape of our data
-
-Which, in the author's opinion, tends to make for a more concise and readable codebase 
-when applied with restraint.
-```python
-def upload_directory(directory: os.PathLike, s3_bucket: str):
-	headers_by_file = _get_headers(directory)
-	metadata_by_file = _parse_headers(headers_by_file)
-	_upload_to_s3(s3_bucket, metadata_by_file)
-
-
-@dataclass
-class RecordingMetadata:
-	recorder_id: str
-	started_at: str
-	session_name: str
-
-	@classmethod
-	def from_file_header(cls, header: str):
-		first_line.removeprefix("# ")
-		pairs = first_line.split(",")
-		metadata = {
-			key: value for key, value in key_value.split("=")
-			for key_value in pairs
-		}
-		return cls(
-			recorder_id=metadata["recorder_id"]
-			started_at=metadata["started_at"]
-			session_name=metadata["session_name"]
-		)
-
-	@property
-	def s3_key(self) -> str:
-		return f"{self.recorder_id}/{self.session_name}_{self.started_at}"
-
-
-def _get_headers(directory: os.PathLike) -> dict[str, str]:
-	headers = {}
-	for file_name in os.listdir(directory):
-		file_path = os.path.join(directory, file_name)
-		with open(file_path, "r") as f:
-			headers[file_path] = f.readline()
-	return headers
-
-
-def _parse_headers(headers: str) -> dict[str, RecordingMetadata]:
-	"""Parse headers of each file"""
-	metadata = {}
-	for file_path, header in headers.items():
-		metadata[file_path] = RecordingMetadata.from_file(header)
-	return metadata
-
-
-def _upload_to_s3(s3_bucket: str, metadata_by_file: dict[str, RecordingMetadata]):
-	s3_client = boto3.client("s3")
-	for filepath, meta_data in metadata_by_file.items():
-		s3_client.upload_file(filepath, s3_bucket, metadata.s3_key)
-```
-
 # Exceptions to these heuristics
 
 Near serialization/deserialization code: a lot of libraries take or produce `dict` s at
@@ -390,11 +327,12 @@ benefits of the latter.
 
 [^1]: This is not a guarantee - Python is very flexible, and most things can be
 overriden downstream of an object being defined. For instance, unless `slots=True` is
-passed to `@dataclass`, one can assign attributes not defined in the original dataclass
-However, a programmer who is not deliberately writing reader-hostile code will usually
-avoid doing this.
+passed to `@dataclass`, you can assign attributes not defined in the original dataclass.
 
-[^2]: The example here was kept short in the interest of  readability. In a real
+[^2]: [TypedDict](https://typing.python.org/en/latest/spec/typeddict.html) can get you
+most of the same type checking benefits
+
+[^3]: The example here was kept short in the interest of  readability. In a real
 codebase, the code here is short enough that I would probably go in a different
 direction and simplify by in-lining `_build_s3_keys()` into `_parse_headers()`, such
 that the latter returns a mapping of file paths to S3 keys, which still avoids
