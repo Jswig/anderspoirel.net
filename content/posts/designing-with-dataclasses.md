@@ -6,12 +6,12 @@ draft: false
 ---
 
 *Python [dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries)
-(henceforth referred to as ``dict``) are core to the language, available without an
+(henceforth referred to as `dict`) are core to the language, available without an
 import, and extremely flexible, which means many Python programmers default to 
-representing data as a ``dict``. However,
+representing data as a `dict`. However,
 [dataclasses](https://docs.python.org/3/library/dataclasses.html#module-dataclasses)
 are often more appropriate. Here is why a ``dataclass`` can be the better choice, and
-how to choose pick between the two.*
+how to decide between the two.*
 
 > **Note 1**: I use `dataclass` here since it is part the standard library. You might
 > already be using a 3rd-party libraries for defining "data container" classes,
@@ -22,7 +22,7 @@ how to choose pick between the two.*
 > or Scala, the advice here might feel obvious to you, since these languages' type
 > systems make ``dict``-like collections less natural to use as containers for
 > heterogeneous data. Ditto if you are the kind of person who thinks in terms of
-> [algrebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type).
+> [algebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type).
 
 
 # What is a `dataclass`?
@@ -40,7 +40,7 @@ class Order:
 		self.customer_id = customer_id
 		self.amount = amount
 
-	def __eq__(self, other)
+	def __eq__(self, other):
 		return (
 			self.item_id == other.item_id
 			and self.customer_id == other.customer_id 
@@ -68,12 +68,12 @@ attributes.
 ## Readability
 
 A `dataclass` can be more readable than a `dict`
-When I see a `dataclass`, I know almost for sure which data it contains [^1].
+When you see a `dataclass`, you know almost for sure which data it contains [^1].
 
 ## Error checking & debugging
 
 Representing data as a `dataclass` can make debugging a lot faster.
-For instance, if I forget to provide `customer_id` when creating an `Order`,
+For instance, if you forget to provide `customer_id` when creating an `Order`,
 ```python
 order = Order(item_id="i1435", amount=10)
 ```
@@ -83,8 +83,8 @@ it raises
 
 TypeError: Order.__init__() missing 1 required positional argument: 'customer_id'.
 ```
-with the exact line where I forgot to provide the `customer_id`. 
-By constrast, representing the same data as a `dict`,
+with the exact line where you forgot to provide the `customer_id`. 
+By contrast, representing the same data as a `dict`,
 ```py
 order = {
 	"item_id": "i1435"
@@ -95,24 +95,24 @@ does not raise an error. If the `"customer_id"` is accessed somewhere downstream
 ```py
 customer = order["customer_id"]
 ```
-raises `KeyError: 'customer_id'` and am left backtracking through the
-code to find where I forgot to add `'customer_id'` originally.
+raises `KeyError: 'customer_id'` and am you are left backtracking through the
+code to find where you forgot to add `'customer_id'` originally.
 
 `dataclass`es also work well with type checkers like
-[mypy](https://mypy.readthedocs.io/en/stable/). Since they encourae annotating each
+[mypy](https://mypy.readthedocs.io/en/stable/). Since they encourage annotating each
 field with types, code using `dataclass`es can be type checked with very
 little extra effort on the part of the user, which makes using [^2].
 
 # Heuristics
 
-Both of these benefits only apply when we know ahead of time the members of our data 
+Both of these benefits only apply when you know ahead of time the members of our data 
 containers. 
-Here are some heuristics I apply to decide whether a piece of data should be stored as
+Here are some heuristics you can use to decide whether to represent data as a
  `dict` or a `dataclass`:
 - are member names hardcoded somewhere -> `dataclass`
 	- this means you're expecting an exact name to be present
 - Do fields have different types? -> `dataclass`
-- Do I loop over the fields without ever calling a field by name -> `dict`
+- Do you loop over the fields without ever calling a field by name -> `dict`
 
 # Example
 
@@ -150,7 +150,7 @@ def _get_headers(directory):
 def _parse_headers(headers):
 	metadata_by_file = {}
 	for file_path, header in headers.items():
-		header.removeprefix("# ")
+		header = header.removeprefix("# ")
 		pairs = header.split(",")
 		metadata = {} # (2)
 		for key_value in pairs:
@@ -184,7 +184,7 @@ specific key, and all the elements in this `dict` are of the same type.
 The `dict` in (2) however, fails the test since we refer to keys in the dictionary
 through hard-coded names.
 
-Here is what this code looks like after re-writing (2) to use a ``dataclass`` [^3].
+Here is what this code looks like after re-writing (2) to use a `dataclass` [^3].
 
 ```python
 import os
@@ -219,7 +219,7 @@ class RecordingMetadata:
 def _parse_headers(headers_by_file):
 	metadata_by_file = {}
 	for file_path, header in headers_by_file.items():
-		header.removeprefix("# ")
+		header = header.removeprefix("# ")
 		pairs = header.split(",")
 		metadata = {} # (2)
 		for key_value in pairs:
@@ -274,10 +274,10 @@ def _get_headers(directory: os.PathLike) -> dict[str, str]:
 	return headers
 
 
-def _parse_headers(headers: str) -> RecordingMetadata:
+def _parse_headers(headers: str) -> dict[str, RecordingMetadata]:
 	metadata = {}
 	for file_path, header in headers.items():
-		header.removeprefix("# ")
+		header = header.removeprefix("# ")
 		pairs = header.split(",")
 		metadata = {} # (2)
 		for key_value in pairs:
@@ -311,13 +311,13 @@ def _upload_to_s3(s3_bucket: str, s3_key_by_file: dict[str, str]):
 Near serialization/deserialization code: a lot of libraries take or produce `dict` s at
 their API boundaries, and it may be simpler to just construct the dict directly if the
 `dict` is used directly there without being passed to another function. (once the data
- is passed to another functions scopes however, I usually lean towards making
+ is passed to another functions scopes however, I recommmend making
 it a `dataclass`)
 
 Performance. While accessing a `dataclass`'s attribute is only slightly slower than
 than accessing a key in a `dict`, instantiating a `dataclass` is at least 5x slower
-than creating a `dict`, so if you're instantiating 1000s of these and you've determined
-that this is a bottleneck by profiling your code, a `dict` may be preferred
+than creating a `dict`, so if you are instantiating 1000s of these and you have 
+determined that this is a bottleneck, prefer a `dict`
 
 In both of these cases, in codebases that use type checking through for instance
 [mypy](https://mypy.readthedocs.io/en/stable/), a 
