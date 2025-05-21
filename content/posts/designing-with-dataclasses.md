@@ -316,28 +316,16 @@ library's [json](https://docs.python.org/3/library/json.html). If you are buildi
 the data in the same function where it is used, it is OK to just use a dict, even if 
 there are hard-coded keys.
 
-Another good reason is performance. While accessing a `dataclass`'s attribute is only
+Another good reason is performance. While accessing a `dataclass` attribute is only
 slightly slower than accessing a key in a `dict`, instantiating a `dataclass` is ~5x
 slower than creating a `dict`. So, if you are instantiating tens of thousands
-of dataclasses and you have determine that this is a bottleneck, it is OK to use
+of dataclasses and you have determined that this is a bottleneck, it is OK to use
 a `dict` instead.
 
 In both of these cases, in codebases that use a type checker like
 [mypy](https://mypy.readthedocs.io/en/stable/), you can annotate your code with
 [TypedDict](https://typing.python.org/en/latest/spec/typeddict.html#typeddict)s
 to recover some readability and error checking capabilies.
-
-# Advanced topics
-
-## Making dataclasses stricter
-
-`dataclass` has two arguments that can make the resulting class easier to reason
-about. `slots=True` prevents other attributes from being assigned to the class after
-creation (this also makes the class more memory efficient due to how
-[__slots__](https://docs.python.org/3/reference/datamodel.html#slots) works).
-`frozen=True` prevents assigning new values to the class' attributes after
-it is initialized [^3]. Together, these help you ensure that a `dataclass`
-is not changed after it is instantiated.
 
 [^1]: This is not a guarantee - Python is very flexible, and most things can be
 overriden downstream of an object being defined. For instance, unless `slots=True` is
@@ -348,5 +336,3 @@ codebase, the code here is short enough that I would probably go in a different
 direction and simplify by in-lining `_build_s3_keys()` into `_parse_headers()`, such
 that the latter returns a mapping of file paths to S3 keys, which still avoids
 passing a heterogeneous `dict` between scopes. 
-
-[^3]: This is a weak guarantee and can be easily [circumvented](https://stackoverflow.com/a/59249252).
