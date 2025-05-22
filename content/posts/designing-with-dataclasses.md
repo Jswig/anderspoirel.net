@@ -247,7 +247,7 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-The readability benefits become clearer when adding type hints. In
+The improvement in readability is more obvious if you use type hints. In
 the next code listing, the shape of the argument to `_build_s3_headers` is obvious
 whereas in the version before that it required reading `_parse_headers`:
 
