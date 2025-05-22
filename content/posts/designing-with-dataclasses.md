@@ -6,8 +6,8 @@ draft: false
 ---
 
 *Python [dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries)
-(henceforth referred to as `dict`) are core to the language, available without an
-import, and extremely flexible, which means many Python programmers default to 
+are core to the language, available without an import, and extremely flexible,
+which means many Python programmers default to 
 representing data as a `dict`. However,
 [dataclasses](https://docs.python.org/3/library/dataclasses.html#module-dataclasses)
 are often more appropriate. Here is why a ``dataclass`` can be the better choice, and
@@ -53,7 +53,7 @@ class Order:
 	amount: int
 
 ```
-This makes it relatively painless to define containers for a collection of related
+This makes it easy to define containers for a collection of related
 attributes.
 
 # Advantages of a `dataclass` over a `dict`
@@ -85,8 +85,8 @@ with the exact line where you forgot to provide the `customer_id`.
 By contrast, representing the same data as a `dict`,
 ```py
 order = {
-	"item_id": "i1435"
-	"amount" 10
+	"item_id": "i1435",
+	"amount" 10,
 }
 ```
 does not raise an error. If the `"customer_id"` is accessed somewhere downstream,
@@ -114,13 +114,16 @@ should use a `dict` or a `dataclass`:
 
 # Example
 
-Let's see how these heuristics apply in a longer code listing. 
-Suppose we need to upload a directory of files to cloud storage (here s3)
-under a key derived from metadata stored in the first line of each file under
-the following format:
-
+Let's see how these heuristics apply in a longer program.
+This script uploads a directory of text files to object storage (here S3).
+Each file's object key looks like this:
+```
+{id}/{start_timestamp}/{session_name}
+```
+and the necessary metadata to derive this key is stored on the first line of each file 
+in this format:
 ```text
-# id=53,started_at=2021-01-02T11:30:00Z,session_name=daring foolion
+# id=53,started_at=2021-01-02T11:30:00Z,session_name=daring_foolion
 ```
 
 ```python
@@ -155,13 +158,13 @@ def _parse_headers(headers):
 			key, value = key_value.split("=")
 			metadata[key] = value
 		metadata_by_file[file_path] = metadata
-	return metadata
+	return metadata_by_file
 
 
 def _build_s3_keys(metadata_by_file):
 	object_keys = {}
 	for filepath, metadata in metadata_by_file.items():
-		recorder = metadata["id"]
+		recorder = metadata["id"]  # (3)
 		started_at = metadata["started_at"]
 		session_name = metadata["session"]
 		object_keys[filepath] = f"{recorder}/{session_name}_{started_at}"
@@ -174,15 +177,13 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-Let's see how this script fares under our heuristics.
-
 Using a `dict` for `recordings` in (1) is appropriate - we never hard-code a
-specific key, and all the elements in this `dict` are of the same type.
+key name.
 
-However the `dict` in (2) fails the test: we refer to keys in the dictionary
-through hard-coded names.
+However the `dict` in (2) fails the test: we hard-coded keys 
+downstream in `_build_s3_keys()` (3).
 
-Here is the same script after re-writing (2) to use a `dataclass` [^2].
+Here is the same script after re-writing (2) to use a `dataclass`.
 
 ```python
 import os
@@ -246,7 +247,7 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-The readability benefits of dataclasses become clearer when adding type hints. In
+The readability benefits become clearer when adding type hints. In
 the next code listing, the shape of the argument to `_build_s3_headers` is obvious
 whereas in the version before that it required reading `_parse_headers`:
 
@@ -275,7 +276,7 @@ def _get_headers(directory: os.PathLike) -> dict[str, str]:
 
 
 def _parse_headers(headers: dict[str, str]) -> dict[str, RecordingMetadata]:
-	metadata = {}
+	metadata_by_file = {}
 	for file_path, header in headers.items():
 		header = header.removeprefix("# ")
 		pairs = header.split(",")
@@ -283,12 +284,12 @@ def _parse_headers(headers: dict[str, str]) -> dict[str, RecordingMetadata]:
 		for key_value in pairs:
 			key, value = key_value.split("=")
 			metadata[key] = value
-		metadata[file_path] = RecordingMetadata(
+		metadata_by_file[file_path] = RecordingMetadata(
 			recorder_id=metadata["id"],
 			started_at=metadata["started_at"],
 			session_name=metadata["session"],
 		)
-	return metadata
+	return metadata_by_file
 
 
 def _build_s3_keys(metadata_by_file: dict[str, RecordingMetadata]) -> dict[str, str]:
@@ -310,29 +311,26 @@ def _upload_to_s3(s3_bucket: str, s3_key_by_file: dict[str, str]):
 
 These heuristics are not hard rules, and in some cases it is best to ignore them.
 
-One of these is when calling code from libraries that takes or returns a `dict`. This 
-is particularly common when serializing or de-serializing data, like the standard 
-library's [json](https://docs.python.org/3/library/json.html). If you are building
-the data in the same function where it is used, it is OK to just use a dict, even if 
-there are hard-coded keys.
+One of these is when calling code from libraries that takes or returns a `dict`. This
+is common when serializing or de-serializing data, like in the standard
+library's [json](https://docs.python.org/3/library/json.html) module. 
+If you are building the data in the same function where it is used, it is OK to just
+use a dict, even if there are hard-coded keys.
 
 Another good reason is performance. While accessing a `dataclass` attribute is only
 slightly slower than accessing a key in a `dict`, instantiating a `dataclass` is ~5x
-slower than creating a `dict`. So, if you are instantiating tens of thousands
+slower than creating a `dict` [^2]. So, if you are instantiating tens of thousands
 of dataclasses and you have determined that this is a bottleneck, it is OK to use
 a `dict` instead.
 
 In both of these cases, in codebases that use a type checker like
 [mypy](https://mypy.readthedocs.io/en/stable/), you can annotate your code with
 [TypedDict](https://typing.python.org/en/latest/spec/typeddict.html#typeddict)s
-to recover some readability and error checking capabilies.
+to recover some readability and error checking capabilities.
 
-[^1]: This is not a guarantee - Python is very flexible, and most things can be
-overriden downstream of an object being defined. For instance, unless `slots=True` is
+[^1]: This is not a guarantee - Python is very flexible, and most object attributes
+can be added or changed at any time. For instance, unless `slots=True` is
 passed to `@dataclass`, you can assign attributes not defined in the original dataclass.
+`slots=True` also makes the class more memory-efficient!
 
-[^2]: The example here was kept short in the interest of  readability. In a real
-codebase, the code here is short enough that I would probably go in a different
-direction and simplify by in-lining `_build_s3_keys()` into `_parse_headers()`, such
-that the latter returns a mapping of file paths to S3 keys, which still avoids
-passing a heterogeneous `dict` between scopes. 
+[^2]: https://stackoverflow.com/a/55256047
