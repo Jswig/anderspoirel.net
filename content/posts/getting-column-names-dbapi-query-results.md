@@ -1,7 +1,7 @@
 ---
 title: "getting column names from Python DBAPI query results"
 date: 2025-01-05T14:58:10-08:00
-tags: []
+tags: ["python"]
 draft: false
 ---
 
