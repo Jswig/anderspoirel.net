@@ -65,8 +65,9 @@ When you see a `dataclass` like `Order` above, you can know just by glancing at 
 definition which fields it contains [^1]. On the other hand, with a `dict`, items
 can be added or removed dynamically at various points in the code, so you have to
 potentially read through much more code to understand the shape of the data.
-While this can be avoided with discipline (for instance, not adding new items to a dict
-after it is instantiated), dataclasses enforce this automatically.
+While this can be avoided with discipline (for instance, you can avoid inserting new
+items into a dict after it is instantiated), dataclasses help enforce this
+automatically.
 
 ## Error checking & debugging
 
