@@ -22,33 +22,30 @@ title: "cv"
 
 ### fluent or regularly practice (past 2 years)
 
-| languages & tools       | technical knowledge           |
-| ----------------------- | ----------------------------- |
-| Python                  | data engineering              |
-| Go                      | build systems & DevOps        |
-| SQL                     | back-end web development      |
-| Apache Spark+Delta Lake | data analysis                 |
-| Databricks              | software architecture         |
-| Docker                  | API design                    |
-| Pandas+Numpy+Scipy      | databases & data architecture |
-| Dash+Plotly             | performance optimization      |
-| Grafana                 |                               |
-| TeamCity                |                               |
-| Make                    |                               |
+| languages & tools        | technical knowledge           |
+| ------------------------ | ----------------------------- |
+| Python                   | data engineering              |
+| Go                       | build systems & DevOps        |
+| SQL                      | back-end web development      |
+| Apache Spark &Delta Lake | data analysis                 |
+| Make                     | API design                    |
+| Docker                   | databases & data architecture |
+| Pandas+Numpy+Scipy       | performance optimization      |
+| Dash+Plotly              |                               |
+| Grafana                  |                               |
 
 ### prior experience
 
 | languages & tools  | technical knowledge       |
 | ------------------ | ------------------------- |
-| Typescript         | distributed systems       |
-| Scala              | data visualization        |
+| FastAPI, Flask     | distributed systems       |
+| Javascript         | data visualization        |
 | Kubernetes         | machine learning          |
 | Terraform          | bayesian statistics       |
 | PostgreSQL         | front-end web development |
 | React              |                           |
 | PyTorch            |                           |
-| AWS (S3, EKS, SQS) |                           |
-| FastAPI, Flask     |                           |
+| AWS (S3, EKS)      |                           |
 
 ## education
 
