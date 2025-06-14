@@ -14,9 +14,9 @@ with similar interests.
 
 You can also find me on:
 
-- [Mastodon](https://techhub.social/@andersjoachim)
 - [GitHub](https://github.com/Jswig)
 - [LinkedIn](https://www.linkedin.com/in/anders-poirel-732595160/)
+- [Mastodon](https://techhub.social/@andersjoachim)
 
 I'm currently based in Oakland, California.
 
