@@ -1,13 +1,11 @@
 ---
-title: "blogroll"
+title: "Blogroll"
 ---
 
-Here are blogs I visit and refer others to on a a regular basis - give these awesome
-writers a look!
+I regularly read and refer others to the blogs on this page.
+Give these awesome writers a visit!
 
-Links are not endorsements of every single viewpoint espoused therein etc etc.
-
-## software engineering
+## Software engineering
 
 - [Antirez](https://antirez.com/)
 - [Armin Ronacher](https://lucumr.pocoo.org/)
@@ -30,7 +28,7 @@ Links are not endorsements of every single viewpoint espoused therein etc etc.
 - [Tom MacWright](https://macwright.com/)
 - [Write More Tests](https://writemoretests.com/)
 
-## mathematics, statistics & machine learning
+## Mathematics, statistics & machine learning
 
 - [Chris Colah](https://colah.github.io/)
 - [Cosma's home page](http://bactra.org/)

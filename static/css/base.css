@@ -17,7 +17,7 @@ html {
     box-sizing: border-box;
     color: var(--text-color);
     font-size: var(--font-size);
-    font-family: Consolas, Menlo, "Ubuntu Mono", monospace;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     line-height: 1.6;
     tab-size: 4;
 
@@ -69,7 +69,6 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
 }
 
-
 h2 {
     color: var(--text-alt-color)
 }
@@ -80,10 +79,6 @@ h3 {
 
 h4 {
     color: var(--text-alt-color-3)
-}
-
-p, li {
-    line-height: 1.4;
 }
 
 pre {
@@ -158,7 +153,14 @@ td {
     margin-bottom: 2rem;
 }
 
+.page-header nav a:first-child {
+    font-style: normal;
+    font-family: Consolas, "Ubuntu Mono", monospace;
+    text-decoration: underline;
+}
+
 .page-header nav a {
+    font-style: italic;
     margin-right: 1rem;
 }
 
