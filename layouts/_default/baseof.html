@@ -19,9 +19,6 @@
       {{ block "main" . }}{{ end }}
     </main>
     <footer class="page-footer">
-      {{ with .Site.GetPage "about-this-site.md" }}
-      <a href="{{ .Permalink }}">🌐 about this site</a>
-      {{ end }}
     </footer>
   </body>
 </html>

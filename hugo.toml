@@ -9,19 +9,15 @@ title = 'Anders Poirel'
     weight = 1
   [[menu.main]]
     name = "posts"
-    url = "/posts/"
+    url = "/posts"
     weight = 2
   [[menu.main]]
     name = "blogroll"
     url = "/blogroll"
     weight = 3
   [[menu.main]]
-    name = "cv"
-    url = "/cv/"
-    weight = 4
-  [[menu.main]]
-    name = "contact"
-    url = "/contact/"
+    name = "about"
+    url = "/about"
     weight = 5
 
 

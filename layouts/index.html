@@ -2,7 +2,7 @@
 
 <h1 class="page-title">Anders Poirel's blog</h1>
 
-<h2>recent posts</h2>
+<h2>Recent posts</h2>
 
 {{ range first 5 (where .Site.RegularPages.ByPublishDate.Reverse "Type" "posts" ) }}
 <div>

@@ -1,5 +1,5 @@
 ---
-title: "designing with dataclasses"
+title: "Designing with dataclasses"
 date: 2025-04-21T13:30:11-08:00
 tags: ["python"]
 draft: false
@@ -20,12 +20,12 @@ how to decide between the two.*
 
 # What is a `dataclass`?
 
-If you are already familiar with `dataclass` , feel free to skip this section.
+If you are already familiar with `dataclass` , you can skip this section.
 
 `dataclass` is a class [decorator](https://docs.python.org/3/glossary.html#term-decorator)
 that generates common methods such as
-`__init__` and `__eq__`, making for more concise class definitions. 
-For instance, this class declaration
+`__init__` and `__eq__`, making for more concise class definitions.
+For instance, this class declaration:
 ```python
 class Order:
 	def __init__(self, item_id: str, customer_id: str, amount: int):
@@ -42,7 +42,7 @@ class Order:
 
 
 ```
-can be replaced with the following:
+can be replaced with:
 ```python
 from dataclasses import dataclass
 
@@ -66,13 +66,13 @@ definition which fields it contains [^1]. On the other hand, with a `dict`, item
 can be added or removed dynamically at various points in the code, so you have to
 potentially read through much more code to understand the shape of the data.
 While this can be avoided with discipline (for instance, you can avoid inserting new
-items into a dict after it is instantiated), dataclasses help enforce this
-automatically.
+items into a dict after it is instantiated), dataclasses help enforce this.
 
 ## Error checking & debugging
 
 Representing data as a `dataclass` can make debugging a lot faster.
-For instance, if you forget to provide `customer_id` when creating an `Order`,
+For instance, using the same example dataclass as before, if you forget to provide 
+`customer_id` when instantiating,
 ```python
 order = Order(item_id="i1435", amount=10)
 ```
@@ -83,7 +83,7 @@ it raises
 TypeError: Order.__init__() missing 1 required positional argument: 'customer_id'.
 ```
 with the exact line where you forgot to provide the `customer_id`. 
-By contrast, representing the same data as a `dict`,
+However, representing the same data as a `dict`,
 ```py
 order = {
 	"item_id": "i1435",
@@ -95,12 +95,12 @@ does not raise an error. If the `"customer_id"` is accessed somewhere downstream
 customer = order["customer_id"]
 ```
 raises `KeyError: 'customer_id'` and and you are left backtracking through the
-code to find where you forgot to add `'customer_id'` originally.
+code to find where you forgot to add `'customer_id'`.
 
 `dataclass`es also work well with type checkers like
 [mypy](https://mypy.readthedocs.io/en/stable/). Since they encourage annotating each
 field with types, code using `dataclass`es can be type checked with very
-little extra effort on the part of the user.
+little extra effort.
 
 # Heuristics
 
@@ -110,18 +110,18 @@ should use a `dict` or a `dataclass`:
 
 1. Are field/item names hardcoded (e.g. you have code that look like
   `order["item_id"]`)? Use a `dataclass`, which enforces the presence of these names
-2. Do you need to loop over field/items names? Use a `dict`, which makes this iteration
-  very easy (whereas the way of doing this with a `dataclass` is slightly obscure)
+2. Do you need to loop over field/items names or dynamically add/remove items?
+   Use a `dict`.
 
 # Example
 
-Let's see how these heuristics apply in a longer program.
+Let's see how these heuristics apply in a larger program.
 This script uploads a directory of text files to object storage (here S3).
-Each file's object key looks like this:
+Each file's object key will be:
 ```
 {id}/{start_timestamp}/{session_name}
 ```
-and the necessary metadata to derive this key is stored on the first line of each file 
+and the metadata used to derive this key is stored on the first line of each file 
 in this format:
 ```text
 # id=53,started_at=2021-01-02T11:30:00Z,session_name=daring_foolion
@@ -181,7 +181,7 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 Using a `dict` for `recordings` in (1) is appropriate - we never hard-code a
 key name.
 
-However the `dict` in (2) fails the test: we hard-coded keys 
+However the `dict` in (2) fails the test: we access items through hard-coded key names
 downstream in `_build_s3_keys()` (3).
 
 Here is the same script after re-writing (2) to use a `dataclass`.
@@ -248,9 +248,9 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-The improvement in readability is more obvious if you use type hints. In
-the next code listing, the shape of the argument to `_build_s3_headers` is obvious
-whereas in the version before that it required reading `_parse_headers`:
+The readability benefits are more obvious if you use type hints. Below, it is easy
+the definition of `RecordingMetadata`
+
 
 ```python
 def upload_directory(directory: os.PathLike, s3_bucket: str):
