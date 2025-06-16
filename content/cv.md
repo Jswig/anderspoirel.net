@@ -4,6 +4,8 @@ title: "CV"
 
 ## Work
 
+Cann I see a Δδ? 
+
 **Data scientist**, [Joby Aviation](https://www.jobyaviation.com/) *(Dec. 2021 - present)*
 
 - Developed a framework on top of Apache Spark that let domain experts easily
@@ -11,17 +13,17 @@ title: "CV"
   data review.
 
 - Built foundational tools used by a data science team of 17. Some highlights include
-  a new build system 10x faster than the previous one; a library enabling the migration
+  a new build system 10× faster than the previous one; a library enabling the migration
   of 100s of users to Unity Catalog while maintaining seamless compatibility
   with existing systems.
 
-- Deep performance and cost optimization work. Sped up 40x a
+- Deep performance and cost optimization work. Sped up 40× a
   query tool used by 100s of engineers. Cluster usage optimization tied to $X00,000
-  annual savings on cloud costs.
+  annual savings.
 
 - Introduced several practices that raised productivity across my team:
   infrastructure as code, end-to-end tests, version control for batch jobs. Became
-  recognized expert tapped within and beyond my organization for advice on data and
+  a recognized expert sought inside and beyond my organization for advice on data and
   software architecture, productionizing data science workloads.
 
 **Data scientist intern**, [Joby Aviation](https://www.jobyaviation.com/) *(Jul. 2021 - Nov. 2021)*
