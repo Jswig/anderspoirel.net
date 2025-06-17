@@ -7,6 +7,7 @@ Give these awesome writers a visit!
 
 ## Software engineering
 
+- [Alex Miller](https://transactional.blog)
 - [Antirez](https://antirez.com/)
 - [Armin Ronacher](https://lucumr.pocoo.org/)
 - [Bob Nystrom](https://journal.stuffwithstuff.com)

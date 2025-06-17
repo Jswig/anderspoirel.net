@@ -5,15 +5,16 @@ tags: ["python"]
 draft: false
 ---
 
-[PEP-249 - Python Database API Specification](https://peps.python.org/pep-0249/)
-(DBAPI) defines a standard interface for database access in Python that's implemented 
+[PEP-249](https://peps.python.org/pep-0249/)
+("Python Database API Specification" a.k.a. "DBAPI") defines a standard interface
+for database access in Python, implemented
 by libraries such as [psycopg](https://www.psycopg.org/docs/) and
-[PyMySQL](https://pymysql.readthedocs.io/en/latest/). 
+[PyMySQL](https://pymysql.readthedocs.io/en/latest/).
 
-One common task with DBAPI libraries I see new users bounce off is identifying
-column names in query results, since 
-[fetching](https://peps.python.org/pep-0249/#cursor-methods) from a `Cursor` only 
-returns a sequence of list-like rows. For instance, in the following query,
+One common task with DBAPI libraries that is not immediately obvious is identifying
+column names in query results, since
+[fetching](https://peps.python.org/pep-0249/#cursor-methods) from a `Cursor` 
+returns a sequence of list-like rows. For instance, in this query,
 ```python
 # assume a 'users' table like this one:
 # user_id | created_at
@@ -39,25 +40,24 @@ names are explicitely identified, such as:
     {"user_id": 2, "created_at": datetime.datetime(2025, 1, 3, 10, 0, 0)},
 ] # (2)
 ```
-In a simple case like this one, going from (1) to (2) using hardcoded column
+In a simple case like this, going from (1) to (2) using hardcoded column
 names is not too cumbersome:
 ```py
 rows = [{"user_id": r[0], "created_at": r[1]} for r in result]
 ```
-However, this quickly becomes impractical when our query includes dozens of columns or
+However, this becomes impractical once your query includes dozens of columns or
 even a `SELECT *`[^1].
 
-Thankfully, there is an easy way of retrieving column names automatically that does not 
-involve reaching for [SQLAlchemy](https://www.sqlalchemy.org/)[^2]
-
-Cursors have a `description` attribute, which is a sequence of column desciptions for
-the result of the last query executed. The first element of each column description is
-the column's name, so we can get all the column names like this:
+Using `Cursor`'s `description`, you can retreive column names automatically without
+reaching for [SQLAlchemy](https://www.sqlalchemy.org/)[^2]. `description` is a sequence
+of column desciptions for the result of the last query executed.
+Since first element of each column description is the column's name, you can get all 
+the column names like this:
 ```py
 column_names = [c[0] for c in cursor.description]
 ```
 
-Putting everything together, given a connection and a query, we can run the
+Putting everything together, given a connection and a query, you can run the
 query and unpack its result into the same format as (2):
 ```python
 def execute_query(connection, query):
@@ -74,11 +74,11 @@ def execute_query(connection, query):
     ]
 ```
 
-[^1]: before you balk that it should not be used in practice, `SELECT *` is very, very
-convenient for data exploration
+[^1]: Before you balk that it should not be used in practice, `SELECT *` is very, very
+convenient for data exploration.
 
 [^2]: `SQLAlchemy` is a great fit for many workloads, especially if you limit
 yourself to the [core](https://docs.sqlalchemy.org/en/20/core/) API! But it is also
 a large dependency with a bit of a 
-[learning curve](https://lucumr.pocoo.org/2011/7/19/sqlachemy-and-you/), which I prefer
-to avoid introducing in applications that don't otherwise make use of its features
+[learning curve](https://lucumr.pocoo.org/2011/7/19/sqlachemy-and-you/), which I would
+rather avoid introducing in applications that do not otherwise make use of its features.
