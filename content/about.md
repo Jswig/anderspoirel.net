@@ -2,9 +2,9 @@
 title: "About me"
 ---
 
-Hi, I'm Anders! I'm a data scientist and software engineer, most recently at 
-[Joby Aviation](https://jobyaviation.com). If you want to learn more about my
-professional work, take a look at my [CV]({{< ref "/cv" >}}).
+I'm a data scientist and software engineer, most recently at 
+[Joby Aviation](https://jobyaviation.com). To learn more about my
+professional work, check out my [CV]({{< ref "/cv" >}}).
 
 ## Contact
 
@@ -22,5 +22,5 @@ I'm currently based in Oakland, California.
 
 ## Colophon
 
-This website is built with [Hugo](https://gohugo.io/). I used my own theme.
+This website is built with [Hugo](https://gohugo.io/), using my own theme.
 Hosting is provided by [Cloudflare Pages](https://developers.cloudflare.com/pages/).

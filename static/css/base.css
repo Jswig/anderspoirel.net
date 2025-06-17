@@ -1,3 +1,52 @@
+@font-face {
+    font-family: 'ReCharter';
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src: local('Charter'), url('/fonts/Charter-Regular.woff2') format('woff2');
+}
+
+ @font-face {
+    font-family: 'ReCharter';
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    src: local('Charter'), url('/fonts/Charter-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'ReCharter';
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+    src: local('Charter'), url('/fonts/Charter-Italic-Regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'ReCharter';
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+    src: local('Charter'), url('/fonts/Charter-Italic-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'ReInconsolata';
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; /* Ensures text is visible while font loads */
+    src: local('Inconsolata'), url('/fonts/Inconsolata-Regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'ReInconsolata';
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    src: local('Inconsolata'), url('/fonts/Inconsolata-Bold.woff2') format('woff2');
+}
+
+
 html {
     --background-color: #1c1e26;
     --background-alt-color: #242630;
@@ -17,8 +66,8 @@ html {
     box-sizing: border-box;
     color: var(--text-color);
     font-size: var(--font-size);
-    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-    line-height: 1.6;
+    font-family: "ReCharter", serif;
+    line-height: 1.4;
     tab-size: 4;
 
     -webkit-font-smoothing: antialiased;
@@ -58,7 +107,13 @@ code {
     border-radius: var(--inline-border-radius);
     padding-left: var(--text-highlight-padding);
     padding-right: var(--text-highlight-padding);
+    font-family: 'ReInconsolata', 'Consolas', monospace;
+}
 
+pre {
+    border-radius: var(--box-border-radius);
+    overflow-x: auto;
+    padding: 1rem;
 }
 
 hr {
@@ -68,6 +123,7 @@ hr {
 h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
 }
+
 
 h2 {
     color: var(--text-alt-color)
@@ -81,10 +137,6 @@ h4 {
     color: var(--text-alt-color-3)
 }
 
-pre {
-    border-radius: var(--box-border-radius);
-    padding: 1rem;
-}
 
 table {
     border: 1px solid var(--text-color);
@@ -93,16 +145,23 @@ table {
 
 thead {
     border-bottom: 1px solid var(--text-color);
+    margin-top: 1rem;
 }
 
 th {
-    padding-bottom: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 td {
-    padding-left: 1rem;
+    padding-left: 0.5rem;
     width: 44ch;
 }
+
+tr:last-child td {
+    padding-bottom: 0.5rem;
+}
+
 
 /* layout */
 /**********/
@@ -154,14 +213,23 @@ td {
 }
 
 .page-header nav a:first-child {
+    border-top: 2px solid;
     font-style: normal;
-    font-family: Consolas, "Ubuntu Mono", monospace;
-    text-decoration: underline;
+    font-family: 'ReInconsolata', 'Consolas', monospace;
 }
 
 .page-header nav a {
     font-style: italic;
     margin-right: 1rem;
+    /* prevent the added padding on hover from moving the items */
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+}
+
+.page-header nav a:hover {
+    /* prevent italics from poking through the hover box */
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
 }
 
 .page-main {
