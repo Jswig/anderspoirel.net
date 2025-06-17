@@ -13,8 +13,8 @@ representing data as a `dict`. However,
 are often more appropriate. Here is when you should use a `dataclass` instead, and
 how to decide between the two.*
  
-> **Note**: I'm using `dataclass` here since it's in the standard library. If you're
-> already using a 3rd-party library like [attrs](https://www.attrs.org/en/stable/)
+> **Note**: I'm using `dataclass` in this article since it's in the standard library.
+> If you're already using a 3rd-party library like [attrs](https://www.attrs.org/en/stable/)
 > to define record-like classes, the advice here still applies, just replace
 > `dataclass` with the library you're using.
 
