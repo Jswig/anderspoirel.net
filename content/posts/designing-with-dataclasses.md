@@ -313,7 +313,7 @@ use a `dict`, even if there are hard-coded keys.
 Another good reason is performance. While accessing a `dataclass` attribute is only
 slightly slower than accessing a key in a `dict`, instantiating a `dataclass` is ~5x
 slower than creating a `dict` [^2]. So, if you're instantiating tens of thousands
-of dataclasses and you have determined it's a bottleneck, you can use
+of dataclasses and you've determined it's a bottleneck, you can use
 a `dict` instead.
 
 In both of these cases, if you're using a type checker like
