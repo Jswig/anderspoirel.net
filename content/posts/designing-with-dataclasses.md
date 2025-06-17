@@ -12,15 +12,15 @@ representing data as a `dict`. However,
 [dataclasses](https://docs.python.org/3/library/dataclasses.html#module-dataclasses)
 are often more appropriate. Here is when you should use a `dataclass` instead, and
 how to decide between the two.*
-
+ 
 > **Note**: I'm using `dataclass` here since it's in the standard library. If you're
-> already using a 3rd-party library for defining record-like classes,
-> like as [attrs](https://www.attrs.org/en/stable/), the advice
-> here still applies, just replace `dataclass` with whichever library you're using.
+> already using a 3rd-party library like [attrs](https://www.attrs.org/en/stable/)
+> to define record-like classes, the advice here still applies, just replace
+> `dataclass` with the library you're using.
 
 # What is a dataclass?
 
-If you're already familiar with dataclasses, skip this section.
+If you're already familiar with dataclasses, you can skip this section.
 
 `dataclass` is a class [decorator](https://docs.python.org/3/glossary.html#term-decorator)
 which automatically generates magic methods like
