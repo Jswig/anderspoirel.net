@@ -6,11 +6,11 @@ draft: false
 ---
 
 *Python [dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries)
-are core to the language, available without an import, and extremely flexible,
-which means many Python programmers default to 
+are available without an import and extremely flexible,
+which means many Python programmers default to
 representing data as a `dict`. However,
 [dataclasses](https://docs.python.org/3/library/dataclasses.html#module-dataclasses)
-are often more appropriate. Here is why a ``dataclass`` can be the better choice, and
+are often more appropriate. Here is when you should use a `dataclass` instead, and
 how to decide between the two.*
 
 > **Note**: I used `dataclass` here since it is part the standard library. You might
@@ -18,9 +18,9 @@ how to decide between the two.*
 > such as [attrs](https://www.attrs.org/en/stable/). The advice
 > here still applies, just replace `dataclass` with whichever library you are using.
 
-# What is a `dataclass`?
+# What is a dataclass?
 
-If you are already familiar with `dataclass` , you can skip this section.
+If you are already familiar with `dataclass`, skip this section.
 
 `dataclass` is a class [decorator](https://docs.python.org/3/glossary.html#term-decorator)
 that generates common methods such as
@@ -61,12 +61,12 @@ attributes.
 ## Readability
 
 A `dataclass` can be more readable than a `dict`
-When you see a `dataclass` like `Order` above, you can know just by glancing at its
+When you see a `dataclass` like `Order`, you know just by glancing at its
 definition which fields it contains [^1]. On the other hand, with a `dict`, items
-can be added or removed dynamically at various points in the code, so you have to
-potentially read through much more code to understand the shape of the data.
+can be added or removed dynamically at various points in the code, so you
+potentially have to read through much more code to understand the shape of the data.
 While this can be avoided with discipline (for instance, you can avoid inserting new
-items into a dict after it is instantiated), dataclasses help enforce this.
+items into a dict after it is instantiated), dataclasses help enforce this discipline.
 
 ## Error checking & debugging
 
@@ -97,9 +97,9 @@ customer = order["customer_id"]
 raises `KeyError: 'customer_id'` and and you are left backtracking through the
 code to find where you forgot to add `'customer_id'`.
 
-`dataclass`es also work well with type checkers like
+Dataclasses also work well with type checkers like
 [mypy](https://mypy.readthedocs.io/en/stable/). Since they encourage annotating each
-field with types, code using `dataclass`es can be type checked with very
+field with types, code using dataclasses can be type checked with very
 little extra effort.
 
 # Heuristics
@@ -109,7 +109,7 @@ container are known ahead of time. Here are some heuristics to help you decide i
 should use a `dict` or a `dataclass`:
 
 1. Are field/item names hardcoded (e.g. you have code that look like
-  `order["item_id"]`)? Use a `dataclass`, which enforces the presence of these names
+  `order["item_id"]`)? Use a `dataclass`, which enforces the presence of these names.
 2. Do you need to loop over field/items names or dynamically add/remove items?
    Use a `dict`.
 
@@ -117,10 +117,7 @@ should use a `dict` or a `dataclass`:
 
 Let's see how these heuristics apply in a larger program.
 This script uploads a directory of text files to object storage (here S3).
-Each file's object key will be:
-```
-{id}/{start_timestamp}/{session_name}
-```
+Each file's object key will be `{id}/{start_timestamp}/{session_name}`
 and the metadata used to derive this key is stored on the first line of each file 
 in this format:
 ```text
@@ -178,11 +175,9 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-Using a `dict` for `recordings` in (1) is appropriate - we never hard-code a
-key name.
-
-However the `dict` in (2) fails the test: we access items through hard-coded key names
-downstream in `_build_s3_keys()` (3).
+The `dict` for `recordings` in (1) is appropriate: we do not use access or set any of its
+items through hard-coded key names. However the `dict` in (2) fails the test: we access
+items through hard-coded key names downstream in `_build_s3_keys()` (3).
 
 Here is the same script after re-writing (2) to use a `dataclass`.
 
@@ -248,9 +243,7 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-The readability benefits are more obvious if you use type hints. Below, it is easy
-the definition of `RecordingMetadata`
-
+The readability benefits are more obvious when you use type hints:
 
 ```python
 def upload_directory(directory: os.PathLike, s3_bucket: str):
@@ -310,7 +303,7 @@ def _upload_to_s3(s3_bucket: str, s3_key_by_file: dict[str, str]):
 
 # Exceptions
 
-These heuristics are not hard rules, and in some cases it is best to ignore them.
+These are not hard rules. In some cases it is best to ignore them.
 
 One of these is when calling code from libraries that takes or returns a `dict`. This
 is common when serializing or de-serializing data, like in the standard
