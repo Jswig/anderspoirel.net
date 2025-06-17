@@ -314,7 +314,7 @@ Another good reason is performance. While accessing a `dataclass` attribute is o
 slightly slower than accessing a key in a `dict`, instantiating a `dataclass` is ~5x
 slower than creating a `dict` [^2]. So, if you're instantiating tens of thousands
 of dataclasses and you've determined it's a bottleneck, you can use
-a `dict` instead.
+dicts instead.
 
 In both of these cases, if you're using a type checker like
 [mypy](https://mypy.readthedocs.io/en/stable/), you can annotate your code with
