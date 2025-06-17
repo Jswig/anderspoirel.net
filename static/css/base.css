@@ -31,7 +31,7 @@
 }
 
 @font-face {
-    font-family: 'Inconsolata';
+    font-family: 'ReInconsolata';
     font-weight: 400;
     font-style: normal;
     font-display: swap; /* Ensures text is visible while font loads */
@@ -39,7 +39,7 @@
 }
 
 @font-face {
-    font-family: 'Inconsolata';
+    font-family: 'ReInconsolata';
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -107,7 +107,13 @@ code {
     border-radius: var(--inline-border-radius);
     padding-left: var(--text-highlight-padding);
     padding-right: var(--text-highlight-padding);
+    font-family: 'ReInconsolata', 'Consolas', monospace;
+}
 
+pre {
+    border-radius: var(--box-border-radius);
+    overflow-x: auto;
+    padding: 1rem;
 }
 
 hr {
@@ -117,6 +123,7 @@ hr {
 h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
 }
+
 
 h2 {
     color: var(--text-alt-color)
@@ -130,10 +137,6 @@ h4 {
     color: var(--text-alt-color-3)
 }
 
-pre {
-    border-radius: var(--box-border-radius);
-    padding: 1rem;
-}
 
 table {
     border: 1px solid var(--text-color);
@@ -142,16 +145,23 @@ table {
 
 thead {
     border-bottom: 1px solid var(--text-color);
+    margin-top: 1rem;
 }
 
 th {
-    padding-bottom: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 td {
-    padding-left: 1rem;
+    padding-left: 0.5rem;
     width: 44ch;
 }
+
+tr:last-child td {
+    padding-bottom: 0.5rem;
+}
+
 
 /* layout */
 /**********/
@@ -203,9 +213,9 @@ td {
 }
 
 .page-header nav a:first-child {
+    border-top: 2px solid;
     font-style: normal;
-    font-family: monospace;
-    text-decoration: underline;
+    font-family: 'ReInconsolata', 'Consolas', monospace;
 }
 
 .page-header nav a {

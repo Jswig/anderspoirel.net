@@ -4,8 +4,6 @@ title: "CV"
 
 ## Work
 
-Cann I see a Δδ? 
-
 **Data scientist**, [Joby Aviation](https://www.jobyaviation.com/) *(Dec. 2021 - present)*
 
 - Developed a framework on top of Apache Spark that let domain experts easily
@@ -35,6 +33,8 @@ Cann I see a Δδ?
 
 - Ran comparative analysis of sleep studies data that was used in the medical device's FDA
   submission packet.
+- Ported models to AWS Inferentia chips, doubling inference throughput without
+  increasing costs.
 
 **Research assistant**, [UC Santa Cruz Genomics Institute](https://genomics.ucsc.edu/) *(Oct. 2020 - Jun. 2021)*
 
@@ -69,10 +69,10 @@ Cann I see a Δδ?
 | Python                    | databases & data architecture |
 | Go                        | build systems & DevOps        |
 | SQL                       | back-end web development      |
-| Apache Spark + Delta Lake | data analysis                 |
+| Apache Spark & Delta Lake | data analysis                 |
 | Docker                    | API design                    |
-| Pandas + Numpy + Scipy    | performance optimization      |
-| Dash + Plotly             |                               |
+| Pandas & Numpy & Scipy    | performance optimization      |
+| Dash & Plotly             |                               |
 
 ### Prior experience
 
