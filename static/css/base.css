@@ -3,7 +3,7 @@
     font-weight: 400;
     font-style: normal;
     font-display: swap;
-    src: local('Charter'), url('/fonts/Charter-Regular.woff2') format('woff2');
+    src: url('/fonts/Charter-Regular.woff2') format('woff2');
 }
 
  @font-face {
@@ -11,7 +11,7 @@
     font-weight: 700;
     font-style: normal;
     font-display: swap;
-    src: local('Charter'), url('/fonts/Charter-Bold.woff2') format('woff2');
+    src: url('/fonts/Charter-Bold.woff2') format('woff2');
 }
 
 @font-face {
@@ -19,7 +19,7 @@
     font-weight: 400;
     font-style: italic;
     font-display: swap;
-    src: local('Charter'), url('/fonts/Charter-Italic-Regular.woff2') format('woff2');
+    src: url('/fonts/Charter-Italic-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -27,15 +27,15 @@
     font-weight: 700;
     font-style: italic;
     font-display: swap;
-    src: local('Charter'), url('/fonts/Charter-Italic-Bold.woff2') format('woff2');
+    src: url('/fonts/Charter-Italic-Bold.woff2') format('woff2');
 }
 
 @font-face {
     font-family: 'ReInconsolata';
     font-weight: 400;
     font-style: normal;
-    font-display: swap; /* Ensures text is visible while font loads */
-    src: local('Inconsolata'), url('/fonts/Inconsolata-Regular.woff2') format('woff2');
+    font-display: swap;
+    src: url('/fonts/Inconsolata-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -43,7 +43,7 @@
     font-weight: 700;
     font-style: normal;
     font-display: swap;
-    src: local('Inconsolata'), url('/fonts/Inconsolata-Bold.woff2') format('woff2');
+    src: url('/fonts/Inconsolata-Bold.woff2') format('woff2');
 }
 
 
@@ -102,7 +102,6 @@ blockquote {
 
 code {
     color: var(--text-alt-color-3);
-    font-weight: bold;
     background-color: var(--background-alt-color);
     border-radius: var(--inline-border-radius);
     padding-left: var(--text-highlight-padding);
