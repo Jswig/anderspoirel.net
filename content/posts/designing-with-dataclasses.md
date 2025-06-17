@@ -302,11 +302,11 @@ def _upload_to_s3(s3_bucket: str, s3_key_by_file: dict[str, str]):
 
 # Exceptions
 
-These aren;t hard rules. In some cases it's best to ignore them.
+These aren't hard rules: in some cases it's best to ignore them.
 
-One of these is when calling code from libraries that takes or returns a `dict`. This
+One instance is calling functions that take or returs a `dict`. This
 is common when serializing or de-serializing data, like in the standard
-library's [json](https://docs.python.org/3/library/json.html) module. 
+library's [json](https://docs.python.org/3/library/json.html) module.
 If you're building the data in the same function where it's used, it's OK to just
 use a `dict`, even if there are hard-coded keys.
 
