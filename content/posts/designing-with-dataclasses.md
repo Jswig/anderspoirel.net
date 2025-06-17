@@ -64,7 +64,7 @@ definition which fields it contains [^1]. On the other hand, items
 can be added or removed from a `dict` at various points in the code, which means
 you have to read through much more code to know the shape of the data.
 While this can be avoided with discipline (for instance, you can avoid inserting new
-items into a dict after it is instantiated), dataclasses help enforce this discipline
+items into a dict after it's instantiated), dataclasses help enforce this discipline
 automatically.
 
 ## Error checking & debugging
@@ -93,7 +93,7 @@ does not raise an error. If the `"customer_id"` were accessed somewhere downstre
 ```py
 customer = order["customer_id"]
 ```
-raises `KeyError: 'customer_id'` and you are left backtracking through the
+raises `KeyError: 'customer_id'` and you're left backtracking through the
 code to find where you forgot to add `'customer_id'`.
 
 Dataclasses also work well with type checkers like
