@@ -1,6 +1,15 @@
 {{ define "main" }}
 <article>
-    <h1 class="page-title">{{ .Title }} <span class="page-title-date">{{ partial "date.html" . }}</span></h1>
+    <h1 class="page-title">{{ .Title }} <span class="page-title-date">
+        <time datetime="{{ .PublishDate.Format "2006-01-02" }}">
+            <em>{{ .PublishDate.Format "2006-01-02" }}</em>
+        </time>
+        {{ if and .GitInfo (ne .GitInfo.AuthorDate .PublishDate) }}
+            <time datetime="{{ .GitInfo.AuthorDate.Format "2006-01-02" }}">
+                <em>— updated {{ .GitInfo.AuthorDate.Format "2006-01-02" }}</em>
+            </time>
+        {{ end }}
+    </span></h1>
     {{ .Content }}
 </article>
 {{ end }}

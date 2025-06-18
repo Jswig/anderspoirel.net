@@ -2,6 +2,8 @@ baseURL = 'https://anderspoirel.net/'
 languageCode = 'en-us'
 title = 'Anders Poirel'
 
+enableGitInfo = true
+
 [menu]
   [[menu.main]]
     name = "anderspoirel.net"
