@@ -17,6 +17,8 @@ Give these awesome writers a visit!
 - [Dan Luu](https://danluu.com/)
 - [Decyphering Glyph](https://blog.glyph.im/)
 - [Eli Bendersky](https://eli.thegreenplace.net/archives/all)
+- [Jason Fantl](https://jasonfantl.com/)
+- [Jeremy Bowers](https://jerf.org)
 - [Li Haoyi](https://www.lihaoyi.com/)
 - [Hilel Wayne](https://www.hillelwayne.com/)
 - [Hynek Schlawack](https://hynek.me/)
@@ -28,6 +30,7 @@ Give these awesome writers a visit!
 - [Tania Rascia](https://www.taniarascia.com/)
 - [Tom MacWright](https://macwright.com/)
 - [Write More Tests](https://writemoretests.com/)
+- [zwischenzugs](https://zwischenzugs.com/)
 
 ## Mathematics, statistics & machine learning
 

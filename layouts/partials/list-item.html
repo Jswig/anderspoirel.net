@@ -1,4 +1,6 @@
 <p>
-  {{ partial "date.html" . }}
+  <time datetime="{{ .PublishDate.Format "2006-01-02" }}">
+    <em>{{ .PublishDate.Format "2006-01-02" }}</em>
+  </time>
   <a href="{{ .RelPermalink }}">{{ .Title }}</a>
 </p>
