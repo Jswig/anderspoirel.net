@@ -1,0 +1,121 @@
+---
+title: "Common mistakes with SQL table schemas"
+date: 2025-06-30T17:32:29-07:00
+tags: []
+draft: false
+---
+
+
+> **Assumed audience**: people designing SQL databases tables, especially if you do not yet have a solid background in data modeling. 
+
+*This piece goes over common mistakes I've seen in SQL table schemas. The advice here aims to be relevant whether you're designing for transaction processing or analytics. A such I focus on individual columns, and not how or when to organize your data between multiple tables, where the best way of doing this depends a lot on the workload.*
+## Mistake #1: unclear or inconsistent column names
+
+Having clear, self-documenting column names seems elementary, but I've seen so many schemas that fail at this that's it's worth lingering on a little. First, always use full words and avoid abbreviations. Do you want future users to message you with
+questions like "what does `rec_nm` stand for?" when you could have just used `recording_name` [^1]?. The improvement in readability is well worth the extra keystrokes, especially in an age when many SQL environments have decent tab-completion for column names.
+
+Have a consistent convention for casing and word separation in your column names. Pick one of  [snake_case](https://en.wikipedia.org/wiki/Snake_case) or [CamelCase](https://en.wikipedia.org/wiki/Camel_case) and use it everywhere. This help avoid bugs from typos and makes the tables more user-friendly through e.g. tab-completion. Especially: avoid clever-sounding conventions that can't be enforced automatically, like "metadata columns have leading underscores". Future table maintainers will either forget the convention or apply it inconsistently (how do you define metadata? will everyone define it the same way? ).
+
+While we're on the topic of naming - if you're representing a quantity that has a unit. Include the units in the column name. Don't leave it to column comments no-one maintains, a [semantic layer](https://en.wikipedia.org/wiki/Semantic_layer) no-one knows about, or a internal wiki page that hasn't been updated this half-decade. Again, do you really want to get spammed with Slack DMs on whether `angular_velocity` is in radians/second or rotations/minute? Moreover, if the units are ambiguous, you're inviting the possibility of downstream users introducing errors because they mis-interpreted the units (and who can blame them, if the units are not clearly documented!).
+
+If you're unsure how to write out the units, here's an un-ambiguous convention I like:
+ - `per` for division
+ - otherwise it's a multiplication
+ - items in the numerator are grouped together, and so are items in the denominator
+ So "angular velocity" would be `angular_velocity_radians_per_second`, "angular acceleration" would be `angular_acceleration_radians_squared_per_second`, and so on.
+## Mistake #2: not timestamping rows
+
+You almost always end up needing to know when data was created or last modified - not including timestamps last in the name of not-overcomplicating things is a false economy [^2]. Why is recording these timestamps so useful?
+- While it's often possible to get these event timestamps via e.g. table history or a [change data capture](https://en.wikipedia.org/wiki/Change_data_capture) setup, including this information in the table schema makes it really easy to access without any additional work
+- These timestamps are invaluable when troubleshooting an application in production ("wait, this row with weird data was just updated", "lets look at the most recent data to figure out what change",  ...)
+- They are almost always useful for analytical queries ("show me the newest user accounts")
+- They are often useful for future business logic ("show the user this if they haven't updated their XYZ in the last 30 days" )
+
+ 
+Pick a naming convention for both the creation and update timestamps and use the same one across your codebase (I like either `when_created`, `when_updated` or `created_at`, `updated_at` ) 
+
+In most systems, you can automatically generate and keep up to date these timestamps. For instance, in Postgres, this sets `created_at` and `updated_at` in new rows to the current time.
+```sql
+CREATE TABLE my_entity (
+   entity_id UUID,
+   created_at TIMESTAMP WITH TIME ZONE 'UTC' CURRENT_TIMESTAMP,
+   updated_at TIMESTAMP WITH TIME ZONE 'UTC' CURRENT_TIMESTAMP
+);
+```
+`updated_at` can be a bit trickier to set up automatically in some data systems. For instance, in Postgres, this requires a trigger
+```sql
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+
+CREATE TRIGGER update_example_table_updated_at
+BEFORE UPDATE ON example_table
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at_column();
+```
+
+If you're working in a systems where it's not possible to set these timestamps to be generated automatically in the table definition, they should be generated by your backend when doing INSERT/DELETE operations
+## Mistake #3: not using `null` to represent missing data
+safd
+SQL semantics are build around handling `null` gracefully. Most functions and operators returning`null` when one of the inputs is `null`. However, I've noticed that people are often tempted to represent a missing value with a sentinel like `-1` or `"N/A"` instead. [^3]
+
+Sentinels are particularly problematic for numerical data since they can lead to severe, obfuscated errors in aggregations. For example, if I run the following query against a table that uses `-1` a sentinel for a missing value in a `DECIMAL` column.  
+
+```sql
+-- assume an 'orders' table with the following schema
+
+-- | sku_id | customer_id | unit_price_dollars | unit_amount |
+-- | ------ | ----------- | ------------------ | ----------- |
+-- | s5346  | c435694     | 20                 | 15          |
+-- | s5346  | c578934     | 10                 | 50          |
+-- | s901   | c2345       | -1                 | 100         |
+
+SELECT total_sales AS SUM(unit_price_dollars * unit_amount)
+```
+This returns the wrong value of 700, whereas if the column used `null`, that value would get skipped in the computation and you would get the correct sum of 800. 
+
+With string/text columns nulls aren't as bad, but there's still a trade-off. On one hand Kimball Methodology will tell you that using a sentinel value like `"Unknown"` in a text column is good since it allows users to easily group by this column (whereas `null` is skipped in a groupby, so you might get different results if you group by and sum on fully populated text column v.s. one with nones.)
+
+On the other hand, using e.g. "Unknown" means that users need to make an additional query to figure out how missing values are represented. String sentinels also still misbehave if if you're using string functions (`split(my_col, ' ')` returns `null` if my_col is `null`. Here, I don't have as strong an opinion, except to be consistent. Don't have some string columns in your data schema use `null`, and other use sentinels.
+## Mistake #4: using booleans
+
+Often, booleans. They are seductively convenient at first
+
+```sql
+SELECT measured_voltage
+FROM quality_checks
+WHERE check_passed
+```
+
+Buty, what happens in practice is that a state that starts out binary might end up with multiple different states Your backend start handling more
+complicated cases. . Maybe quality are sometimes skipped. Maybe there was an error
+that prevented completion of the check. Now you need to model more cases - let's say a check can be skipped. `check_passed`, `check_skipped`, `check_errored_out`
+
+(making illegal state irrepresentable, remember?). 
+
+These are all mutually exclusive
+(clients can easy filter or group by it). The backend doesn't need to worry about accidentally setting one, but not the other:
+
+```sql
+CREATE TYPE check_status AS ENUM ('passed', 'failed', 'skipped')
+
+CREATE TABLE quality_checks (
+	sku_id UUID,
+	measured_voltage FLOAT,
+	status check_status,
+	insert_at TIMESTAMP,
+)
+```
+
+[Postgres Enum](https://www.postgresql.org/docs/current/datatype-enum.html), but a string will do also if your database doesn't support it,
+especially if you can restrict its contents with a SQL `CONSTRAINT` or the
+types in your backend's programming language
+
+Take the enumeration (either real or simulated )
+
+[^1]: if you think I'm exaggerating, I've seen column names like this multiple times, even from ex-FANG engineers
+[^2]: I'm usually one to avoid trying to future-proof my designs from the start - It's really hard to guess future needs correctly. But I have always ended up using the row timestamps in my tables, and always regretted not having them, so I make an exception here
+[^3]: this seems is particularly prevalent with engineers who have internalized advice to avoid making data `null` /`None` in languages like Java, Python, Javascript where checking that the `null` case is handled correctly takes a lot of work.)
