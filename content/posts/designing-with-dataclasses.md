@@ -57,28 +57,28 @@ class Order:
 
 # Why use a `dataclass` instead a `dict`?
 
-Data classes have a few distinct advantages over a `dict`.
+Data classes have a few distinct advantages over dictionaries.
 
 ## Readability
 
-A `dataclass` can be more readable than a `dict`.
-When you see a `dataclass` like `Order`, you know just by glancing at its
+First, a `dataclass` can be more readable than a `dict`.
+When you see a `dataclass` like `Order`, you know just by reading its
 definition which fields it contains [^1]. On the other hand, items
 can be added or removed from a `dict` at various points in the code, which means
 you have to read through much more code to know the shape of the data.
 While this can be avoided with discipline (for instance, you can avoid inserting new
-items into a dict after it's instantiated), dataclasses help enforce this discipline
+items into a `dict` after it's instantiated), `dataclass` helps enforce this discipline
 automatically.
 
 ## Error checking & debugging
 
-Representing data as a `dataclass` can make debugging a lot faster.
+Representing data as a `dataclass` can also make debugging a lot faster.
 For instance, using the same `Order` class as before, if you forgot to provide
-`customer_id` when instantiating,
+`customer_id` when instantiating, it raises an error with the exact line where you
+forgot to provide the `customer_id`:
 ```python
 order = Order(item_id="i1435", amount=10)
 ```
-it raises an error with the exact line where you forgot to provide the `customer_id`.
 ```text
 ----> 1 Order(item_id="i2345", amount=10)
 
@@ -107,15 +107,15 @@ little extra effort.
 
 Leveraging dataclasses' strengths requires knowing the structure of your data ahead of
 time. So, lean towards using a `dataclass` when:
-- your data has a fixed structure known at design time
-- you access fields by hardcoded names throughout the codebase
+- your data has a fixed structure known at design time.
+- you access fields by hardcoded names throughout the codebase.
 
-On the other hand lean towards using a `dict` when:
-- the structure of the data is truly dynamic
+On the other hand, lean towards using a `dict` when:
+- the structure of the data is truly dynamic.
 - you want to loop over the keys and/or values (`dict`s provide several facilities
   that make this convenient), especially if the values are of a homogeneous type (for 
-  instance, if all the values in the `dict` are `float`s)
-- you aren't accessing values by hardcoded names
+  instance, if all the values in the `dict` are `float`s).
+- you aren't accessing values by hardcoded names.
 
 # Case study
 
