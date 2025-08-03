@@ -5,22 +5,23 @@ tags: ["python"]
 draft: false
 ---
 
+> **Assumed audience:** Python programmers who aren't in the habit of writing classes
+
 *Python [dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries)
 are available without an import and extremely flexible,
 which means many Python programmers default to
-representing data as a `dict`. However,
+representing data as a `dict`. Here's why and when you should use
 [dataclasses](https://docs.python.org/3/library/dataclasses.html#module-dataclasses)
-are often more appropriate. Here is when you should use a `dataclass` instead, and
-how to decide between the two.*
- 
-> **Note**: I'm using `dataclass` in this article since it's in the standard library.
-> If you're already using a 3rd-party library like [attrs](https://www.attrs.org/en/stable/)
-> to define record-like classes, the advice here still applies, just replace
-> `dataclass` with the library you're using.
+instead.*
+
+> **Note**: I'm using `dataclass` here since it's in the standard library.
+> If you're already using a similar 3rd-party library like the excellent
+> [attrs](https://www.attrs.org/en/stable/) the advice here still applies, just replace
+> uses of `dataclass` with that library.
 
 # What is a dataclass?
 
-If you're already familiar with dataclasses, you can skip this section.
+If you're already familiar with dataclasses, skip ahead to the next section.
 
 `dataclass` is a class [decorator](https://docs.python.org/3/glossary.html#term-decorator)
 which automatically generates magic methods like
@@ -31,7 +32,7 @@ class Order:
 	def __init__(self, item_id: str, customer_id: str, amount: int):
 		self.item_id = item_id
 		self.customer_id = customer_id
-		self.amount = amount
+		self.amount = amount 
 
 	def __eq__(self, other):
 		return (
@@ -54,7 +55,9 @@ class Order:
 
 ```
 
-# Advantages of a `dataclass` over a `dict`
+# Why use a `dataclass` instead a `dict`?
+
+Data classes have a few distinct advantages over a `dict`.
 
 ## Readability
 
@@ -75,21 +78,20 @@ For instance, using the same `Order` class as before, if you forgot to provide
 ```python
 order = Order(item_id="i1435", amount=10)
 ```
-it raises
+it raises an error with the exact line where you forgot to provide the `customer_id`.
 ```text
 ----> 1 Order(item_id="i2345", amount=10)
 
 TypeError: Order.__init__() missing 1 required positional argument: 'customer_id'.
 ```
-with the exact line where you forgot to provide the `customer_id`. 
-However, representing the same data as a `dict`,
+However, representing the same data as a `dict`, this does not raise an error:
 ```py
 order = {
 	"item_id": "i1435",
-	"amount" 10,
+	"amount": 10,
 }
 ```
-does not raise an error. If the `"customer_id"` were accessed somewhere downstream,
+If the `"customer_id"` were accessed somewhere downstream,
 ```py
 customer = order["customer_id"]
 ```
@@ -101,23 +103,27 @@ Dataclasses also work well with type checkers like
 field with types, code using dataclasses can be type checked with very
 little extra effort.
 
-# Heuristics
+# When should you use a `dataclass` instead of a `dict`?
 
-Dataclasses are useful when the names of the items in your data
-container are known ahead of time. Here are some heuristics to help you decide if you 
-should use a `dict` or a `dataclass`:
+Leveraging dataclasses' strengths requires knowing the structure of your data ahead of
+time. So, lean towards using a `dataclass` when:
+- your data has a fixed structure known at design time
+- you access fields by hardcoded names throughout the codebase
 
-1. Are item names hardcoded (e.g. you have code that look like
-  `order["item_id"]`)? Use a `dataclass`, which enforces the presence of these names.
-2. Do you need to loop over item names or dynamically add or remove items?
-   Use a `dict`.
+On the other hand lean towards using a `dict` when:
+- the structure of the data is truly dynamic
+- you want to loop over the keys and/or values (`dict`s provide several facilities
+  that make this convenient), especially if the values are of a homogeneous type (for 
+  instance, if all the values in the `dict` are `float`s)
+- you aren't accessing values by hardcoded names
 
-# Example
+# Case study
 
 Let's see how these heuristics apply in a larger program.
-This script uploads a directory of text files to object storage (here S3).
-Each file's object key will be `{id}/{start_timestamp}/{session_name}`
-and the metadata used to derive this key is stored on the first line of each file 
+
+We have a function, `upload_directory`, which uploads a directory of text files to S3.
+Each file's object key in S3 will be `{id}/{start_timestamp}/{session_name}`.
+The data used for this key is stored on the first line of each file 
 in this format:
 ```text
 # id=53,started_at=2021-01-02T11:30:00Z,session_name=daring_foolion
@@ -137,7 +143,7 @@ def upload_directory(directory, s3_bucket):
 
 
 def _get_headers(directory):
-	headers = {}
+	headers = {} # (1)
 	for file_name in os.listdir(directory):
 		file_path = os.path.join(directory, file_name)
 		with open(file_path, "r") as f:
@@ -147,10 +153,10 @@ def _get_headers(directory):
 
 def _parse_headers(headers):
 	metadata_by_file = {}
-	for file_path, header in headers.items():
+	for file_path, header in headers.items(): # (2)
 		header = header.removeprefix("# ")
 		pairs = header.split(",")
-		metadata = {} # (2)
+		metadata = {} # (3)
 		for key_value in pairs:
 			key, value = key_value.split("=")
 			metadata[key] = value
@@ -163,7 +169,7 @@ def _build_s3_keys(metadata_by_file):
 	for filepath, metadata in metadata_by_file.items():
 		recorder = metadata["id"]  # (3)
 		started_at = metadata["started_at"]
-		session_name = metadata["session"]
+		session_name = metadata["session_name"]
 		object_keys[filepath] = f"{recorder}/{session_name}_{started_at}"
 	return object_keys
 
@@ -174,11 +180,12 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-The `dict` for `recordings` in (1) is appropriate: we don't access or set any of its
-items through hard-coded key names. However the `dict` in (2) fails the test: we access
-items through hard-coded key names downstream in `_build_s3_keys()` (3).
+The use of a `dict` for `headers` in (1) is appropriate: we don't access or set any of
+its items through hard-coded key names, and we loop over all the headers downstream in
+`parse_headers()` (2). However, the `dict` in (3) fails our heuristics: we access
+items through hard-coded key names downstream in `_build_s3_keys()` (4).
 
-Here is the same script after re-writing (2) to use a `dataclass`.
+Here's the same script after re-writing (3) to use a `dataclass`:
 
 ```python
 import os
@@ -215,14 +222,14 @@ def _parse_headers(headers_by_file):
 	for file_path, header in headers_by_file.items():
 		header = header.removeprefix("# ")
 		pairs = header.split(",")
-		metadata = {} # (2)
+		metadata = {}
 		for key_value in pairs:
 			key, value = key_value.split("=")
 			metadata[key] = value
 		metadata_by_file[file_path] = RecordingMetadata(
 			recorder_id=metadata["id"],
 			started_at=metadata["started_at"],
-			session_name=metadata["session"],
+			session_name=metadata["session_name"],
 		)
 	return metadata_by_file
 
@@ -280,7 +287,7 @@ def _parse_headers(headers: dict[str, str]) -> dict[str, RecordingMetadata]:
 		metadata_by_file[file_path] = RecordingMetadata(
 			recorder_id=metadata["id"],
 			started_at=metadata["started_at"],
-			session_name=metadata["session"],
+			session_name=metadata["session_name"],
 		)
 	return metadata_by_file
 
@@ -300,9 +307,9 @@ def _upload_to_s3(s3_bucket: str, s3_key_by_file: dict[str, str]):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-# Exceptions
+# When should you break these rules?
 
-These aren't hard rules: in some cases it's best to ignore them.
+As always, there are some cases where it's OK to break the rules a little bit.
 
 One instance is calling functions that take or returs a `dict`. This
 is common when serializing or de-serializing data, like in the standard
