@@ -2,9 +2,9 @@
 title: "About me"
 ---
 
-I'm a data scientist and software engineer, most recently at 
-[Joby Aviation](https://jobyaviation.com). To learn more about my
-professional work, check out my [CV]({{< ref "/cv" >}}).
+I'm a software engineer and data scientist, most recently at
+[Plasmidsaurus](https://www.plasmidsaurus.com/). To learn more about my professional
+work, check out my [CV]({{< ref "/cv" >}}).
 
 The contents of this blog reflect my personal opinions only.
 

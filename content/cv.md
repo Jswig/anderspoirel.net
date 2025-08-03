@@ -4,7 +4,9 @@ title: "CV"
 
 ## Work
 
-**Data scientist**, [Joby Aviation](https://www.jobyaviation.com/) *(Dec. 2021 - present)*
+**Senior Data Platform Engineer**, [Plasmidsaurus](https://www.plasmidsaurus.com/) *(Aug. 2025 - present)*
+
+**Data scientist**, [Joby Aviation](https://www.jobyaviation.com/) *(Dec. 2021 - Jul. 2025)*
 
 - Developed a framework on top of Apache Spark that let domain experts easily
   implement checks on flight data. Led to 1000+ checks saving X,000 hours on flight
