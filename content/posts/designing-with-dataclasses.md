@@ -24,8 +24,8 @@ instead.*
 If you're already familiar with dataclasses, skip ahead to the next section.
 
 `dataclass` is a class [decorator](https://docs.python.org/3/glossary.html#term-decorator)
-which automatically generates magic methods like
-`__init__` and `__eq__`, making for more concise class definitions.
+which automatically generates [special methods](https://docs.python.org/3/reference/datamodel.html#special-method-names)
+like `__init__` and `__eq__`, making for more concise class definitions.
 For instance, this class declaration:
 ```python
 class Order:
@@ -62,18 +62,18 @@ Data classes have a few distinct advantages over dictionaries.
 ## Readability
 
 First, a `dataclass` can be more readable than a `dict`.
-When you see a `dataclass` like `Order`, you know just by reading its
-definition which fields it contains [^1]. On the other hand, items
+When you see a `dataclass` like `Order`, reading its
+definition tells you which fields it contains [^1]. On the other hand, items
 can be added or removed from a `dict` at various points in the code, which means
-you have to read through much more code to know the shape of the data.
+you have to  potentially read through much more code to know the shape of the data.
 While this can be avoided with discipline (for instance, you can avoid inserting new
 items into a `dict` after it's instantiated), `dataclass` helps enforce this discipline
 automatically.
 
 ## Error checking & debugging
 
-Representing data as a `dataclass` can also make debugging a lot faster.
-For instance, using the same `Order` class as before, if you forgot to provide
+Representing data as a `dataclass` also makes debugging faster.
+For example, using the same `Order` class as before, if you forgot to provide
 `customer_id` when instantiating, it raises an error with the exact line where you
 forgot to provide the `customer_id`:
 ```python
@@ -84,18 +84,18 @@ order = Order(item_id="i1435", amount=10)
 
 TypeError: Order.__init__() missing 1 required positional argument: 'customer_id'.
 ```
-However, representing the same data as a `dict`, this does not raise an error:
+However, if we represented the same data as a `dict`, this would not raise an error:
 ```py
 order = {
 	"item_id": "i1435",
 	"amount": 10,
 }
 ```
-If the `"customer_id"` were accessed somewhere downstream,
+If `"customer_id"` is accessed somewhere downstream,
 ```py
 customer = order["customer_id"]
 ```
-raises `KeyError: 'customer_id'` and you're left backtracking through the
+you get a `KeyError: 'customer_id'` and you're left backtracking through the
 code to find where you forgot to add `'customer_id'`.
 
 Dataclasses also work well with type checkers like
@@ -112,7 +112,7 @@ at design time and access fields by hardcoded names throughout the codebase.
 On the other hand, you should still use a `dict` if you want to loop over the keys
 and/or values (`dict`s provide several facilities that make this convenient),
 especially if the values are of a homogeneous type (for instance, if all the values in
-the `dict` are `float`s), or you aren't accessing values by hardcoded names.
+the `dict` are `float`s), or if you aren't accessing values by hardcoded names.
 
 # Case study
 
@@ -152,7 +152,7 @@ def _parse_headers(headers):
 	metadata_by_file = {}
 	for file_path, header in headers.items(): # (2)
 		header = header.removeprefix("# ")
-		pairs = header.split(",")
+		pairs = header.split(",")s
 		metadata = {} # (3)
 		for key_value in pairs:
 			key, value = key_value.split("=")
@@ -246,7 +246,7 @@ def _upload_to_s3(s3_bucket, s3_key_by_file):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-The readability benefits are more obvious when you use type hints:
+The readability benefits are more obvious with type hints:
 
 ```python
 def upload_directory(directory: os.PathLike, s3_bucket: str):
@@ -306,22 +306,21 @@ def _upload_to_s3(s3_bucket: str, s3_key_by_file: dict[str, str]):
 
 # When should you break these rules?
 
-As always, there are some cases where it's OK to break the rules a little bit.
+As always, there are cases where it's OK to break the rules a little.
 
-One instance is calling functions that take or returs a `dict`. This
+One of them is calling functions that takes a `dict` as a parameter, or returns one. This
 is common when serializing or de-serializing data, like in the standard
 library's [json](https://docs.python.org/3/library/json.html) module.
 If you're building the data in the same function where it's used, it's OK to just
 use a `dict`, even if there are hard-coded keys.
 
-Another good reason is performance. While accessing a `dataclass` attribute is only
+Another one is performance. While accessing a `dataclass` attribute is only
 slightly slower than accessing a key in a `dict`, instantiating a `dataclass` is ~5x
 slower than creating a `dict` [^2]. So, if you're instantiating tens of thousands
 of dataclasses and you've determined it's a bottleneck, you can use
 dicts instead.
 
-In both of these cases, if you're using a type checker like
-[mypy](https://mypy.readthedocs.io/en/stable/), you can annotate your code with
+In both cases, if you're using a type checker, you can annotate your code with
 [TypedDict](https://typing.python.org/en/latest/spec/typeddict.html#typeddict)s
 to regain some readability and error checking.
 
