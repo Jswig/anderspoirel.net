@@ -106,16 +106,13 @@ little extra effort.
 # When should you use a `dataclass` instead of a `dict`?
 
 Leveraging dataclasses' strengths requires knowing the structure of your data ahead of
-time. So, lean towards using a `dataclass` when:
-- your data has a fixed structure known at design time.
-- you access fields by hardcoded names throughout the codebase.
+time. So, lean towards using a `dataclass` when your data has a fixed structure known
+at design time and access fields by hardcoded names throughout the codebase.
 
-On the other hand, lean towards using a `dict` when:
-- the structure of the data is truly dynamic.
-- you want to loop over the keys and/or values (`dict`s provide several facilities
-  that make this convenient), especially if the values are of a homogeneous type (for 
-  instance, if all the values in the `dict` are `float`s).
-- you aren't accessing values by hardcoded names.
+On the other hand, you should still use a `dict` if you want to loop over the keys
+and/or values (`dict`s provide several facilities that make this convenient),
+especially if the values are of a homogeneous type (for instance, if all the values in
+the `dict` are `float`s), or you aren't accessing values by hardcoded names.
 
 # Case study
 
