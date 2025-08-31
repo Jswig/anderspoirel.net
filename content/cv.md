@@ -80,9 +80,8 @@ title: "CV"
 
 | Languages & tools  | Technical knowledge       |
 | ------------------ | ------------------------- |
-| Flask              | distributed systems       |
+| Pytorch            | distributed systems       |
 | TypeScript         | data visualization        |
 | Kubernetes         | machine learning          |
 | Terraform          | bayesian statistics       |
 | React              | front-end web development |
-| PyTorch            |                           |
