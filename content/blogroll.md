@@ -2,9 +2,6 @@
 title: "Blogroll"
 ---
 
-I regularly read and refer others to the blogs on this page.
-Give these awesome writers a visit!
-
 ## Software engineering
 
 - [Alex Miller](https://transactional.blog)

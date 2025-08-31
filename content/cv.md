@@ -4,7 +4,7 @@ title: "CV"
 
 ## Work
 
-**Senior Data Platform Engineer**, [Plasmidsaurus](https://www.plasmidsaurus.com/) *(Aug. 2025 - present)*
+**Senior software engineer**, [Plasmidsaurus](https://www.plasmidsaurus.com/) *(Aug. 2025 - present)*
 
 **Data scientist**, [Joby Aviation](https://www.jobyaviation.com/) *(Dec. 2021 - Jul. 2025)*
 
@@ -74,15 +74,14 @@ title: "CV"
 | Apache Spark & Delta Lake | data analysis                 |
 | Docker                    | API design                    |
 | Pandas & Numpy & Scipy    | performance optimization      |
-| Dash & Plotly             |                               |
+| Snowflake                 |                               |
 
 ### Prior experience
 
 | Languages & tools  | Technical knowledge       |
 | ------------------ | ------------------------- |
-| Flask              | distributed systems       |
+| Pytorch            | distributed systems       |
 | TypeScript         | data visualization        |
 | Kubernetes         | machine learning          |
 | Terraform          | bayesian statistics       |
 | React              | front-end web development |
-| PyTorch            |                           |
