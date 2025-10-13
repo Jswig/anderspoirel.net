@@ -103,7 +103,7 @@ Dataclasses also work well with type checkers like
 field with types, code using dataclasses can be type checked with very
 little extra effort.
 
-# When should you use a `dataclass` instead of a `dict`?
+## When should you use a `dataclass` instead of a `dict`?
 
 Leveraging dataclasses' strengths requires knowing the structure of your data ahead of
 time. So, lean towards using a `dataclass` when your data has a fixed structure known
