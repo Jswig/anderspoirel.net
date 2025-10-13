@@ -1,7 +1,5 @@
 /* adapted from code generated using: hugo gen chromastyles --style=swapoff */
 
-/* prevent inline code styling from interfering */
-.highlight code {color: unset;}
 /* Background */ .bg { color:#e5e5e5;background-color: var(--background-alt-color); }
 /* PreWrapper */ .chroma { color:#e5e5e5;background-color: var(--background-alt-color); }
 /* Other */ .chroma .x {  }
@@ -14,16 +12,16 @@
 /* LineNumbersTable */ .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272 }
 /* LineNumbers */ .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272 }
 /* Line */ .chroma .line { display:flex; }
-/* Keyword */ .chroma .k { color:#fff;font-weight:bold }
-/* KeywordConstant */ .chroma .kc { color:#fff;font-weight:bold }
-/* KeywordDeclaration */ .chroma .kd { color:#fff;font-weight:bold }
-/* KeywordNamespace */ .chroma .kn { color:#fff;font-weight:bold }
-/* KeywordPseudo */ .chroma .kp { color:#fff;font-weight:bold }
-/* KeywordReserved */ .chroma .kr { color:#fff;font-weight:bold }
-/* KeywordType */ .chroma .kt { color:#fff;font-weight:bold }
+/* Keyword */ .chroma .k { color:var(--code-regular-color);font-weight:bold }
+/* KeywordConstant */ .chroma .kc { color:var(--code-regular-color);font-weight:bold }
+/* KeywordDeclaration */ .chroma .kd { color:var(--code-regular-color);font-weight:bold }
+/* KeywordNamespace */ .chroma .kn { color:var(--code-regular-color);font-weight:bold }
+/* KeywordPseudo */ .chroma .kp { color:var(--code-regular-color);font-weight:bold }
+/* KeywordReserved */ .chroma .kr { color:var(--code-regular-color);font-weight:bold }
+/* KeywordType */ .chroma .kt { color:var(--code-regular-color);font-weight:bold }
 /* Name */ .chroma .n {  }
 /* NameAttribute */ .chroma .na { color: var(--highlight-alt-color) }
-/* NameBuiltin */ .chroma .nb { color:#fff }
+/* NameBuiltin */ .chroma .nb { color: var(--code-regular-color) }
 /* NameBuiltinPseudo */ .chroma .bp {  }
 /* NameClass */ .chroma .nc {  }
 /* NameConstant */ .chroma .no {  }

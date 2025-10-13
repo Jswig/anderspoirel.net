@@ -6,7 +6,7 @@ enableGitInfo = true
 
 [menu]
   [[menu.main]]
-    name = "anderspoirel.net"
+    name = "> anderspoirel.net"
     url = "/"
     weight = 1
   [[menu.main]]
