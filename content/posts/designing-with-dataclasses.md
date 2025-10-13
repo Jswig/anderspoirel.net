@@ -19,7 +19,7 @@ instead.*
 > [attrs](https://www.attrs.org/en/stable/) the advice here still applies, just replace
 > uses of `dataclass` with that library.
 
-# What is a dataclass?
+## What is a dataclass?
 
 If you're already familiar with dataclasses, skip ahead to the next section.
 
@@ -55,11 +55,11 @@ class Order:
 
 ```
 
-# Why use a `dataclass` instead a `dict`?
+## Why use a `dataclass` instead a `dict`?
 
 Data classes have a few distinct advantages over dictionaries.
 
-## Readability
+### Readability
 
 First, a `dataclass` can be more readable than a `dict`.
 When you see a `dataclass` like `Order`, reading its
@@ -70,7 +70,7 @@ While this can be avoided with discipline (for instance, you can avoid inserting
 items into a `dict` after it's instantiated), `dataclass` helps enforce this discipline
 automatically.
 
-## Error checking & debugging
+### Error checking & debugging
 
 Representing data as a `dataclass` also makes debugging faster.
 For example, using the same `Order` class as before, if you forgot to provide
@@ -114,7 +114,7 @@ and/or values (`dict`s provide several facilities that make this convenient),
 especially if the values are of a homogeneous type (for instance, if all the values in
 the `dict` are `float`s), or if you aren't accessing values by hardcoded names.
 
-# Case study
+## Case study
 
 Let's see how these heuristics apply in a larger program.
 
@@ -304,7 +304,7 @@ def _upload_to_s3(s3_bucket: str, s3_key_by_file: dict[str, str]):
 		s3_client.upload_file(filepath, s3_bucket, s3_key)
 ```
 
-# When should you break these rules?
+## When should you break these rules?
 
 As always, there are cases where it's OK to break the rules a little.
 
