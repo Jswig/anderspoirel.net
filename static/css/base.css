@@ -61,7 +61,7 @@ html {
     --background-color: #1c1e26;
     --background-alt-color: #242630;
     --highlight-alt-color: #51aaac;
-    --highlight-color: #65d7d9;
+    --highlight-color: #74c7c9;
     --emphasis-color: #dc7279;
     --text-alt-color: #d0d0d0;
     --text-alt-color-2: #bdbdbd;
@@ -125,6 +125,7 @@ code {
 
 pre {
     border-radius: var(--box-border-radius);
+    margin: 0;
     overflow-x: auto;
     padding: var(--space-md);
 }
@@ -341,7 +342,6 @@ time {
     margin-top: var(--space-xl);
     font-family: var(--font-mono);
 }
-
 
 .footnotes {
     font-size: 0.9rem;
