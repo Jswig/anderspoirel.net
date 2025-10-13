@@ -6,7 +6,7 @@
     src: url('/fonts/Charter-Regular.woff2') format('woff2');
 }
 
- @font-face {
+@font-face {
     font-family: 'ReCharter';
     font-weight: 700;
     font-style: normal;
@@ -60,7 +60,7 @@ html {
     --text-alt-color-2: #a8a8a8;
     --text-alt-color-3: #9b9b9b;
     --text-color: #e5e5e5;
-    --text-highlight-padding: var(--text-highlight-padding);
+    --text-highlight-padding: 0.125rem;
 
     background-color: var(--background-color);
     box-sizing: border-box;
@@ -83,18 +83,12 @@ a {
 
 a:hover {
     color: var(--text-color);
-    background-color: var(--highlight-alt-color);
+    background-color: var(--background-alt-color);
     border-radius: var(--inline-border-radius);
 }
 
 a:active {
-    color: var(--highlight-color)
-}
-
-a:focus {
-    outline: 2px solid var(--highlight-color);
-    outline-offset: 2px;
-    border-radius: var(--inline-border-radius);
+    color: var(--highlight-color);
 }
 
 blockquote {
@@ -130,6 +124,10 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
 }
 
+h1, h2 {
+    font-weight: 700;
+}
+
 
 h2 {
     color: var(--text-alt-color);
@@ -138,11 +136,11 @@ h2 {
 }
 
 h3 {
-    color: var(--text-alt-color-2)
+    color: var(--text-alt-color-2);
 }
 
 h4 {
-    color: var(--text-alt-color-3)
+    color: var(--text-alt-color-3);
 }
 
 input {
@@ -178,12 +176,24 @@ tr:last-child td {
     padding-bottom: 0.5rem;
 }
 
+time {
+    font-family: 'ReInconsolata', 'Consolas', monospace;
+}
+
 
 /* layout */
 /**********/
 
 .page-title {
     margin-top: 0;
+}
+
+h1 {
+    margin-bottom: 2.75rem;
+}
+
+h1 + h2 {
+    margin-top: 1.125rem;
 }
 
 .post-entry {
@@ -198,6 +208,7 @@ tr:last-child td {
     color: var(--text-alt-color);
     font-size: var(--font-size);
     font-weight: normal;
+    font-family: 'ReInconsolata', 'Consolas', monospace;
 }
 
 
@@ -233,7 +244,7 @@ tr:last-child td {
 
 @media screen and (min-width: 480px) {
     .page-body {
-        --toplevel-margin: 2rem
+        --toplevel-margin: 2rem;
     }
 }
 
@@ -265,28 +276,29 @@ tr:last-child td {
 .nav-left {
     display: flex;
     flex-flow: row wrap;
+    align-items: center;
 }
 
 .nav-right {
     display: flex;
     flex-flow: row wrap;
+    align-items: center;
+}
+
+.nav-left a,
+.nav-right a {
+    font-family: 'ReInconsolata', 'Consolas', monospace;
+    font-weight: 500;
+    padding: 0.3rem 0.8rem;
+    border-radius: var(--box-border-radius);
 }
 
 .nav-left a {
-    border-top: 2px solid;
-    font-style: normal;
-    font-family: 'ReInconsolata', 'Consolas', monospace;
     margin-right: 1rem;
-    padding-left: 0.1rem;
-    padding-right: 0.1rem;
 }
 
 .nav-right a {
-    font-style: italic;
     margin-left: 1rem;
-    /* prevent the added padding on hover from moving the items */
-    padding-left: 0.1rem;
-    padding-right: 0.1rem;
 }
 
 .nav-right a:last-child {
@@ -295,9 +307,7 @@ tr:last-child td {
 
 .nav-left a:hover,
 .nav-right a:hover {
-    /* prevent italics from poking through the hover box */
-    padding-left: 0.1rem;
-    padding-right: 0.1rem;
+    background-color: var(--background-alt-color);
 }
 
 .page-main {
@@ -305,7 +315,7 @@ tr:last-child td {
     overflow-x: auto;
 }
 
-.page-bottom-seperator {
+.page-bottom-separator {
     text-align: center;
     font-size: 1.5rem;
     margin: 1rem;
@@ -314,6 +324,7 @@ tr:last-child td {
 .page-footer {
     grid-area: "footer";
     margin-top: 2rem;
+    font-family: 'ReInconsolata', 'Consolas', monospace;
 }
 
 .buttondown-form {
@@ -334,12 +345,6 @@ tr:last-child td {
     border-radius: var(--box-border-radius);
 }
 
-.buttondown-form input[type="email"]:focus {
-    outline: 2px solid var(--highlight-color);
-    outline-offset: 2px;
-    border-color: var(--highlight-color);
-}
-
 .buttondown-form input[type="submit"] {
     background-color: var(--highlight-alt-color);
     color: var(--text-color);
@@ -347,6 +352,8 @@ tr:last-child td {
     padding: 0.3rem 0.8rem;
     cursor: pointer;
     font-size: 0.9rem;
+    font-family: 'ReInconsolata', 'Consolas', monospace;
+    font-weight: 500;
     border-radius: var(--box-border-radius);
     transition: background-color 0.2s ease;
 }
@@ -371,4 +378,4 @@ tr:last-child td {
 .buttondown-callout a:hover {
     color: var(--text-alt-color-2);
     background-color: var(--background-color);
-};
+}
