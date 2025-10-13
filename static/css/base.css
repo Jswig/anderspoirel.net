@@ -116,7 +116,7 @@ pre {
 }
 
 hr {
-    color: var(--text-alt-color);
+    color: var(--text-alt-color-3);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -136,6 +136,14 @@ h4 {
     color: var(--text-alt-color-3)
 }
 
+input {
+    border-radius: var(--box-border-radius);
+}
+
+input[type="submit"] {
+    background-color: var(--highlight-alt-color);
+    color: var(--text-color);
+}
 
 table {
     border: 1px solid var(--text-color);
@@ -201,6 +209,7 @@ tr:last-child td {
      * container, substract it so that the added margin doesn't create a scrollbar 
     */
     min-height: calc(100vh - 2*var(--toplevel-margin));
+
 }
 
 .page-header nav {
@@ -233,16 +242,31 @@ tr:last-child td {
 
 .page-main {
     grid-area: "main";
-    max-width: 88ch;
     margin: 0 auto;
+    max-width: 88ch;
     overflow-x: auto;
     width: 100%;
 }
 
-#page-main {
-    display: flex;
-    flex-flow: row wrap;
-    grid-area: "footer";
-    justify-content: space-between;
-    margin-top: 2rem;
+
+.page-bottom-seperator {
+    text-align: center;
+    font-size: 1.5rem;
 }
+
+.buttondown-form label {
+    font-weight: bold;
+}
+
+.buttondown-callout {
+    font-style: italic;
+}
+
+.buttondown-callout a {
+    color: var(--text-alt-color);
+}
+
+.buttondown-callout a:hover {
+    color: var(--text-alt-color-2);
+    background-color: var(--background-color);
+};

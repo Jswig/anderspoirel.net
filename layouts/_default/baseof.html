@@ -19,6 +19,16 @@
       {{ block "main" . }}{{ end }}
     </main>
     <footer class="page-footer">
+      <form
+        action="https://buttondown.com/api/emails/embed-subscribe/anderspoirel"
+        method="post"
+        class="buttondown-form"
+      >
+        <label for="email">Newsletter:</label>
+        <input type="email" name="email" placeholder="you@example.com" />
+        <input type="hidden" value="1" name="embed" />
+        <input type="submit" value="Subscribe"/>
+      </form>
       <p>© 2022-{{ now.Format "2006" }} by Anders Poirel</p>
     </footer>
   </body>
