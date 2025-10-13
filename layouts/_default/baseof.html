@@ -10,14 +10,22 @@
   <body class="page-body">
     <header class="page-header">
       <nav>
-        {{ range .Site.Menus.main }}
-        <a href="{{ .URL }}">{{ .Name | safeHTML }}</a>
-        {{ end }}
+        <div class="nav-left">
+          {{ range first 1 .Site.Menus.main }}
+          <a href="{{ .URL }}">{{ .Name | safeHTML }}</a>
+          {{ end }}
+        </div>
+        <div class="nav-right">
+          {{ range after 1 .Site.Menus.main }}
+          <a href="{{ .URL }}">{{ .Name | safeHTML }}</a>
+          {{ end }}
+        </div>
       </nav>
     </header>
     <main class="page-main">
       {{ block "main" . }}{{ end }}
     </main>
+    <div class="page-bottom-seperator">***</div>
     <footer class="page-footer">
       <form
         action="https://buttondown.com/api/emails/embed-subscribe/anderspoirel"

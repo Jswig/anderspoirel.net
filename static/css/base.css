@@ -203,7 +203,9 @@ tr:last-child td {
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 1fr;
     grid-template-areas: "header" "main" "footer";
-    margin: var(--toplevel-margin);
+    margin: var(--toplevel-margin) auto;
+    max-width: 88ch;
+    width: calc(100% - 2 * var(--toplevel-margin));
     /* forces content to fill entire page vertically.
      * Since we're adding margin around this on both the top and the bottom of this
      * container, substract it so that the added margin doesn't create a scrollbar 
@@ -216,25 +218,43 @@ tr:last-child td {
     display: flex;
     flex-flow: row wrap;
     grid-area: "header";
-    justify-content: flex-start;
+    justify-content: space-between;
     margin-bottom: 2rem;
 }
 
-.page-header nav a:first-child {
+.nav-left {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.nav-right {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.nav-left a {
     border-top: 2px solid;
     font-style: normal;
     font-family: 'ReInconsolata', 'Consolas', monospace;
+    margin-right: 1rem;
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
 }
 
-.page-header nav a {
+.nav-right a {
     font-style: italic;
-    margin-right: 1rem;
+    margin-left: 1rem;
     /* prevent the added padding on hover from moving the items */
     padding-left: 0.1rem;
     padding-right: 0.1rem;
 }
 
-.page-header nav a:hover {
+.nav-right a:last-child {
+    margin-right: 0;
+}
+
+.nav-left a:hover,
+.nav-right a:hover {
     /* prevent italics from poking through the hover box */
     padding-left: 0.1rem;
     padding-right: 0.1rem;
@@ -242,20 +262,54 @@ tr:last-child td {
 
 .page-main {
     grid-area: "main";
-    margin: 0 auto;
-    max-width: 88ch;
     overflow-x: auto;
-    width: 100%;
 }
-
 
 .page-bottom-seperator {
     text-align: center;
     font-size: 1.5rem;
+    margin: 1rem;
 }
 
-.buttondown-form label {
-    font-weight: bold;
+.page-footer {
+    grid-area: "footer";
+    margin-top: 2rem;
+}
+
+.buttondown-form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.buttondown-form input[type="email"] {
+    background-color: var(--background-alt-color);
+    border: 1px solid var(--text-alt-color-3);
+    color: var(--text-color);
+    padding: 0.3rem 0.5rem;
+    font-size: 0.9rem;
+    width: 12rem;
+    border-radius: var(--box-border-radius);
+}
+
+.buttondown-form input[type="email"]:focus {
+    outline: none;
+    border-color: var(--highlight-color);
+}
+
+.buttondown-form input[type="submit"] {
+    background-color: var(--highlight-alt-color);
+    color: var(--text-color);
+    border: 1px solid transparent;
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: var(--box-border-radius);
+}
+
+.buttondown-form input[type="submit"]:hover {
+    background-color: var(--highlight-color);
 }
 
 .buttondown-callout {
