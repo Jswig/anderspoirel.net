@@ -10,15 +10,15 @@ enableGitInfo = true
     url = "/"
     weight = 1
   [[menu.main]]
-    name = "posts"
+    name = "/posts"
     url = "/posts"
     weight = 2
   [[menu.main]]
-    name = "blogroll"
+    name = "/blogroll"
     url = "/blogroll"
     weight = 3
   [[menu.main]]
-    name = "about"
+    name = "/about"
     url = "/about"
     weight = 5
 

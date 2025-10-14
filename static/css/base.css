@@ -46,7 +46,6 @@
     src: url('/fonts/Inconsolata-Bold.woff2') format('woff2');
 }
 
-
 html {
     /* Spacing scale */
     --space-xs: 0.25rem;    /* 4px */
@@ -199,12 +198,6 @@ tr:last-child td {
     padding-bottom: var(--space-sm);
 }
 
-time {
-    font-family: var(--font-mono);
-}
-
-
-
 /* layout */
 /**********/
 
@@ -304,7 +297,7 @@ time {
 .nav-left a,
 .nav-right a {
     font-family: var(--font-mono);
-    font-weight: 500;
+    font-weight: 700;
     padding: var(--space-sm) var(--space-md);
     border-radius: var(--box-border-radius);
 }
@@ -341,6 +334,10 @@ time {
     grid-area: "footer";
     margin-top: var(--space-xl);
     font-family: var(--font-mono);
+}
+
+.listed-post-date {
+    color: var(--text-alt-color);
 }
 
 .footnotes {
