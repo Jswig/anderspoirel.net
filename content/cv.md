@@ -58,9 +58,6 @@ title: "CV"
 - BA computer science *(cum laude)*
 - BA mathematics *(cum laude)*
 - graduate coursework in statistics, analysis and optimization
-- several top 5% scores on machine learning competitions on 
-  [Kaggle](https://www.kaggle.com/) and [Driven Data](https://www.drivendata.org/)
-
 
 ## Skills
 
@@ -84,4 +81,3 @@ title: "CV"
 | TypeScript         | data visualization        |
 | Kubernetes         | machine learning          |
 | Terraform          | bayesian statistics       |
-| React              | front-end web development |

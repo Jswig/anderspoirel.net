@@ -4,7 +4,9 @@ title: "About me"
 
 I'm a software engineer and data scientist, most recently at
 [Plasmidsaurus](https://www.plasmidsaurus.com/). To learn more about my professional
-work, check out my [CV]({{< ref "/cv" >}}). The contents of this blog reflect my personal opinions only.
+work, check out my [CV]({{< ref "/cv" >}}).
+
+The contents of this blog reflect my personal opinions only.
 
 ## Contact
 
@@ -22,7 +24,8 @@ I'm currently based in Oakland, California.
 ## Colophon
 
 This website is built with [Hugo](https://gohugo.io/), using my own theme.
-Hosting is on [Cloudflare Pages](https://developers.cloudflare.com/pages/). Email
+Hosting is on [Cloudflare Pages](https://developers.cloudflare.com/pages/), and mail
 newsletters are provided by [Buttowndown](https://buttowndown.com).
+
 Feel free to ask if you want to re-use any of the content on this blog beyond the
 bounds of fair use.
