@@ -278,25 +278,24 @@ tr:last-child td {
     margin-bottom: var(--space-xl);
 }
 
-.nav-left {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-}
-
+/* Shared navigation container styles */
+.nav-left,
 .nav-right {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
 }
 
+/* Shared navigation link styles */
 .nav-left a,
 .nav-right a {
     font-family: var(--font-mono);
     font-weight: 700;
     border-radius: var(--box-border-radius);
+    padding: var(--space-xs)
 }
 
+/* Direction-specific spacing */
 .nav-left a {
     margin-right: var(--space-md);
 }
@@ -313,13 +312,14 @@ tr:last-child td {
     margin-right: 0;
 }
 
+/* Shared hover state */
 .nav-left a:hover,
 .nav-right a:hover {
     color: var(--text-color);
     background-color: var(--highlight-alt-color);
 }
 
-
+\
 /* switch to a column layout for small screens */
 @media screen and (max-width: 480px) {
     .page-header nav {
@@ -347,6 +347,18 @@ tr:last-child td {
     margin-top: var(--space-xl);
     font-family: var(--font-mono);
 }
+
+.page-footer a {
+    font-weight: 700;
+    padding: var(--space-xs);
+    border-radius: var(--box-border-radius);
+}
+
+.page-footer a:hover {
+    color: var(--text-alt-color);
+    background-color: var(--highlight-alt-color);
+}
+
 
 .listed-post-date {
     color: var(--text-alt-color);
@@ -415,14 +427,6 @@ tr:last-child td {
 .buttondown-form input[type="submit"]:focus {
     outline: 2px solid var(--highlight-color);
     outline-offset: 2px;
-}
-
-.buttondown-callout {
-    font-style: italic;
-}
-
-.buttondown-callout a {
-    color: var(--text-alt-color);
 }
 
 .buttondown-callout a:hover {

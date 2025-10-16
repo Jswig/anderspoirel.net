@@ -6,7 +6,7 @@ title: "CV"
 
 **Senior software engineer**, [Plasmidsaurus](https://www.plasmidsaurus.com/) *(Aug. 2025 - present)*
 
-**Data scientist**, [Joby Aviation](https://www.jobyaviation.com/) *(Dec. 2021 - Jul. 2025)*
+**Data scientist**, [Joby Aviation](https://www.jobyaviation.com/) *(Jul. 2021 - Jul. 2025)*
 
 <!-- - Developed a framework on top of Apache Spark that let domain experts easily
   implement checks on flight data. Led to 1000+ checks saving X,000 hours on flight
@@ -25,8 +25,6 @@ title: "CV"
   infrastructure as code, end-to-end tests, version control for batch jobs. Became
   a recognized expert sought inside and beyond my organization for advice on data and
   software architecture, productionizing data science workloads. -->
-
-**Data scientist intern**, [Joby Aviation](https://www.jobyaviation.com/) *(Jul. 2021 - Nov. 2021)*
 
 <!-- - Built several analytics web applications. Spun out component library and deployment
   framework from this effort which were used for 30+ internal applications. -->
