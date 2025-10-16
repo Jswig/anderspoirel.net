@@ -24,7 +24,7 @@ I'm currently based in Oakland, California.
 ## Colophon
 
 This website is built with [Hugo](https://gohugo.io/), using my own theme.
-Hosting is on [Cloudflare Pages](https://developers.cloudflare.com/pages/), and mail
+Hosting is on [Cloudflare Pages](https://developers.cloudflare.com/pages/), and
 newsletters are provided by [Buttowndown](https://buttowndown.com).
 
 Feel free to ask if you want to re-use any of the content on this blog beyond the
