@@ -89,15 +89,12 @@ html {
 
 a {
     color: var(--highlight-color);
-    padding: var(--text-highlight-padding);
     text-decoration: none;
-    transition: color 0.2s ease, background-color 0.2s ease;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 a:hover {
-    color: var(--text-color);
-    background-color: var(--background-alt-color);
-    border-radius: var(--inline-border-radius);
+    color: var(--highlight-alt-color);
 }
 
 a:active {
@@ -136,7 +133,7 @@ hr {
 }
 
 h1 {
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-xl);
 }
 
 h1 + h2 {
@@ -154,7 +151,7 @@ h1, h2 {
 
 h2 {
     color: var(--text-alt-color);
-    margin-top: var(--space-2xl);
+    margin-top: var(--space-xl);
     margin-bottom: var(--space-lg);
 }
 
@@ -214,10 +211,9 @@ tr:last-child td {
 }
 
 .page-title-date {
-    color: var(--text-alt-color);
+    color: var(--text-alt-color-2);
     font-size: var(--font-size);
     font-weight: normal;
-    font-family: var(--font-mono);
 }
 
 
@@ -239,7 +235,7 @@ tr:last-child td {
     .page-header nav {
         margin-bottom: var(--space-lg);
     }
-    
+
     .buttondown-form {
         gap: var(--space-sm);
         margin-bottom: var(--space-md);
@@ -298,7 +294,6 @@ tr:last-child td {
 .nav-right a {
     font-family: var(--font-mono);
     font-weight: 700;
-    padding: var(--space-sm) var(--space-md);
     border-radius: var(--box-border-radius);
 }
 
@@ -310,13 +305,30 @@ tr:last-child td {
     margin-left: var(--space-md);
 }
 
+.nav-right a:first-child {
+    margin-left: 0;
+}
+
 .nav-right a:last-child {
     margin-right: 0;
 }
 
 .nav-left a:hover,
 .nav-right a:hover {
-    background-color: var(--background-alt-color);
+    color: var(--text-color);
+    background-color: var(--highlight-alt-color);
+}
+
+
+/* switch to a column layout for small screens */
+@media screen and (max-width: 480px) {
+    .page-header nav {
+        flex-flow: column
+    }
+
+    .nav-left {
+        margin-bottom: var(--space-md);
+    }
 }
 
 .page-main {

@@ -34,9 +34,11 @@
         class="buttondown-form"
       >
         <label for="email">Get new posts:</label>
-        <input type="email" name="email" placeholder="you@example.com" />
-        <input type="hidden" value="1" name="embed" />
-        <input type="submit" value="Subscribe"/>
+        <span>
+          <input type="email" name="email" placeholder="you@example.com" />
+          <input type="hidden" value="1" name="embed" />
+          <input type="submit" value="Subscribe"/>
+        </span>
       </form>
       <p>© 2022-{{ now.Format "2006" }} by Anders Poirel</p>
     </footer>
