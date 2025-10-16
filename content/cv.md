@@ -8,7 +8,7 @@ title: "CV"
 
 **Data scientist**, [Joby Aviation](https://www.jobyaviation.com/) *(Dec. 2021 - Jul. 2025)*
 
-- Developed a framework on top of Apache Spark that let domain experts easily
+<!-- - Developed a framework on top of Apache Spark that let domain experts easily
   implement checks on flight data. Led to 1000+ checks saving X,000 hours on flight
   data review.
 
@@ -24,19 +24,19 @@ title: "CV"
 - Introduced several practices that raised productivity across my team:
   infrastructure as code, end-to-end tests, version control for batch jobs. Became
   a recognized expert sought inside and beyond my organization for advice on data and
-  software architecture, productionizing data science workloads.
+  software architecture, productionizing data science workloads. -->
 
 **Data scientist intern**, [Joby Aviation](https://www.jobyaviation.com/) *(Jul. 2021 - Nov. 2021)*
 
-- Built several analytics web applications. Spun out component library and deployment
-  framework from this effort which were used for 30+ internal applications.
+<!-- - Built several analytics web applications. Spun out component library and deployment
+  framework from this effort which were used for 30+ internal applications. -->
 
 **Data scientist intern**, [Fullpower Technologies](https://www.fullpower.com/) *(Jan. 2021 - Jun. 2021)*
 
-- Ran comparative analysis of sleep studies data that was used in the medical device's FDA
+<!-- - Ran comparative analysis of sleep studies data that was used in the medical device's FDA
   submission packet.
 - Ported models to AWS Inferentia chips, doubling inference throughput without
-  increasing costs.
+  increasing costs. -->
 
 **Research assistant**, [UC Santa Cruz Genomics Institute](https://genomics.ucsc.edu/) *(Oct. 2020 - Jun. 2021)*
 
@@ -59,25 +59,14 @@ title: "CV"
 - BA mathematics *(cum laude)*
 - graduate coursework in statistics, analysis and optimization
 
-## Skills
+## Technical Expertise
 
-### Fluent
+***Languages & tools***: Python (especially the data stack), Go, SQL,
+Apache Spark & Delta Lake, Snowflake, Docker, Terraform.
 
-| Languages & tools         | Technical knowledge           |
-| ------------------------- | ----------------------------- |
-| Python                    | databases & data architecture |
-| Go                        | build systems & DevOps        |
-| SQL                       | back-end web development      |
-| Apache Spark & Delta Lake | data analysis                 |
-| Docker                    | API design                    |
-| Pandas & Numpy & Scipy    | performance optimization      |
-| Snowflake                 |                               |
+***Domains***: databases/data warehouses, build systems & CI,
+back-end web development, machine learning, business intelligence.
 
-### Prior experience
-
-| Languages & tools  | Technical knowledge       |
-| ------------------ | ------------------------- |
-| Pytorch            | distributed systems       |
-| TypeScript         | data visualization        |
-| Kubernetes         | machine learning          |
-| Terraform          | bayesian statistics       |
+I've also dabbled  in statistics (insofar as it's a distinct topic from ML), front-end
+(especially for data visualization) and infrastructure engineering
+(a.k.a. YAML templating for the uncharitable).
