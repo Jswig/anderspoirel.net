@@ -4,11 +4,12 @@
         <time datetime="{{ .PublishDate.Format "2006-01-02" }}">
             <em>{{ .PublishDate.Format "2006-01-02" }}</em>
         </time>
-        {{ if and .GitInfo (ne .GitInfo.AuthorDate .PublishDate) }}
+        <!--TODO: find a better way to format this-->
+        <!--{{ if and .GitInfo (ne .GitInfo.AuthorDate .PublishDate) }}
             <time datetime="{{ .GitInfo.AuthorDate.Format "2006-01-02" }}">
                 <em>— updated {{ .GitInfo.AuthorDate.Format "2006-01-02" }}</em>
             </time>
-        {{ end }}
+        {{ end }}-->
     </span></h1>
     {{ .Content }}
 </article>
