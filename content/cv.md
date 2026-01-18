@@ -4,7 +4,7 @@ title: "CV"
 
 ## Work
 
-**Senior software engineer**, [Plasmidsaurus](https://www.plasmidsaurus.com/) *(Aug. 2025 - present)*
+**Senior data engineer**, [Plasmidsaurus](https://www.plasmidsaurus.com/) *(Aug. 2025 - Jun. 2026)*
 
 **Data scientist**, [Joby Aviation](https://www.jobyaviation.com/) *(Jul. 2021 - Jul. 2025)*
 
@@ -62,7 +62,7 @@ title: "CV"
 ***Languages & tools***: Python (especially the data stack), Go, SQL,
 Apache Spark & Delta Lake, Snowflake, Docker, Terraform.
 
-***Domains***: databases/data warehouses, build systems & CI,
+***Domains***: data engineering/analytics engineering, build systems & CI,
 back-end web development, machine learning, business intelligence.
 
 I've also dabbled  in statistics (insofar as it's a distinct topic from ML), front-end
