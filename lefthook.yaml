@@ -1,0 +1,5 @@
+pre-commit:
+  commands:
+    format-markdown:
+      glob: "**/*.md"
+      run: mdformat --wrap 88 {staged_files}
