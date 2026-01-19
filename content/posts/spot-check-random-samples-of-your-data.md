@@ -33,7 +33,7 @@ order by created_at desc
 limit 100
 ```
 
-However, this query will always return the sames rows — maybe the inconsistencies in
+However, this query will always return the same rows — maybe the inconsistencies in
 `category` are found 4,000 rather than 100 rows deep and will never show up in the
 returned rows! It's tempting to assume that the most recent rows (or however else you
 chose to restrict the results) are representive, but this assumption is often wrong when
