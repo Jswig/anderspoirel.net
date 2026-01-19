@@ -1,13 +1,20 @@
 {{ define "main" }}
 
-<h1 class="page-title">Anders Poirel</h1>
+<p class="blog-description">
+Hey! I'm <a href="{{ relref . "/about" }}">Anders Poirel</a>. I write about software
+engineering, and in particular about building effective data systems.
+</p>
 
-<h2>Recent posts</h2>
+{{ $posts := where .Site.RegularPages "Type" "posts" }}
+{{ $favorites := where $posts "Params.favorite" true }}
+{{ if $favorites }}
+<h2>Featured posts</h2>
 
-{{ range first 5 (where .Site.RegularPages.ByPublishDate.Reverse "Type" "posts" ) }}
-<div class="post-entry">
-  <p>{{ partial "list-item.html" . }}</p>
-</div>
+{{ range $favorites.ByPublishDate.Reverse }}
+<p>{{ partial "list-item.html" . }}</p>
+{{ end }}
+
+<p class="view-all-posts"><a href="/posts">All posts →</a></p>
 {{ end }}
 
 {{ end }}
