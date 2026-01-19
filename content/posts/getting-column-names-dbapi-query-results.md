@@ -82,10 +82,10 @@ def execute_query(connection, query):
     ]
 ```
 
-\[^1\]: Before you balk that it should not be used in practice, `SELECT *` is very, very
+[^1]: Before you balk that it should not be used in practice, `SELECT *` is very, very
 convenient for data exploration.
 
-\[^2\]: `SQLAlchemy` is a great fit for many workloads, especially if you limit yourself
+[^2]: `SQLAlchemy` is a great fit for many workloads, especially if you limit yourself
 to the [core](https://docs.sqlalchemy.org/en/20/core/) API! But it's also a large
 dependency with a bit of a
 [learning curve](https://lucumr.pocoo.org/2011/7/19/sqlachemy-and-you/), which I would
