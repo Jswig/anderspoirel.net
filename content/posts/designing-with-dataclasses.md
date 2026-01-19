@@ -1,10 +1,11 @@
-______________________________________________________________________
-
-## title: "Designing with dataclasses" date: 2025-04-21T13:30:11-08:00 tags: ["python"] draft: false
+---
+title: "Designing with dataclasses"
+date: 2025-04-21T13:30:11-08:00
+tags: ["python"]
+draft: false
+---
 
 ***Assumed audience:*** *Python programmers who aren't in the habit of writing classes*
-
-______________________________________________________________________
 
 *Python
 [dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) are

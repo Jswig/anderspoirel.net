@@ -1,6 +1,9 @@
-______________________________________________________________________
-
-## title: "Getting column names from Python DBAPI query results" date: 2025-01-05T14:58:10-08:00 tags: ["python"] draft: false
+---
+title: "Getting column names from Python DBAPI query results"
+date: 2025-01-05T14:58:10-08:00
+tags: ["python"]
+draft: false
+---
 
 [PEP-249](https://peps.python.org/pep-0249/) ("Python Database API Specification" a.k.a.
 "DBAPI") defines a standard interface for database access in Python, implemented by
