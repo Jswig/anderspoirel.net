@@ -6,7 +6,7 @@ draft: false
 favorite: true
 ---
 
-***Assumed audience:*** *data analysts/engineers/scientists.*
+***Assumed audience:** data analysts/engineers/scientists.*
 
 It's hard to get around the need to manually inspect *real* inputs and outputs when
 working on a data pipeline. Unit tests with well-formed synthetic rows won't save you if
@@ -64,6 +64,6 @@ and help me iterate on my pipeline's logic.
 
 [^1]: The query shown here uses DuckDB syntax for random sampling, but most SQL
 dialects ([Snowflake](https://docs.snowflake.com/en/sql-reference/constructs/sample),
-[Apache Spark](https://spark.apache.org/docs/latest/sql-ref-syntax-qry-select-sampling.html)
+[Apache Spark](https://spark.apache.org/docs/latest/sql-ref-syntax-qry-select-sampling.html),
 [Postgres](https://www.postgresql.org/docs/current/sql-select.html)) support a similar
 statement. Annoyingly, none of this is standardized in ANSI SQL.

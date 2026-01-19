@@ -3,18 +3,17 @@ title: "Designing with dataclasses"
 date: 2025-04-21T13:30:11-08:00
 tags: ["python"]
 draft: false
+favorite: true
 ---
 
-***Assumed audience:*** *Python programmers who aren't in the habit of writing classes*
+***Assumed audience:** Python programmers who aren't in the habit of writing classes.*
 
-______________________________________________________________________
-
-*Python
+Python
 [dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) are
 available without an import and extremely flexible, which means many Python programmers
 default to representing data as a `dict`. Here's why and when you should use
 [dataclasses](https://docs.python.org/3/library/dataclasses.html#module-dataclasses)
-instead.*
+instead.
 
 > **Note**: I'm using `dataclass` here since it's in the standard library. If you're
 > already using a similar 3rd-party library like the excellent
