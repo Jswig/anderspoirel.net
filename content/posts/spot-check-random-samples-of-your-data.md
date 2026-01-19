@@ -1,6 +1,9 @@
-______________________________________________________________________
-
-## title: "Spot check random samples of your data" date: 2026-01-16T08:41:38-08:00 tags: [] draft: false
+---
+title: "Spot check random samples of your data"
+date: 2026-01-16T08:41:38-08:00
+tags: []
+draft: false
+---
 
 ***Assumed audience:*** *data analysts/engineers/scientists.*
 
@@ -44,7 +47,7 @@ Or ... you get the idea.
 On the other hand, inspecting more than a few hundred rows is impractical, especially if
 the table is wide.
 
-A better approach is to randomly sample from your data\[^1\]:
+A better approach is to randomly sample from your data[^1]:
 
 ```sql
 select ticket id, category, source, created_at
@@ -60,7 +63,7 @@ practice, this looks like alternating between taking random samples to discover 
 problematic rows, and building a follow-up query to discover variations of this problem
 and help me iterate on my pipeline's logic.
 
-\[^1\]: The query shown here uses DuckDB syntax for random sampling, but most SQL
+[^1]: The query shown here uses DuckDB syntax for random sampling, but most SQL
 dialects ([Snowflake](https://docs.snowflake.com/en/sql-reference/constructs/sample),
 [Apache Spark](https://spark.apache.org/docs/latest/sql-ref-syntax-qry-select-sampling.html)
 [Postgres](https://www.postgresql.org/docs/current/sql-select.html)) support a similar

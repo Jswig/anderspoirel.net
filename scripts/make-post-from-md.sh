@@ -29,9 +29,9 @@ fi
 echo -n "Enter post slug (e.g., 'my-awesome-post'): "
 read -r slug
 
-hugo new "post/${slug}.md"
+hugo new "posts/${slug}.md"
 
-formatted_content=$(mdformat "$input_file")
+formatted_content=$(mdformat --wrap 88 - < "$input_file")
 
 post_file="content/posts/${slug}.md"
 echo "" >> "$post_file"
