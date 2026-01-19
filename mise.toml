@@ -1,4 +1,3 @@
 [tools]
 hugo = "latest"
-lefthook = "latest"
-"pipx:mdformat" = "latest"
+uv = "latest"

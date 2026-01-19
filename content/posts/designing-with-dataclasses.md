@@ -1,6 +1,9 @@
-______________________________________________________________________
-
-## title: "Designing with dataclasses" date: 2025-04-21T13:30:11-08:00 tags: ["python"] draft: false
+---
+title: "Designing with dataclasses"
+date: 2025-04-21T13:30:11-08:00
+tags: ["python"]
+draft: false
+---
 
 ***Assumed audience:*** *Python programmers who aren't in the habit of writing classes*
 
@@ -325,14 +328,14 @@ hard-coded keys.
 
 Another one is performance. While accessing a `dataclass` attribute is only slightly
 slower than accessing a key in a `dict`, instantiating a `dataclass` is ~5x slower than
-creating a `dict` [^2]. So, if you're instantiating tens of thousands of dataclasses and
+creating a `dict`[^2]. So, if you're instantiating tens of thousands of dataclasses and
 you've determined it's a bottleneck, you can use dicts instead.
 
 In both cases, if you're using a type checker, you can annotate your code with
 [TypedDict](https://typing.python.org/en/latest/spec/typeddict.html#typeddict)s to
 regain some readability and error checking.
 
-\[^1\]: This is not a guarantee - Python is very flexible, and most object attributes
+[^1]: This is not a guarantee - Python is very flexible, and most object attributes
 can be added or changed at any time. For instance, unless `slots=True` is passed to
 `@dataclass`, you can assign attributes not defined in the original dataclass.
 `slots=True` also makes the class more memory-efficient!
