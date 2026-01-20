@@ -2,6 +2,23 @@
 title: "CV"
 ---
 
+## Technical Expertise
+
+I'm a software engineer, with a particular interest in enabling and doing "data work"
+writ large, whether this means building tool libraries, designing a data
+architecture, standing up platforms and infrastructure, analyzing data or fitting the
+occasional model.
+
+***Languages & tools***: Python (especially the data stack), Go, SQL,
+Apache Spark & Delta Lake, Snowflake, dbt, Docker, Terraform, AWS.
+
+***Domains***: data engineering & analytics engineering, build systems & CI,
+back-end web development, machine learning, business intelligence.
+
+I've also dabbled in statistics (insofar as it's a distinct topic from ML), front-end
+(especially for data visualization) and infrastructure engineering
+(a.k.a. YAML templating for the uncharitable).
+
 ## Work
 
 **Senior data engineer**, [Plasmidsaurus](https://www.plasmidsaurus.com/) *(Aug. 2025 - Jun. 2026)*
@@ -55,20 +72,3 @@ title: "CV"
 - BA computer science *(cum laude)*
 - BA mathematics *(cum laude)*
 - graduate coursework in statistics, analysis and optimization
-
-## Technical Expertise
-
-I'm a software engineer, with a particular interest in enabling and doing "data work"
-writ large, whether this means building tool libraries, designing a data
-architecture, standing up platforms and infrastructure, analyzing data or fitting the
-occasional model.
-
-***Languages & tools***: Python (especially the data stack), Go, SQL,
-Apache Spark & Delta Lake, Snowflake, dbt, Docker & K8s, Terraform, AWS.
-
-***Domains***: data engineering & analytics engineering, build systems & CI,
-back-end web development, machine learning, business intelligence.
-
-I've also dabbled in statistics (insofar as it's a distinct topic from ML), front-end
-(especially for data visualization) and infrastructure engineering
-(a.k.a. YAML templating for the uncharitable).
