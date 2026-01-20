@@ -6,7 +6,7 @@ draft: false
 favorite: true
 ---
 
-***Assumed audience:** data analysts/engineers/scientists.*
+***Assumed audience:** data  practitioners.*
 
 It's hard to get around the need to manually inspect *real* inputs and outputs when
 working on a data pipeline. Unit tests with well-formed synthetic rows won't save you if
