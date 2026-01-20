@@ -89,6 +89,7 @@ html {
     background-position: 0 0.2rem;
     border-top: none;
     box-sizing: border-box;
+    position: relative;
     color: var(--text-color);
     font-size: var(--font-size);
     line-height: 1.4;
