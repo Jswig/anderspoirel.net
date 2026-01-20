@@ -100,7 +100,7 @@ html {
 }
 
 /* gradient on the top of the page to frame it */
-html::before {
+/*html::before {
     content: "";
     position: absolute;
     top: 0;
@@ -127,7 +127,7 @@ html::before {
     50% {
         background-position: 100% 50%;
     }
-}
+}*/
 
 a {
     color: var(--highlight-color);
