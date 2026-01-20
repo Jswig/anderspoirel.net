@@ -264,6 +264,7 @@ tr:last-child td {
     color: var(--text-alt-color-2);
     font-size: var(--font-size);
     font-weight: normal;
+    white-space: nowrap;
 }
 
 @media screen and (max-width: 480px) {
@@ -286,6 +287,10 @@ tr:last-child td {
 
     .blog-description {
         margin-bottom: var(--space-xl);
+    }
+
+    .page-bottom-separator {
+        margin-top: var(--space-2xl);
     }
 
     .buttondown-form {
@@ -438,6 +443,7 @@ tr:last-child td {
 .listed-post-date {
     color: var(--text-alt-color);
     flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .footnotes {
