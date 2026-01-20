@@ -1,5 +1,6 @@
 ---
 title: "Blogroll"
+layout: "blogroll"
 ---
 
 ## Software engineering

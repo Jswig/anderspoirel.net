@@ -3,11 +3,10 @@ title: "Spot check random samples of your data"
 date: 2026-01-16T08:41:38-08:00
 tags: []
 draft: false
+favorite: true
 ---
 
-***Assumed audience:*** *data analysts/engineers/scientists.*
-
-______________________________________________________________________
+***Assumed audience:** data analysts/engineers/scientists.*
 
 It's hard to get around the need to manually inspect *real* inputs and outputs when
 working on a data pipeline. Unit tests with well-formed synthetic rows won't save you if
@@ -36,8 +35,8 @@ limit 100
 However, this query will always return the same rows — maybe the inconsistencies in
 `category` are found 4,000 rather than 100 rows deep and will never show up in the
 returned rows! It's tempting to assume that the most recent rows (or however else you
-chose to restrict the results) are representive, but this assumption is often wrong when
-confronted with the messiness of real systems.
+chose to restrict the results) are representative, but this assumption is often wrong
+when confronted with the messiness of real systems.
 
 Perhaps the source system added extra validation for the `category` a month ago, but it
 wasn't deemed necessary to update historical records to match. Or internal tickets go
@@ -65,6 +64,6 @@ and help me iterate on my pipeline's logic.
 
 [^1]: The query shown here uses DuckDB syntax for random sampling, but most SQL
 dialects ([Snowflake](https://docs.snowflake.com/en/sql-reference/constructs/sample),
-[Apache Spark](https://spark.apache.org/docs/latest/sql-ref-syntax-qry-select-sampling.html)
+[Apache Spark](https://spark.apache.org/docs/latest/sql-ref-syntax-qry-select-sampling.html),
 [Postgres](https://www.postgresql.org/docs/current/sql-select.html)) support a similar
 statement. Annoyingly, none of this is standardized in ANSI SQL.

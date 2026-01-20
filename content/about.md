@@ -2,7 +2,7 @@
 title: "About me"
 ---
 
-I'm a software engineer and data scientist, most recently at
+I'm a software engineer and data professional, most recently at
 [Plasmidsaurus](https://www.plasmidsaurus.com/). To learn more about my professional
 work, check out my [CV]({{< ref "/cv" >}}).
 

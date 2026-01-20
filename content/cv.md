@@ -48,7 +48,6 @@ title: "CV"
 
 **Scaling Flight Safety Checks at Joby Aviation**, [Data + AI Summit](https://www.databricks.com/dataaisummit/speaker/anders-poirel) *(Jun. 2025)*
 
-
 ## Education
 
 **University of California, Santa Cruz** *(2017 - 2021)*
@@ -59,12 +58,17 @@ title: "CV"
 
 ## Technical Expertise
 
-***Languages & tools***: Python (especially the data stack), Go, SQL,
-Apache Spark & Delta Lake, Snowflake, Docker, Terraform.
+I'm a software engineer, with a particular interest in enabling and doing "data work"
+writ large, whether this means building tool libraries, designing a data
+architecture, standing up platforms and infrastructure, analyzing data or fitting the
+occasional model.
 
-***Domains***: data engineering/analytics engineering, build systems & CI,
+***Languages & tools***: Python (especially the data stack), Go, SQL,
+Apache Spark & Delta Lake, Snowflake, dbt, Docker & K8s, Terraform, AWS.
+
+***Domains***: data engineering & analytics engineering, build systems & CI,
 back-end web development, machine learning, business intelligence.
 
-I've also dabbled  in statistics (insofar as it's a distinct topic from ML), front-end
+I've also dabbled in statistics (insofar as it's a distinct topic from ML), front-end
 (especially for data visualization) and infrastructure engineering
 (a.k.a. YAML templating for the uncharitable).

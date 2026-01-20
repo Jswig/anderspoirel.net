@@ -1,62 +1,64 @@
 @font-face {
-    font-family: 'ReCharter';
+    font-family: "ReCharter";
     font-weight: 400;
     font-style: normal;
     font-display: swap;
-    src: url('/fonts/Charter-Regular.woff2') format('woff2');
+    src: url("/fonts/Charter-Regular.woff2") format("woff2");
 }
 
 @font-face {
-    font-family: 'ReCharter';
+    font-family: "ReCharter";
     font-weight: 700;
     font-style: normal;
     font-display: swap;
-    src: url('/fonts/Charter-Bold.woff2') format('woff2');
+    src: url("/fonts/Charter-Bold.woff2") format("woff2");
 }
 
 @font-face {
-    font-family: 'ReCharter';
+    font-family: "ReCharter";
     font-weight: 400;
     font-style: italic;
     font-display: swap;
-    src: url('/fonts/Charter-Italic-Regular.woff2') format('woff2');
+    src: url("/fonts/Charter-Italic-Regular.woff2") format("woff2");
 }
 
 @font-face {
-    font-family: 'ReCharter';
+    font-family: "ReCharter";
     font-weight: 700;
     font-style: italic;
     font-display: swap;
-    src: url('/fonts/Charter-Italic-Bold.woff2') format('woff2');
+    src: url("/fonts/Charter-Italic-Bold.woff2") format("woff2");
 }
 
 @font-face {
-    font-family: 'ReInconsolata';
+    font-family: "ReInconsolata";
     font-weight: 400;
     font-style: normal;
     font-display: swap;
-    src: url('/fonts/Inconsolata-Regular.woff2') format('woff2');
+    src: url("/fonts/Inconsolata-Regular.woff2") format("woff2");
 }
 
 @font-face {
-    font-family: 'ReInconsolata';
+    font-family: "ReInconsolata";
     font-weight: 700;
     font-style: normal;
     font-display: swap;
-    src: url('/fonts/Inconsolata-Bold.woff2') format('woff2');
+    src: url("/fonts/Inconsolata-Bold.woff2") format("woff2");
 }
 
 html {
-    /* Spacing scale */
-    --space-xs: 0.25rem;    /* 4px */
-    --space-sm: 0.5rem;     /* 8px */
-    --space-md: 1rem;       /* 16px */
-    --space-lg: 1.5rem;     /* 24px */
-    --space-xl: 2rem;       /* 32px */
-    --space-2xl: 2.75rem;   /* 44px */
-    --space-3xl: 4rem;      /* 64px */
-    
-    /* Colors */
+    /* spacing scale */
+    --space-xs: 0.25rem; /* 4px */
+    --space-s: 0.4rem;
+    --space-sm: 0.5rem; /* 8px */
+    --space-md: 1rem; /* 16px */
+    --space-lg: 1.5rem; /* 24px */
+    --space-xl: 2rem; /* 32px */
+    --space-2xl: 2.75rem; /* 44px */
+    --space-3xl: 4rem; /* 64px */
+    --space-4xl: 6rem; /* 96px */
+
+    /* colors */
     --background-color: #1c1e26;
     --background-alt-color: #242630;
     --highlight-alt-color: #51aaac;
@@ -68,16 +70,22 @@ html {
     --text-color: #e5e5e5;
     --code-regular-color: #d0d0d0;
 
-    /* Design tokens */
+    /* design tokens */
     --box-border-radius: var(--space-xs);
     --inline-border-radius: calc(var(--space-xs) / 2);
     --font-size: 16px;
     --text-highlight-padding: calc(var(--space-xs) / 2);
-    --font-mono: 'ReInconsolata', 'Consolas', monospace;
+    --font-mono: "ReInconsolata", "Consolas", monospace;
     --font-serif: "ReCharter", serif;
 
     background-color: var(--background-color);
+    /* dot effect in the background*/
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 24px calc(1.4 * 16px);
+    background-position: 0 0.2rem;
+    border-top: none;
     box-sizing: border-box;
+    position: relative;
     color: var(--text-color);
     font-size: var(--font-size);
     line-height: 1.4;
@@ -87,10 +95,41 @@ html {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* gradient on the top of the page to frame it */
+html::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.35rem;
+    background: linear-gradient(
+        90deg,
+        var(--highlight-color),
+        var(--highlight-alt-color),
+        var(--highlight-color),
+        var(--highlight-alt-color)
+    );
+    background-size: 300% 100%;
+    animation: gradientShift 5s ease-in-out infinite;
+    z-index: 1000;
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
 a {
     color: var(--highlight-color);
     text-decoration: none;
-    transition: color 0.3s ease, background-color 0.3s ease;
+    transition:
+        color 0.3s ease,
+        background-color 0.3s ease;
 }
 
 a:hover {
@@ -112,6 +151,14 @@ blockquote {
     padding: var(--space-md);
 }
 
+blockquote > *:first-child {
+    margin-top: 0;
+}
+
+blockquote > *:last-child {
+    margin-bottom: 0;
+}
+
 code {
     color: var(--code-regular-color);
     background-color: var(--background-alt-color);
@@ -120,6 +167,7 @@ code {
 }
 
 pre {
+    background-color: var(--background-alt-color);
     border-radius: var(--box-border-radius);
     margin: 0;
     overflow-x: auto;
@@ -140,14 +188,19 @@ h1 + h2 {
     margin-top: var(--space-lg);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     line-height: 1.2;
 }
 
-h1, h2 {
+h1,
+h2 {
     font-weight: 700;
 }
-
 
 h2 {
     color: var(--text-alt-color);
@@ -202,45 +255,32 @@ tr:last-child td {
     margin-top: 0;
 }
 
-.post-entry {
-    margin-bottom: var(--space-lg);
-}
-
-.post-entry:last-child {
-    margin-bottom: 0;
-}
-
 .page-title-date {
     color: var(--text-alt-color-2);
     font-size: var(--font-size);
     font-weight: normal;
 }
 
-
 /* trim margins on small screens */
 @media screen and (max-width: 480px) {
     .page-body {
         --toplevel-margin: var(--space-md);
     }
-    
+
     h2 {
         margin-top: var(--space-xl);
         margin-bottom: var(--space-md);
     }
-    
-    .post-entry {
-        margin-bottom: var(--space-lg);
-    }
-    
+
     .page-header nav {
-        margin-bottom: var(--space-lg);
+        margin-bottom: var(--space-3xl);
     }
 
     .buttondown-form {
         gap: var(--space-sm);
         margin-bottom: var(--space-md);
     }
-    
+
     .buttondown-form input[type="email"] {
         width: 100%;
         min-width: 0;
@@ -255,7 +295,6 @@ tr:last-child td {
 
 .page-body {
     display: grid;
-    flex-direction: column;
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 1fr;
     grid-template-areas: "header" "main" "footer";
@@ -264,10 +303,9 @@ tr:last-child td {
     width: calc(100% - 2 * var(--toplevel-margin));
     /* forces content to fill entire page vertically.
      * Since we're adding margin around this on both the top and the bottom of this
-     * container, substract it so that the added margin doesn't create a scrollbar 
+     * container, substract it so that the added margin doesn't create a scrollbar
     */
-    min-height: calc(100vh - 2*var(--toplevel-margin));
-
+    min-height: calc(100vh - 2 * var(--toplevel-margin));
 }
 
 .page-header nav {
@@ -292,7 +330,7 @@ tr:last-child td {
     font-family: var(--font-mono);
     font-weight: 700;
     border-radius: var(--box-border-radius);
-    padding: var(--space-xs)
+    padding: var(--space-xs);
 }
 
 /* Direction-specific spacing */
@@ -312,18 +350,23 @@ tr:last-child td {
     margin-right: 0;
 }
 
-/* Shared hover state */
+/* Shared hover and focus states */
 .nav-left a:hover,
 .nav-right a:hover {
     color: var(--text-color);
     background-color: var(--highlight-alt-color);
 }
 
-\
+.nav-left a:focus,
+.nav-right a:focus {
+    outline: 2px solid var(--highlight-color);
+    outline-offset: 2px;
+}
+
 /* switch to a column layout for small screens */
 @media screen and (max-width: 480px) {
     .page-header nav {
-        flex-flow: column
+        flex-flow: column;
     }
 
     .nav-left {
@@ -359,7 +402,6 @@ tr:last-child td {
     background-color: var(--highlight-alt-color);
 }
 
-
 .listed-post-date {
     color: var(--text-alt-color);
 }
@@ -367,11 +409,11 @@ tr:last-child td {
 .footnotes {
     font-size: 0.9rem;
     margin-top: var(--space-xl);
-    color: var(--text-alt-color)
+    color: var(--text-alt-color);
 }
 
 .footnotes code {
-    color: var(--text-alt-color-2)
+    color: var(--text-alt-color-2);
 }
 
 .footnotes ol {
@@ -390,6 +432,23 @@ tr:last-child td {
     text-decoration: none;
 }
 
+.blog-description {
+    font-size: 1.2rem;
+    margin-bottom: var(--space-3xl);
+}
+
+/* show blogroll list with two columns when there's enough space */
+@media screen and (min-width: 768px) {
+    .blogroll-content ul {
+        column-count: 2;
+        column-gap: var(--space-2xl);
+    }
+}
+
+.view-all-posts {
+    font-size: 0.8rem;
+    margin-top: var(--space-lg);
+}
 
 .buttondown-form {
     display: flex;
