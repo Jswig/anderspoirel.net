@@ -59,9 +59,9 @@ title: "CV"
 ## Technical Expertise
 
 I'm a software engineer, with a particular interest in enabling and doing "data work"
-writ large, whether this means building libraries for data analysis, designing a data
-architecture, standing up platforms and infrastructure, or even fitting the occasional
-model.
+writ large, whether this means building tool libraries, designing a data
+architecture, standing up platforms and infrastructure, analyzing data or fitting the
+occasional model.
 
 ***Languages & tools***: Python (especially the data stack), Go, SQL,
 Apache Spark & Delta Lake, Snowflake, dbt, Docker & K8s, Terraform, AWS.
@@ -69,6 +69,6 @@ Apache Spark & Delta Lake, Snowflake, dbt, Docker & K8s, Terraform, AWS.
 ***Domains***: data engineering & analytics engineering, build systems & CI,
 back-end web development, machine learning, business intelligence.
 
-I've also dabbled  in statistics (insofar as it's a distinct topic from ML), front-end
+I've also dabbled in statistics (insofar as it's a distinct topic from ML), front-end
 (especially for data visualization) and infrastructure engineering
 (a.k.a. YAML templating for the uncharitable).
