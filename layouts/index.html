@@ -6,12 +6,13 @@ engineering, and in particular about building effective data systems.
 </p>
 
 {{ $posts := where .Site.RegularPages "Type" "posts" }}
+
 {{ $favorites := where $posts "Params.favorite" true }}
 {{ if $favorites }}
 <h2>Featured posts</h2>
 
 {{ range $favorites.ByPublishDate.Reverse }}
-<p>{{ partial "list-item.html" . }}</p>
+{{ partial "list-item.html" . }}
 {{ end }}
 
 <p class="view-all-posts"><a href="/posts">All posts →</a></p>
