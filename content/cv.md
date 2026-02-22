@@ -6,14 +6,14 @@ title: "CV"
 
 I'm a software engineer, with a particular interest in enabling and doing "data work"
 writ large, whether this means building tool libraries, designing a data
-architecture, standing up platforms and infrastructure, analyzing data or fitting the
-occasional model.
+architecture, standing up and infrastructure, analyzing data or fitting the occasional
+model.
 
-***Languages & tools***: Python (especially the data stack), Go, SQL,
+***Languages & tools***: Python (especially the data stack), SQL, Go,
 Apache Spark & Delta Lake, Snowflake, dbt, Docker, Terraform, AWS.
 
 ***Domains***: data engineering & analytics engineering, build systems & CI,
-back-end web development, machine learning, business intelligence.
+back-end engineering, machine learning, business intelligence.
 
 I've also dabbled in statistics (insofar as it's a distinct topic from ML), front-end
 (especially for data visualization) and infrastructure engineering
@@ -21,7 +21,7 @@ I've also dabbled in statistics (insofar as it's a distinct topic from ML), fron
 
 ## Work
 
-**Senior data engineer**, [Plasmidsaurus](https://www.plasmidsaurus.com/) *(Aug. 2025 - Jun. 2026)*
+**Senior software engineer - data platform**, [Plasmidsaurus](https://www.plasmidsaurus.com/) *(Aug. 2025 - .)*
 
 **Data scientist**, [Joby Aviation](https://www.jobyaviation.com/) *(Jul. 2021 - Jul. 2025)*
 
