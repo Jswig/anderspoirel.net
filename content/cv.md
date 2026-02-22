@@ -13,11 +13,10 @@ model.
 Apache Spark & Delta Lake, Snowflake, dbt, Docker, Terraform, AWS.
 
 ***Domains***: data engineering & analytics engineering, build systems & CI,
-back-end engineering, machine learning, business intelligence.
+back-end engineering, business intelligence.
 
-I've also dabbled in statistics (insofar as it's a distinct topic from ML), front-end
-(especially for data visualization) and infrastructure engineering
-(a.k.a. YAML templating for the uncharitable).
+I've also dabbled in statistics, front-end (especially for data visualization) and
+infrastructure engineering (a.k.a. YAML templating for the uncharitable).
 
 ## Work
 
