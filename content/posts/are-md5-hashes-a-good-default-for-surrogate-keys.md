@@ -4,8 +4,8 @@ date: 2026-05-16T20:36:23-07:00
 tags: []
 draft: false
 favorite: true
+assumed_audience: "data and analytics engineers"
 ---
-***Assumed audience:** data and analytics engineers.*
 
 In the extra-load-transform (ELT) paradigm of data engineering, a popular method to
 generate surrogate keys in the transformation step is to compute a
@@ -26,7 +26,7 @@ But what are we giving up by using a full MD5 hash stored as a string?
 
 MD5 hashes have 128 bits of entropy, but the MD5 function in most SQL dialects returns a
 32-character hexadecimal string representation, which in practice often means ~32 bytes
-in memory. Compare this to integer keys, which are typically 8 bytes.
+in memory. Compare this to 64-bit integer keys which are 8 bytes.
 
 Database join performance tends to be dominated by memory access[^1] [^2]. Larger keys
 generally have worse cache locality and memory bandwidth characteristics. We would
@@ -37,12 +37,10 @@ So, ideally we would want a surrogate key generation method that is both idempot
 fits in a 64-bit integer. Do major data warehouses have a reasonable way of
 generating a deterministic 64-bit integer hash? Well, we can always truncate the MD5
 32-character text to 16 characters and convert that a 64-bit integer[^3].
-
-That's probably the best option unless you're in Snowflake which already has this in the
-form of
+That's probably the best option unless you're in Snowflake which has this built-in with
 [md5_number_upper64](https://docs.snowflake.com/en/sql-reference/functions/md5_number_upper64).
 
-So, how much of a speedup can we expect from using a more efficient truncated MD5 key?
+How much of a speedup can we expect from using a more efficient truncated MD5 key?
 
 ## Benchmark
 
@@ -51,6 +49,8 @@ dimension table with 100 thousand rows. Not tiny; but not "big data" either. Thi
 typical dataset at my day job. It runs the same query with both string MD5 hash keys,
 and 64-bit integer truncated MD5 hash keys. I ran this in Snowflake on an XS warehouse.
 
+The source code for the benchmark is available
+[here]({{< relref "snippets/hash-surrogate-key-benchmark.md" >}}).
 
 | **Run** | **MD5 string** | **MD5 truncated to 64 bits** | **Speedup** |
 |----------- | ------------ | --------------------------------- | ----------- |
@@ -74,25 +74,26 @@ remain noticeable across systems.
 
 ## Key collisions
 
-A MD5 hash is 128 bits of entropy. Plugging this into a hash collision calculator, even
+A MD5 hash has 128 bits of entropy. Plugging this into a hash collision calculator, even
 at 100 trillion rows in a table the collision chance is less than 1 in a billion, which
 is to say that it "just works" for any practical dataset[^4].
-A 64-bit truncated version on the other hand has a ~2.7% chance at 1,000,000,000 rows;
+A 64-bit truncated version on the other hand has a ~2.7% chance at 1,000,000,000 rows,
 which means that collisions can't always be assumed away.
 
-But many dimensions in a typical data warehouse will never get close to the size where
-64-bit keys collide, even SCD 2 type ones – an employees table will probably never be
-close to 100 million rows, and neither will your corporate offices or product SKUs
-(unless you're amazon.com).
+Full 128-bit hash keys are a safe default, but many tables in a typical data warehouse
+will never get close to the size where 64-bit hash keys have a meaningful risk of
+collision. An employees table will probably be well under 100 million rows,
+and so will your corporate offices or product SKUs (unless you're amazon.com).
 
-So you probably have dimensions with cardinalities that fit comfortably in a truncated
-MD5 key without collision, and if you're building a star schema, end-user queries almost
-certainly involve one or several joins on surrogate keys.
-Spend the extra minute to check if the cardinality of your data allows for the more
-efficient key type – with how often Databricks or Snowflake costs (pick your favorite
-expensive data warehouse!) are a concern, it may be well worth your time. If 30% faster
-queries let you downgrade a L size Snowflake warehouse for BI that's on 8 hours a day, 5
-days a week to an M size, that's ~$20,000 per annum saved[^5].
+So you probably have tables with cardinalities that fit comfortably within the range
+where 64-bit hash collisions are vanishingly unlikely, and if you're building a star
+schema, end-user queries usually involve one or more joins on surrogate keys. Spend the
+extra minute to check if the cardinality of your data allows for the more efficient key
+type – given how often Databricks or Snowflake costs are a concern (pick your favorite
+expensive data warehouse!) it may be well worth your time.
+
+If 30% faster queries  let you downsize a L Snowflake warehouse for BI that's on 8
+hours a day, 5 days a week to an M warehouse, that's ~$20,000 per annum saved[^5].
 
 [^1]: Shimin Chen, Anastassia Ailamaki, Phillip B. Gibbons, and Todd C. Mowry. 2007.
 [Improving hash join performance through prefetching](https://www.pdl.cmu.edu/PDL-FTP/Database/icde04.pdf).
@@ -106,13 +107,11 @@ query plan.
 [^3]: Another possibility would be to store the MD5 hash in binary form instead of text,
 which preserves the original 128 bits of entropy and represents a nice middle ground
 in terms of size since it's only 16 bytes. However, I don't like it in practice
-because many client systems in practice don't have as good support for binary type
-columns.
+because many client systems don't have good support for binary type columns.
 
 [^4]: Hash collision calculators give probabilities derived from the
 [Birthday Problem](https://kevingal.com/blog/collisions.html). The true collision
 probability will depend on many factors like the hash function in use and the input
-data, but the Birthday Problem is a useful first approximation if you're using a good
-hash function.
+data, but the Birthday Problem is a good enough first approximation.
 
 [^5]: At Snowflake Standard Edition credit prices as of May 2026.
