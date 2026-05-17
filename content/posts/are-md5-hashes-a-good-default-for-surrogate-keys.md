@@ -14,8 +14,8 @@ it as a string. This is the approach of dbt's built-in
 [generate_surrogate_key](https://docs.getdbt.com/blog/sql-surrogate-keys?version=1.11)
 macro.
 
-The arguments for using a hash instead of an incrementing integer sequence are well worn
-at this point. Hash keys are deterministic, idempotent, and work just as well on views
+The arguments for using a hash instead of an incrementing integer sequence are well
+worn. Hash keys are deterministic, idempotent, and work just as well on views
 as on materialized tables. These properties are particularly important for the typical
 workflow in the ELT paradigm, where views are common and tables downstream of the raw
 data load are re-built on each run.
@@ -38,7 +38,7 @@ fits in a 64-bit integer. Do major data warehouses have a reasonable way of
 generating a deterministic 64-bit integer hash? Well, we can always truncate the MD5
 32-character text to 16 characters and convert that a 64-bit integer[^3].
 That's probably the best option unless you're in Snowflake which has this built-in with
-[md5_number_upper64](https://docs.snowflake.com/en/sql-reference/functions/md5_number_upper64).
+[md5_number_lower64](https://docs.snowflake.com/en/sql-reference/functions/md5_number_lower64).
 
 How much of a speedup can we expect from using a more efficient truncated MD5 key?
 
