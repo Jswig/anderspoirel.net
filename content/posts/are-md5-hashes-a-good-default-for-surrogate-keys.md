@@ -8,7 +8,7 @@ favorite: true
 ***Assumed audience:** data and analytics engineers.*
 
 In the extra-load-transform (ELT) paradigm of data engineering, a popular method to
-generate surrogate keys in the transform step is to take an
+generate surrogate keys in the transformation step is to compute a
 [MD5 hash](https://en.wikipedia.org/wiki/MD5) of uniquely identifying columns and store
 it as a string. This is the approach of dbt's built-in
 [generate_surrogate_key](https://docs.getdbt.com/blog/sql-surrogate-keys?version=1.11)
@@ -16,11 +16,11 @@ macro.
 
 The arguments for using a hash instead of an incrementing integer sequence are well worn
 at this point. Hash keys are deterministic, idempotent, and work just as well on views
-as on materialized tables. These properties are particularly important to the typical
+as on materialized tables. These properties are particularly important for the typical
 workflow in the ELT paradigm, where views are common and tables downstream of the raw
 data load are re-built on each run.
 
-But what are we giving up by using a full MD5 hash stored as text?
+But what are we giving up by using a full MD5 hash stored as a string?
 
 ## Memory and performance considerations
 
@@ -29,29 +29,28 @@ MD5 hashes have 128 bits of entropy, but the MD5 function in most SQL dialects r
 in memory. Compare this to integer keys, which are typically 8 bytes.
 
 Database join performance tends to be dominated by memory access[^1] [^2]. Larger keys
-will tend to have worse cache locality and memory bandwidth characteristics. We would
+generally have worse cache locality and memory bandwidth characteristics. We would
 thus expect a join using string MD5 hash keys to be noticeably slower than one using
 64-bit integer keys.
 
 So, ideally we would want a surrogate key generation method that is both idempotent and
-fits in a 64-bit integer. So, do major data warehouses have a reasonable way of
+fits in a 64-bit integer. Do major data warehouses have a reasonable way of
 generating a deterministic 64-bit integer hash? Well, we can always truncate the MD5
-32-character text to 16 characters and convert to a 64-bit integer[^3].
+32-character text to 16 characters and convert that a 64-bit integer[^3].
 
 That's probably the best option unless you're in Snowflake which already has this in the
 form of
 [md5_number_upper64](https://docs.snowflake.com/en/sql-reference/functions/md5_number_upper64).
-You'll probably want to abstract out the null check and string concatenation
-boilerplate. Make a macro or a user-defined function for this.
 
 So, how much of a speedup can we expect from using a more efficient truncated MD5 key?
 
 ## Benchmark
 
 The benchmark runs an aggregation on a fact table with 100 million rows, that joins to a
-dimension table with 100 thousand rows, on an XS Snowflake warehouse. Not tiny; but not
-"big data" either. This is a typical dataset at my day job. We run the same query with
-both string MD5 hash keys, and 64-bit integer truncated MD5 hash keys.
+dimension table with 100 thousand rows. Not tiny; but not "big data" either. This is a
+typical dataset at my day job. It runs the same query with both string MD5 hash keys,
+and 64-bit integer truncated MD5 hash keys. I ran this in Snowflake on an XS warehouse.
+
 
 | **Run** | **MD5 string** | **MD5 truncated to 64 bits** | **Speedup** |
 |----------- | ------------ | --------------------------------- | ----------- |
@@ -68,21 +67,18 @@ both string MD5 hash keys, and 64-bit integer truncated MD5 hash keys.
 | **Average** | **363.2ms** | **246.9ms** | **30.35%** |
 
 That's a ~30% speedup. Of course, there is a lot variation between data warehouses in
-how they implement join strategies, vectorization and compression that will affect the
+how they implement join strategies, vectorization and compression, which will affect the
 magnitude of the speedup. However, the broad strokes of modern "shared-nothing" data
 warehouse systems are similar enough that I would expect the performance improvement to
-remain noticeable in all of them.
+remain noticeable across systems.
 
 ## Key collisions
 
 A MD5 hash is 128 bits of entropy. Plugging this into a hash collision calculator, even
 at 100 trillion rows in a table the collision chance is less than 1 in a billion, which
-is to say that it "just works" for any practical dataset size[^4].
+is to say that it "just works" for any practical dataset[^4].
 A 64-bit truncated version on the other hand has a ~2.7% chance at 1,000,000,000 rows;
-which means that collisions can't just be assumed away for plausible data sizes.
-
-This is probably why the designers of dbt chose the full MD5 hash for surrogate
-key generation – it's safe to use in just about any context.
+which means that collisions can't always be assumed away.
 
 But many dimensions in a typical data warehouse will never get close to the size where
 64-bit keys collide, even SCD 2 type ones – an employees table will probably never be
