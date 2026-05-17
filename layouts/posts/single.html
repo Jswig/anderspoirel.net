@@ -5,12 +5,9 @@
         <time datetime="{{ .PublishDate.Format "2006-01-02" }}">
             <em>{{ .PublishDate.Format "2006-01-02" }}</em>
         </time>
-        <!--TODO: find a better way to format this-->
-        <!--{{ if and .GitInfo (ne .GitInfo.AuthorDate .PublishDate) }}
-            <time datetime="{{ .GitInfo.AuthorDate.Format "2006-01-02" }}">
-                <em>— updated {{ .GitInfo.AuthorDate.Format "2006-01-02" }}</em>
-            </time>
-        {{ end }}-->
+        {{ with .Params.assumed_audience }}
+            <span class="post-audience"><em><strong>assumed audience:</strong> {{ . }}</em></span>
+        {{ end }}
     </p>
     {{ .Content }}
 </article>

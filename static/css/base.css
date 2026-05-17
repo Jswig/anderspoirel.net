@@ -99,36 +99,6 @@ html {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* gradient on the top of the page to frame it */
-/*html::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 0.35rem;
-    background: linear-gradient(
-        90deg,
-        var(--highlight-color),
-        var(--highlight-alt-color),
-        var(--highlight-color),
-        var(--highlight-alt-color)
-    );
-    background-size: 300% 100%;
-    animation: gradientShift 5s ease-in-out infinite;
-    z-index: 1000;
-}
-
-@keyframes gradientShift {
-    0%,
-    100% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-}*/
-
 a {
     color: var(--highlight-color);
     text-decoration: none;
@@ -270,6 +240,12 @@ table {
     width: 100%;
 }
 
+article > table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
 thead {
     border-bottom: 1px solid var(--text-alt-color-3);
 }
@@ -280,6 +256,11 @@ td {
     padding: var(--space-sm) var(--space-md);
     text-align: left;
     vertical-align: top;
+}
+
+article > table th,
+article > table td {
+    white-space: nowrap;
 }
 
 th {
@@ -309,15 +290,36 @@ tbody tr:nth-child(even) {
 
 .page-title-date {
     color: var(--text-alt-color-2);
+    display: flex;
+    align-items: baseline;
+    column-gap: var(--space-xs);
+    flex-wrap: wrap;
     font-size: var(--font-size);
     font-weight: normal;
     margin-top: calc(-1 * var(--space-lg));
     margin-bottom: var(--space-xl);
 }
 
+.post-audience {
+    font-size: 0.9em;
+}
+
+.post-audience::before {
+    content: "·";
+    margin-right: var(--space-xs);
+}
+
 @media screen and (max-width: 480px) {
     .page-body {
         --toplevel-margin: var(--space-md);
+    }
+
+    .post-audience {
+        flex-basis: 100%;
+    }
+
+    .post-audience::before {
+        content: none;
     }
 
     h1 {

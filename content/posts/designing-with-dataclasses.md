@@ -4,9 +4,8 @@ date: 2025-04-21T13:30:11-08:00
 tags: ["python"]
 draft: false
 favorite: true
+assumed_audience: "Python programmers who aren't in the habit of writing classes"
 ---
-
-***Assumed audience:** Python programmers who aren't in the habit of writing classes.*
 
 Python
 [dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) are
