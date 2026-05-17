@@ -1,6 +1,7 @@
 {{ define "main" }}
 <article>
-    <h1 class="page-title">{{ .Title }} <span class="page-title-date">
+    <h1 class="page-title">{{ .Title }}</h1>
+    <p class="page-title-date">
         <time datetime="{{ .PublishDate.Format "2006-01-02" }}">
             <em>{{ .PublishDate.Format "2006-01-02" }}</em>
         </time>
@@ -10,7 +11,7 @@
                 <em>— updated {{ .GitInfo.AuthorDate.Format "2006-01-02" }}</em>
             </time>
         {{ end }}-->
-    </span></h1>
+    </p>
     {{ .Content }}
 </article>
 {{ end }}

@@ -151,6 +151,7 @@ body {
 
 blockquote {
     background: var(--background-alt-color);
+    border-left: var(--space-xs) solid var(--highlight-alt-color);
     border-radius: var(--box-border-radius);
     margin: 0;
     padding: var(--space-md);
@@ -169,14 +170,20 @@ code {
     background-color: var(--background-alt-color);
     border-radius: var(--inline-border-radius);
     font-family: var(--font-mono);
+    padding: 0 var(--text-highlight-padding);
 }
 
 pre {
     background-color: var(--background-alt-color);
     border-radius: var(--box-border-radius);
-    margin: 0;
+    margin: var(--space-lg) 0;
     overflow-x: auto;
     padding: var(--space-md);
+}
+
+pre code {
+    background: transparent;
+    padding: 0;
 }
 
 hr {
@@ -200,6 +207,7 @@ h4,
 h5,
 h6 {
     line-height: 1.2;
+    scroll-margin-top: var(--space-lg);
 }
 
 h1,
@@ -215,10 +223,33 @@ h2 {
 
 h3 {
     color: var(--text-alt-color-2);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
 }
 
 h4 {
     color: var(--text-alt-color-3);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+}
+
+p {
+    margin: 0 0 var(--space-md);
+}
+
+ul,
+ol {
+    padding-left: var(--space-lg);
+}
+
+li + li {
+    margin-top: var(--space-xs);
+}
+
+img {
+    border-radius: var(--box-border-radius);
+    height: auto;
+    max-width: 100%;
 }
 
 input {
@@ -231,26 +262,42 @@ input[type="submit"] {
 }
 
 table {
-    border: 1px solid var(--text-color);
-    border-radius: var(--box-border-radius);
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.4;
+    margin: var(--space-xl) 0;
+    width: 100%;
 }
 
 thead {
-    border-bottom: 1px solid var(--text-color);
-    margin-top: 1rem;
+    border-bottom: 1px solid var(--text-alt-color-3);
+}
+
+th,
+td {
+    border-bottom: 1px solid rgba(229, 229, 229, 0.12);
+    padding: var(--space-sm) var(--space-md);
+    text-align: left;
+    vertical-align: top;
 }
 
 th {
-    padding: var(--space-sm) 0;
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+tbody tr:last-child th,
+tbody tr:last-child td {
+    border-bottom: 0;
 }
 
 td {
-    padding-left: var(--space-sm);
-    width: 44ch;
+    color: var(--text-alt-color);
 }
 
-tr:last-child td {
-    padding-bottom: var(--space-sm);
+tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.025);
 }
 
 /* layout */
@@ -264,7 +311,8 @@ tr:last-child td {
     color: var(--text-alt-color-2);
     font-size: var(--font-size);
     font-weight: normal;
-    white-space: nowrap;
+    margin-top: calc(-1 * var(--space-lg));
+    margin-bottom: var(--space-xl);
 }
 
 @media screen and (max-width: 480px) {
@@ -320,7 +368,7 @@ tr:last-child td {
     grid-template-columns: 1fr;
     grid-template-areas: "header" "main" "footer";
     margin: var(--toplevel-margin) auto;
-    max-width: 88ch;
+    max-width: 80ch;
     width: calc(100% - 2 * var(--toplevel-margin));
     /* forces content to fill entire page vertically.
      * Since we're adding margin around this on both the top and the bottom of this
@@ -408,6 +456,7 @@ tr:last-child td {
 
 .page-main {
     grid-area: "main";
+    line-height: 1.6;
     overflow-x: auto;
 }
 
@@ -462,6 +511,13 @@ tr:last-child td {
 
 .footnotes li {
     margin-bottom: var(--space-sm);
+    scroll-margin-top: var(--space-lg);
+}
+
+.footnotes li:target {
+    background: var(--background-alt-color);
+    border-radius: var(--box-border-radius);
+    padding: var(--space-xs);
 }
 
 .footnote-ref {

@@ -2,9 +2,7 @@
 
 <h1 class="page-title">{{ .Title }}</h1>
 {{ range .Pages.ByPublishDate.Reverse }}
-<p>
-  {{ partial "list-item.html" . }}
-</p>
+{{ partial "list-item.html" . }}
 {{ end }}
 
 {{ end }}
