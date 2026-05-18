@@ -12,8 +12,7 @@ The contents of this blog reflect my personal opinions only.
 
 The best way to get in touch with me is email:
 [contact@anderspoirel.net](mailto:contact@anderspoirel.net).
-Don't hesitate to reach out about anything on this website! I love hearing from people
-with similar interests. You can also find me on:
+Don't hesitate to reach out about anything on this website! You can also find me on:
 
 - [GitHub](https://github.com/Jswig)
 - [LinkedIn](https://www.linkedin.com/in/anders-poirel-732595160/)

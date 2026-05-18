@@ -12,8 +12,8 @@ occasional model.
 ***Languages & tools***: Python (especially the data stack), Go, SQL,
 Apache Spark & Delta Lake, Snowflake, dbt, Docker, Terraform, AWS.
 
-***Domains***: data engineering & analytics engineering, build systems & CI,
-back-end web development, machine learning, business intelligence.
+***Domains***: data engineering & analytics engineering, CI/CD, back-end engineering,
+business intelligence, machine learning.
 
 I've also dabbled in statistics (insofar as it's a distinct topic from ML), front-end
 (especially for data visualization) and infrastructure engineering
@@ -30,8 +30,6 @@ I've also dabbled in statistics (insofar as it's a distinct topic from ML), fron
 **Research assistant**, [UC Santa Cruz Genomics Institute](https://genomics.ucsc.edu/) *(Oct. 2020 - Jun. 2021)*
 
 **Research intern**, [Center for Research in Open Source Software](https://cross.ucsc.edu/) *(Jul. 2020 - Sep. 2020)*
-
-**Web developer (contractor)**, [Merit Educational Consultants](https://meritworld.com/) (*Jul. 2020 - Sep. 2020*)
 
 **Data scientist intern**, [Startup Genome](https://startupgenome.com/) *(Apr. 2020 - Jun. 2020)*
 
