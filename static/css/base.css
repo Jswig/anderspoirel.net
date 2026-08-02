@@ -595,19 +595,6 @@ tbody tr:nth-child(even) {
         margin-top: var(--space-2xl);
     }
 
-    .buttondown-form {
-        gap: var(--space-sm);
-        margin-bottom: var(--space-md);
-
-        label {
-            display: none;
-        }
-
-        input[type="email"] {
-            width: 100%;
-            min-width: 0;
-        }
-    }
 }
 
 @media screen and (min-width: 480px) {
@@ -616,9 +603,29 @@ tbody tr:nth-child(even) {
     }
 }
 
-@media screen and (min-width: 1024px) {
-    .page-header .nav-left a {
-        font-size: 1.1em;
+@media screen and (max-width: 639px) {
+    .page-footer .buttondown-form {
+        gap: var(--space-sm);
+        margin-bottom: var(--space-md);
+
+        label {
+            display: none;
+        }
+
+        span {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            width: 100%;
+        }
+
+        input[type="email"] {
+            box-sizing: border-box;
+            max-width: 100%;
+            min-width: 0;
+            width: 100%;
+        }
     }
 }
 
