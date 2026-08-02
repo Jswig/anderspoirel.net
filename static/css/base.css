@@ -291,94 +291,14 @@ tbody tr:nth-child(even) {
 /* layout */
 /**********/
 
-.page-title {
-    margin-top: 0;
-}
-
-.page-title-date {
-    color: var(--text-alt-color-2);
-    display: flex;
-    align-items: baseline;
-    column-gap: var(--space-xs);
-    flex-wrap: wrap;
-    font-size: var(--font-size);
-    font-weight: normal;
-    margin-top: calc(-1 * var(--space-lg));
-    margin-bottom: var(--space-xl);
-
-    .post-audience {
-        font-size: 0.9em;
-    }
-
-    .post-audience::before {
-        content: "·";
-        margin-right: var(--space-xs);
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .page-body {
-        --toplevel-margin: var(--space-md);
-    }
-
-    .post-audience {
-        flex-basis: 100%;
-    }
-
-    .post-audience::before {
-        content: none;
-    }
-
-    h1 {
-        margin-bottom: var(--space-lg);
-    }
-
-    h2 {
-        margin-top: var(--space-xl);
-        margin-bottom: var(--space-md);
-    }
-
-    .page-header nav {
-        margin-bottom: var(--space-xl);
-    }
-
-    .blog-description {
-        margin-bottom: var(--space-xl);
-    }
-
-    .page-bottom-separator {
-        margin-top: var(--space-2xl);
-    }
-
-    .buttondown-form {
-        gap: var(--space-sm);
-        margin-bottom: var(--space-md);
-    }
-
-    .buttondown-form label {
-        display: none;
-    }
-
-    .buttondown-form input[type="email"] {
-        width: 100%;
-        min-width: 0;
-    }
-}
-
-@media screen and (min-width: 480px) {
-    .page-body {
-        --toplevel-margin: var(--space-xl);
-    }
-}
-
 .page-body {
     display: grid;
     grid-template-rows: auto auto auto auto;
     grid-template-columns: auto auto;
     grid-template-areas:
-        "sidebar content"
+        "sidebar main"
         "sidebar separator"
-        "footer footer"
+        "sidebar footer"
     ;
     margin: var(--toplevel-margin) auto;
     max-width: calc(var(--content-limit) + var(--sidebar-limit));
@@ -391,10 +311,11 @@ tbody tr:nth-child(even) {
 }
 
 .page-header {
+    grid-area: "sidebar";
+
     nav {
         display: flex;
         flex-flow: column wrap;
-        grid-area: "sidebar";
         justify-content: space-between;
         margin-bottom: var(--space-xl);
     }
@@ -446,41 +367,22 @@ tbody tr:nth-child(even) {
     }
 }
 
-/* switch to a column layout for small screens */
-@media screen and (max-width: 480px) {
-    .page-header nav {
-        flex-flow: column;
-        align-items: center;
-        gap: var(--space-sm);
-    }
-
-    .nav-left,
-    .nav-right {
-        flex-direction: column;
-        align-items: center;
-        gap: var(--space-sm);
-    }
-
-    .nav-left a,
-    .nav-right a {
-        margin: 0;
-        padding: var(--space-sm);
-    }
-}
-
 .page-main {
+    grid-area: main;
     line-height: 1.6;
     max-width: 80ch;
     overflow-x: auto;
 }
 
 .page-bottom-separator {
+    grid-area: separator;
     text-align: center;
     font-size: 1.5rem;
     margin: var(--space-md);
 }
 
 .page-footer {
+    grid-area: footer;
     margin-top: var(--space-xl);
     font-family: var(--font-mono);
 
@@ -493,6 +395,76 @@ tbody tr:nth-child(even) {
     a:hover {
         color: var(--text-alt-color);
         background-color: var(--highlight-alt-color);
+    }
+
+    .buttondown-form {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-lg);
+        flex-wrap: nowrap;
+
+        input[type="email"] {
+            background-color: var(--background-alt-color);
+            border: 1px solid var(--text-alt-color-3);
+            color: var(--text-color);
+            padding: var(--space-sm) var(--space-sm);
+            width: 12rem;
+            border-radius: var(--box-border-radius);
+        }
+
+        input[type="submit"] {
+            background-color: var(--highlight-alt-color);
+            color: var(--text-color);
+            border: 1px solid transparent;
+            padding: var(--space-sm) var(--space-md);
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-weight: 500;
+            border-radius: var(--box-border-radius);
+            transition: background-color 0.2s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: var(--highlight-color);
+        }
+
+        input[type="submit"]:focus {
+            outline: 2px solid var(--highlight-color);
+            outline-offset: 2px;
+        }
+
+        .buttondown-callout a:hover {
+            color: var(--text-alt-color-2);
+            background-color: var(--background-color);
+        }
+    }
+}
+
+/* elements */
+
+.page-title {
+    margin-top: 0;
+}
+
+.page-title-date {
+    color: var(--text-alt-color-2);
+    display: flex;
+    align-items: baseline;
+    column-gap: var(--space-xs);
+    flex-wrap: wrap;
+    font-size: var(--font-size);
+    font-weight: normal;
+    margin-top: calc(-1 * var(--space-lg));
+    margin-bottom: var(--space-xl);
+
+    .post-audience {
+        font-size: 0.9em;
+    }
+
+    .post-audience::before {
+        content: "·";
+        margin-right: var(--space-xs);
     }
 }
 
@@ -544,14 +516,7 @@ tbody tr:nth-child(even) {
 .blog-description {
     font-size: 1.2rem;
     margin-bottom: var(--space-3xl);
-}
-
-/* show blogroll list with two columns when there's enough space */
-@media screen and (min-width: 768px) {
-    .blogroll-content ul {
-        column-count: 2;
-        column-gap: var(--space-2xl);
-    }
+    margin-top: var(--space-xs);
 }
 
 .view-all-posts {
@@ -559,45 +524,84 @@ tbody tr:nth-child(even) {
     margin-top: var(--space-lg);
 }
 
-.buttondown-form {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-lg);
-    flex-wrap: nowrap;
 
-    input[type="email"] {
-        background-color: var(--background-alt-color);
-        border: 1px solid var(--text-alt-color-3);
-        color: var(--text-color);
-        padding: var(--space-sm) var(--space-sm);
-        width: 12rem;
-        border-radius: var(--box-border-radius);
+
+@media screen and (max-width: 480px) {
+    h1 {
+        margin-bottom: var(--space-lg);
     }
 
-    input[type="submit"] {
-        background-color: var(--highlight-alt-color);
-        color: var(--text-color);
-        border: 1px solid transparent;
-        padding: var(--space-sm) var(--space-md);
-        cursor: pointer;
-        font-family: var(--font-mono);
-        font-weight: 500;
-        border-radius: var(--box-border-radius);
-        transition: background-color 0.2s ease;
+    h2 {
+        margin-top: var(--space-xl);
+        margin-bottom: var(--space-md);
     }
 
-    input[type="submit"]:hover {
-        background-color: var(--highlight-color);
+    .page-header {
+        nav {
+            flex-flow: column;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-xl);
+        }
+
+        .nav-left,
+        .nav-right {
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .nav-left a,
+        .nav-right a {
+            margin: 0;
+            padding: var(--space-sm);
+        }
     }
 
-    input[type="submit"]:focus {
-        outline: 2px solid var(--highlight-color);
-        outline-offset: 2px;
+    .page-body {
+        --toplevel-margin: var(--space-md);
     }
 
-    .buttondown-callout a:hover {
-        color: var(--text-alt-color-2);
-        background-color: var(--background-color);
+    .post-audience {
+        flex-basis: 100%;
+    }
+
+    .post-audience::before {
+        content: none;
+    }
+
+    .blog-description {
+        margin-bottom: var(--space-xl);
+    }
+
+    .page-bottom-separator {
+        margin-top: var(--space-2xl);
+    }
+
+    .buttondown-form {
+        gap: var(--space-sm);
+        margin-bottom: var(--space-md);
+
+        label {
+            display: none;
+        }
+
+        input[type="email"] {
+            width: 100%;
+            min-width: 0;
+        }
+    }
+}
+
+@media screen and (min-width: 480px) {
+    .page-body {
+        --toplevel-margin: var(--space-xl);
+    }
+}
+/* show blogroll list with two columns when there's enough space */
+@media screen and (min-width: 768px) {
+    .blogroll-content ul {
+        column-count: 2;
+        column-gap: var(--space-2xl);
     }
 }
