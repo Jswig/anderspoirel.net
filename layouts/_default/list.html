@@ -1,6 +1,7 @@
 {{ define "main" }}
 
 <h1 class="page-title">{{ .Title }}</h1>
+
 {{ range .Pages.ByPublishDate.Reverse }}
 {{ partial "list-item.html" . }}
 {{ end }}
