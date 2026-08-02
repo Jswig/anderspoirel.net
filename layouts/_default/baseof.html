@@ -10,12 +10,12 @@
   <body class="page-body">
     <header class="page-header">
       <nav>
-        <div class="nav-left">
+        <div class="nav-home">
           {{ range first 1 .Site.Menus.main }}
           <a href="{{ .URL }}">{{ .Name | safeHTML }}</a>
           {{ end }}
         </div>
-        <div class="nav-right">
+        <div class="nav-pages">
           {{ range after 1 .Site.Menus.main }}
           <a href="{{ .URL }}">{{ .Name | safeHTML }}</a>
           {{ end }}
