@@ -82,7 +82,8 @@ html {
 
     /* layout width */
     --content-limit: 80ch;
-    --sidebar-limit: 20ch;
+    --navbar-limit: 20ch;
+    --navbar-gap: var(--space-xl);
 
     border-top: none;
     box-sizing: border-box;
@@ -292,26 +293,27 @@ tbody tr:nth-child(even) {
 /**********/
 
 .page-body {
+    --toplevel-margin: var(--space-md);
+
     display: grid;
-    grid-template-rows: auto auto auto auto;
-    grid-template-columns: auto auto;
+    grid-template-rows: minmax(0, 1fr) auto auto;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: var(--navbar-gap);
     grid-template-areas:
-        "sidebar main"
-        "sidebar separator"
-        "sidebar footer"
+        "navbar main"
+        "navbar separator"
+        "navbar footer"
     ;
+    justify-content: center;
     margin: var(--toplevel-margin) auto;
-    max-width: calc(var(--content-limit) + var(--sidebar-limit));
+    max-width: calc(var(--content-limit) + var(--navbar-limit) + var(--navbar-gap));
     width: calc(100% - 2 * var(--toplevel-margin));
-    /* forces content to fill entire page vertically.
-     * Since we're adding margin around this on both the top and the bottom of this
-     * container, substract it so that the added margin doesn't create a scrollbar
-    */
-    /*min-height: calc(100vh - 2 * var(--toplevel-margin));*/
+    min-height: calc(100vh - 2 * var(--toplevel-margin));
+    min-height: calc(100dvh - 2 * var(--toplevel-margin));
 }
 
 .page-header {
-    grid-area: "sidebar";
+    grid-area: navbar;
 
     nav {
         display: flex;
@@ -370,7 +372,9 @@ tbody tr:nth-child(even) {
 .page-main {
     grid-area: main;
     line-height: 1.6;
-    max-width: 80ch;
+    max-width: var(--content-limit);
+    min-width: 0;
+    width: 100%;
     overflow-x: auto;
 }
 
@@ -516,7 +520,7 @@ tbody tr:nth-child(even) {
 .blog-description {
     font-size: 1.2rem;
     margin-bottom: var(--space-3xl);
-    margin-top: var(--space-xs);
+    margin-top: var(--space-md);
 }
 
 .view-all-posts {
@@ -526,27 +530,30 @@ tbody tr:nth-child(even) {
 
 
 
-@media screen and (max-width: 480px) {
-    h1 {
-        margin-bottom: var(--space-lg);
-    }
-
-    h2 {
-        margin-top: var(--space-xl);
-        margin-bottom: var(--space-md);
+@media screen and (max-width: 1023px) {
+    .page-body {
+        grid-template-rows: auto minmax(0, 1fr) auto auto;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "navbar"
+            "main"
+            "separator"
+            "footer"
+        ;
     }
 
     .page-header {
         nav {
-            flex-flow: column;
+            flex-flow: row wrap;
             align-items: center;
+            justify-content: space-between;
             gap: var(--space-sm);
             margin-bottom: var(--space-xl);
         }
 
         .nav-left,
         .nav-right {
-            flex-direction: column;
+            flex-flow: row wrap;
             align-items: center;
             gap: var(--space-sm);
         }
@@ -554,8 +561,18 @@ tbody tr:nth-child(even) {
         .nav-left a,
         .nav-right a {
             margin: 0;
-            padding: var(--space-sm);
         }
+    }
+}
+
+@media screen and (max-width: 479px) {
+    h1 {
+        margin-bottom: var(--space-lg);
+    }
+
+    h2 {
+        margin-top: var(--space-xl);
+        margin-bottom: var(--space-md);
     }
 
     .page-body {
@@ -598,6 +615,13 @@ tbody tr:nth-child(even) {
         --toplevel-margin: var(--space-xl);
     }
 }
+
+@media screen and (min-width: 1024px) {
+    .page-header .nav-left a {
+        font-size: 1.1em;
+    }
+}
+
 /* show blogroll list with two columns when there's enough space */
 @media screen and (min-width: 768px) {
     .blogroll-content ul {
