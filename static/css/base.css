@@ -1,3 +1,4 @@
+/* rename the fonts to avoid conflict with system's version of Charter on macOS */
 @font-face {
     font-family: "ReCharter";
     font-weight: 400;
@@ -47,16 +48,18 @@
 }
 
 html {
+    --font-size: 18px;
+
     /* spacing scale */
-    --space-xs: 0.25rem; /* 4px */
+    --space-xs: 0.25rem;
     --space-s: 0.4rem;
-    --space-sm: 0.5rem; /* 8px */
-    --space-md: 1rem; /* 16px */
-    --space-lg: 1.5rem; /* 24px */
-    --space-xl: 2rem; /* 32px */
-    --space-2xl: 2.75rem; /* 44px */
-    --space-3xl: 4rem; /* 64px */
-    --space-4xl: 6rem; /* 96px */
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 2.75rem;
+    --space-3xl: 4rem;
+    --space-4xl: 6rem;
 
     /* colors */
     --background-color: #1c1e26;
@@ -73,12 +76,23 @@ html {
     /* design tokens */
     --box-border-radius: var(--space-xs);
     --inline-border-radius: calc(var(--space-xs) / 2);
-    --font-size: 16px;
     --text-highlight-padding: calc(var(--space-xs) / 2);
     --font-mono: "ReInconsolata", "Consolas", monospace;
     --font-serif: "ReCharter", serif;
 
+    /* layout width */
+    --content-limit: 80ch;
+    --sidebar-limit: 20ch;
+
+    border-top: none;
+    box-sizing: border-box;
+    position: relative;
+    color: var(--text-color);
+    font-size: var(--font-size);
+    line-height: 1.4;
+    tab-size: 4;
     background-color: var(--background-color);
+
     /* dot effect in the background*/
     background-image: radial-gradient(
         circle,
@@ -87,13 +101,6 @@ html {
     );
     background-size: 24px calc(1.4 * 16px);
     background-position: 0 0.2rem;
-    border-top: none;
-    box-sizing: border-box;
-    position: relative;
-    color: var(--text-color);
-    font-size: var(--font-size);
-    line-height: 1.4;
-    tab-size: 4;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -298,15 +305,15 @@ tbody tr:nth-child(even) {
     font-weight: normal;
     margin-top: calc(-1 * var(--space-lg));
     margin-bottom: var(--space-xl);
-}
 
-.post-audience {
-    font-size: 0.9em;
-}
+    .post-audience {
+        font-size: 0.9em;
+    }
 
-.post-audience::before {
-    content: "·";
-    margin-right: var(--space-xs);
+    .post-audience::before {
+        content: "·";
+        margin-right: var(--space-xs);
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -366,72 +373,77 @@ tbody tr:nth-child(even) {
 
 .page-body {
     display: grid;
-    grid-template-rows: auto 1fr auto;
-    grid-template-columns: 1fr;
-    grid-template-areas: "header" "main" "footer";
+    grid-template-rows: auto auto auto auto;
+    grid-template-columns: auto auto;
+    grid-template-areas:
+        "sidebar content"
+        "sidebar separator"
+        "footer footer"
+    ;
     margin: var(--toplevel-margin) auto;
-    max-width: 80ch;
+    max-width: calc(var(--content-limit) + var(--sidebar-limit));
     width: calc(100% - 2 * var(--toplevel-margin));
     /* forces content to fill entire page vertically.
      * Since we're adding margin around this on both the top and the bottom of this
      * container, substract it so that the added margin doesn't create a scrollbar
     */
-    min-height: calc(100vh - 2 * var(--toplevel-margin));
+    /*min-height: calc(100vh - 2 * var(--toplevel-margin));*/
 }
 
-.page-header nav {
-    display: flex;
-    flex-flow: row wrap;
-    grid-area: "header";
-    justify-content: space-between;
-    margin-bottom: var(--space-xl);
-}
+.page-header {
+    nav {
+        display: flex;
+        flex-flow: column wrap;
+        grid-area: "sidebar";
+        justify-content: space-between;
+        margin-bottom: var(--space-xl);
+    }
 
-/* Shared navigation container styles */
-.nav-left,
-.nav-right {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-}
+    a {
+        font-family: var(--font-mono);
+        font-weight: 700;
+        border-radius: var(--box-border-radius);
+        padding: var(--space-xs);
+    }
 
-/* Shared navigation link styles */
-.nav-left a,
-.nav-right a {
-    font-family: var(--font-mono);
-    font-weight: 700;
-    border-radius: var(--box-border-radius);
-    padding: var(--space-xs);
-}
+    /* Shared navigation container styles */
+    .nav-left,
+    .nav-right {
+        display: flex;
+        flex-flow: column wrap;
+        align-items: start;
+    }
 
-/* Direction-specific spacing */
-.nav-left a {
-    margin-right: var(--space-md);
-}
+    /* Shared navigation link styles */
+    /* Direction-specific spacing */
+    .nav-left a {
+        margin-right: var(--space-md);
+    }
 
-.nav-right a {
-    margin-left: var(--space-md);
-}
+    .nav-right a {
+        /*margin-left: var(--space-md);*/
+    }
 
-.nav-right a:first-child {
-    margin-left: 0;
-}
+    .nav-right a:first-child {
+        margin-left: 0;
+    }
 
-.nav-right a:last-child {
-    margin-right: 0;
-}
+    .nav-right a:last-child {
+        margin-right: 0;
+    }
 
-/* Shared hover and focus states */
-.nav-left a:hover,
-.nav-right a:hover {
-    color: var(--text-color);
-    background-color: var(--highlight-alt-color);
-}
+    /* Shared hover and focus states */
+    .nav-left a:hover,
+    .nav-right a:hover {
+        color: var(--text-color);
+        background-color: var(--highlight-alt-color);
+    }
 
-.nav-left a:focus,
-.nav-right a:focus {
-    outline: 2px solid var(--highlight-color);
-    outline-offset: 2px;
+    .nav-left a:focus,
+    .nav-right a:focus {
+        outline: 2px solid var(--highlight-color);
+        outline-offset: 2px;
+    }
 }
 
 /* switch to a column layout for small screens */
@@ -457,8 +469,8 @@ tbody tr:nth-child(even) {
 }
 
 .page-main {
-    grid-area: "main";
     line-height: 1.6;
+    max-width: 80ch;
     overflow-x: auto;
 }
 
@@ -469,57 +481,56 @@ tbody tr:nth-child(even) {
 }
 
 .page-footer {
-    grid-area: "footer";
     margin-top: var(--space-xl);
     font-family: var(--font-mono);
-}
 
-.page-footer a {
-    font-weight: 700;
-    padding: var(--space-xs);
-    border-radius: var(--box-border-radius);
-}
+    a {
+        font-weight: 700;
+        padding: var(--space-xs);
+        border-radius: var(--box-border-radius);
+    }
 
-.page-footer a:hover {
-    color: var(--text-alt-color);
-    background-color: var(--highlight-alt-color);
+    a:hover {
+        color: var(--text-alt-color);
+        background-color: var(--highlight-alt-color);
+    }
 }
 
 .post-list-item {
     display: flex;
     gap: var(--space-md);
     align-items: baseline;
-}
 
-.listed-post-date {
-    color: var(--text-alt-color);
-    flex-shrink: 0;
-    white-space: nowrap;
+    .listed-post-date {
+        color: var(--text-alt-color);
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
 }
 
 .footnotes {
     font-size: 0.9rem;
     margin-top: var(--space-xl);
     color: var(--text-alt-color);
-}
 
-.footnotes code {
-    color: var(--text-alt-color-2);
-}
+    code {
+        color: var(--text-alt-color-2);
+    }
 
-.footnotes ol {
-    padding-left: var(--space-lg);
-}
+    ol {
+        padding-left: var(--space-lg);
+    }
 
-.footnotes li {
-    margin-bottom: var(--space-sm);
-    scroll-margin-top: var(--space-lg);
-}
+    li {
+        margin-bottom: var(--space-sm);
+        scroll-margin-top: var(--space-lg);
+    }
 
-.footnotes li:target {
-    background: var(--background-alt-color);
-    border-radius: var(--box-border-radius);
-    padding: var(--space-xs);
+    li:target {
+        background: var(--background-alt-color);
+        border-radius: var(--box-border-radius);
+        padding: var(--space-xs);
+    }
 }
 
 .footnote-ref {
@@ -554,39 +565,39 @@ tbody tr:nth-child(even) {
     gap: var(--space-sm);
     margin-bottom: var(--space-lg);
     flex-wrap: nowrap;
-}
 
-.buttondown-form input[type="email"] {
-    background-color: var(--background-alt-color);
-    border: 1px solid var(--text-alt-color-3);
-    color: var(--text-color);
-    padding: var(--space-sm) var(--space-sm);
-    width: 12rem;
-    border-radius: var(--box-border-radius);
-}
+    input[type="email"] {
+        background-color: var(--background-alt-color);
+        border: 1px solid var(--text-alt-color-3);
+        color: var(--text-color);
+        padding: var(--space-sm) var(--space-sm);
+        width: 12rem;
+        border-radius: var(--box-border-radius);
+    }
 
-.buttondown-form input[type="submit"] {
-    background-color: var(--highlight-alt-color);
-    color: var(--text-color);
-    border: 1px solid transparent;
-    padding: var(--space-sm) var(--space-md);
-    cursor: pointer;
-    font-family: var(--font-mono);
-    font-weight: 500;
-    border-radius: var(--box-border-radius);
-    transition: background-color 0.2s ease;
-}
+    input[type="submit"] {
+        background-color: var(--highlight-alt-color);
+        color: var(--text-color);
+        border: 1px solid transparent;
+        padding: var(--space-sm) var(--space-md);
+        cursor: pointer;
+        font-family: var(--font-mono);
+        font-weight: 500;
+        border-radius: var(--box-border-radius);
+        transition: background-color 0.2s ease;
+    }
 
-.buttondown-form input[type="submit"]:hover {
-    background-color: var(--highlight-color);
-}
+    input[type="submit"]:hover {
+        background-color: var(--highlight-color);
+    }
 
-.buttondown-form input[type="submit"]:focus {
-    outline: 2px solid var(--highlight-color);
-    outline-offset: 2px;
-}
+    input[type="submit"]:focus {
+        outline: 2px solid var(--highlight-color);
+        outline-offset: 2px;
+    }
 
-.buttondown-callout a:hover {
-    color: var(--text-alt-color-2);
-    background-color: var(--background-color);
+    .buttondown-callout a:hover {
+        color: var(--text-alt-color-2);
+        background-color: var(--background-color);
+    }
 }
