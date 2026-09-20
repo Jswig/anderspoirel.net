@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="{{ $css }}">
     <title>{{ .Title }} - {{ .Site.Title }}</title>
   </head>
+  <script>
+  function switchTheme(theme) {
+    if (theme === "dark") {
+      console.log(`selected theme: ${theme}`)
+    } else if (theme === "light") {
+      console.log(`selected theme: ${theme}`)
+    } else {
+      console.log(`unknown theme: ${theme}`)
+    }
+  }
+  </script>
   <body class="page-body">
     <header class="page-header">
       <nav>
