@@ -72,6 +72,11 @@ html {
     --text-alt-color-3: #a8a8a8;
     --text-color: #e5e5e5;
     --code-regular-color: #d0d0d0;
+    --on-highlight-color: var(--text-color);
+    --dot-color: rgba(255, 255, 255, 0.05);
+    --table-border-color: rgba(229, 229, 229, 0.12);
+    --table-stripe-color: rgba(255, 255, 255, 0.025);
+    color-scheme: dark;
 
     /* design tokens */
     --box-border-radius: var(--space-xs);
@@ -98,7 +103,7 @@ html {
     /* dot effect in the background*/
     background-image: radial-gradient(
         circle,
-        rgba(255, 255, 255, 0.05) 1px,
+        var(--dot-color) 1px,
         transparent 1px
     );
     background-size: 24px calc(1.4 * 16px);
@@ -106,6 +111,25 @@ html {
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+html.light {
+    --background-color: #f1e9d9;
+    --background-alt-color: #e7dcc8;
+    --highlight-alt-color: #163d59;
+    --highlight-color: #245676;
+    --emphasis-color: #204b70;
+    --text-alt-color: #37352f;
+    --text-alt-color-2: #4a453d;
+    --text-alt-color-3: #5b544a;
+    --text-color: #24221f;
+    --code-regular-color: #24221f;
+    --on-highlight-color: #fff;
+    --divider-color: rgba(36, 34, 31, 0.2);
+    --dot-color: rgba(60, 48, 32, 0.09);
+    --table-border-color: rgba(36, 34, 31, 0.16);
+    --table-stripe-color: rgba(60, 48, 32, 0.04);
+    color-scheme: light;
 }
 
 a {
@@ -153,6 +177,14 @@ code {
 }
 
 pre {
+    /* Keep code blocks and syntax highlighting dark in both page themes. */
+    --background-alt-color: #242630;
+    --highlight-alt-color: #51aaac;
+    --highlight-color: #74c7c9;
+    --emphasis-color: #dc7279;
+    --code-regular-color: #d0d0d0;
+
+    color: #e5e5e5;
     background-color: var(--background-alt-color);
     border-radius: var(--box-border-radius);
     margin: var(--space-lg) 0;
@@ -261,7 +293,7 @@ thead {
 
 th,
 td {
-    border-bottom: 1px solid rgba(229, 229, 229, 0.12);
+    border-bottom: 1px solid var(--table-border-color);
     padding: var(--space-sm) var(--space-md);
     text-align: left;
     vertical-align: top;
@@ -287,7 +319,7 @@ td {
 }
 
 tbody tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.025);
+    background: var(--table-stripe-color);
 }
 
 /* layout */
@@ -335,7 +367,7 @@ tbody tr:nth-child(even) {
 
     a:hover {
         background-color: var(--highlight-alt-color);
-        color: var(--text-color);
+        color: var(--on-highlight-color);
     }
 
     a:focus {
@@ -345,6 +377,35 @@ tbody tr:nth-child(even) {
 
     .nav-home {
         font-size: 1.1rem;
+    }
+
+    .theme-switch {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        margin-right: var(--space-md);
+    }
+
+    .theme-switch button {
+        background: none;
+        border: 0;
+        color: var(--text-alt-color-2);
+        cursor: pointer;
+        font: inherit;
+        padding: var(--space-xs);
+    }
+
+    .theme-switch button[aria-pressed="true"] {
+        color: var(--text-color);
+        font-weight: 700;
+    }
+
+    .theme-switch button:hover {
+        color: var(--highlight-color);
+    }
+
+    .theme-switch button:focus-visible {
+        outline: 2px solid var(--highlight-color);
+        outline-offset: 2px;
     }
 
     /* Shared navigation container styles */
@@ -384,7 +445,7 @@ tbody tr:nth-child(even) {
 
     a:hover {
         background-color: var(--highlight-alt-color);
-        color: var(--text-alt-color);
+        color: var(--on-highlight-color);
     }
 
     .buttondown-form {
@@ -407,7 +468,7 @@ tbody tr:nth-child(even) {
             background-color: var(--highlight-alt-color);
             border: 1px solid transparent;
             border-radius: var(--box-border-radius);
-            color: var(--text-color);
+            color: var(--on-highlight-color);
             cursor: pointer;
             font-family: var(--font-mono);
             font-weight: 500;
@@ -610,6 +671,10 @@ tbody tr:nth-child(even) {
             flex-flow: row wrap;
             gap: var(--space-sm);
             justify-content: space-between;
+            margin-bottom: var(--space-sm);
+        }
+
+        .theme-switch {
             margin-bottom: var(--space-xl);
         }
 

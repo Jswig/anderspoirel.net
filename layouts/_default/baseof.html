@@ -4,6 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {{ $css := "css/styles.css" | relURL }}
+    <script>
+      function setTheme(theme) {
+        const light = theme === 'light';
+        document.documentElement.classList.toggle('light', light);
+        document.querySelectorAll('.theme-switch button').forEach(button => {
+          button.setAttribute('aria-pressed', String(button.dataset.theme === theme));
+        });
+        try { localStorage.setItem('theme', theme); } catch (_) {}
+      }
+      let savedTheme;
+      try { savedTheme = localStorage.getItem('theme'); } catch (_) {}
+      setTheme(savedTheme === 'light' ? 'light' : 'dark');
+    </script>
     <link rel="stylesheet" href="{{ $css }}">
     <title>{{ .Title }} - {{ .Site.Title }}</title>
   </head>
@@ -21,6 +34,10 @@
           {{ end }}
         </div>
       </nav>
+      <div class="theme-switch" role="group" aria-label="Color theme">
+        <button type="button" data-theme="light" aria-pressed="false" onclick="setTheme('light')">light</button> |
+        <button type="button" data-theme="dark" aria-pressed="true" onclick="setTheme('dark')">dark</button>
+      </div>
     </header>
     <main class="page-main">
       {{ block "main" . }}{{ end }}
@@ -42,5 +59,6 @@
       </form>
       <p>© 2022-{{ now.Format "2006" }} by Anders Poirel</p>
     </footer>
+    <script>setTheme(document.documentElement.classList.contains('light') ? 'light' : 'dark');</script>
   </body>
 </html>
