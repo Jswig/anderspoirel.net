@@ -3,21 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {{ $css := "css/styles.css" | relURL }}
-    <script>
-      function setTheme(theme) {
-        const light = theme === 'light';
-        document.documentElement.classList.toggle('light', light);
-        document.querySelectorAll('.theme-switch button').forEach(button => {
-          button.setAttribute('aria-pressed', String(button.dataset.theme === theme));
-        });
-        try { localStorage.setItem('theme', theme); } catch (_) {}
-      }
-      let savedTheme;
-      try { savedTheme = localStorage.getItem('theme'); } catch (_) {}
-      setTheme(savedTheme === 'light' ? 'light' : 'dark');
-    </script>
-    <link rel="stylesheet" href="{{ $css }}">
+    <link rel="stylesheet" href="{{ relURL "css/styles.css" }}">
+    <script src="{{ relURL "js/theme.js" }}" defer></script>
+    <script type="module"
+      src="{{ relURL "vendor/justif-0.9.1.min.js" }}"
+      data-justif-selector=".page-main article > p:not(.page-title-date), .page-main > p:not(.blog-description), .blogroll-content > p"
+    ></script>
     <title>{{ .Title }} - {{ .Site.Title }}</title>
   </head>
   <body class="page-body">
@@ -32,12 +23,12 @@
           {{ range after 1 .Site.Menus.main }}
           <a href="{{ .URL }}">{{ .Name | safeHTML }}</a>
           {{ end }}
+          <div class="theme-switch" role="group" aria-label="Color theme">
+            <button type="button" data-theme="light" aria-pressed="false" onclick="setTheme('light')">○light</button> |
+            <button type="button" data-theme="dark" aria-pressed="true" onclick="setTheme('dark')">●dark</button>
+          </div>
         </div>
       </nav>
-      <div class="theme-switch" role="group" aria-label="Color theme">
-        <button type="button" data-theme="light" aria-pressed="false" onclick="setTheme('light')">light</button> |
-        <button type="button" data-theme="dark" aria-pressed="true" onclick="setTheme('dark')">dark</button>
-      </div>
     </header>
     <main class="page-main">
       {{ block "main" . }}{{ end }}

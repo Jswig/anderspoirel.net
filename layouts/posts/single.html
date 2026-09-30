@@ -6,7 +6,7 @@
             <em>{{ .PublishDate.Format "2006-01-02" }}</em>
         </time>
         {{ with .Params.assumed_audience }}
-            <span class="post-audience"><em><strong>assumed audience:</strong> {{ . }}</em></span>
+            <span class="post-audience"><strong>assumed audience:</strong> {{ . }}</span>
         {{ end }}
     </p>
 

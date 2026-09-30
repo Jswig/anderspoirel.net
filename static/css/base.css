@@ -61,23 +61,6 @@ html {
     --space-3xl: 4rem;
     --space-4xl: 6rem;
 
-    /* colors */
-    --background-color: #1c1e26;
-    --background-alt-color: #242630;
-    --highlight-alt-color: #51aaac;
-    --highlight-color: #74c7c9;
-    --emphasis-color: #dc7279;
-    --text-alt-color: #d0d0d0;
-    --text-alt-color-2: #bdbdbd;
-    --text-alt-color-3: #a8a8a8;
-    --text-color: #e5e5e5;
-    --code-regular-color: #d0d0d0;
-    --on-highlight-color: var(--text-color);
-    --dot-color: rgba(255, 255, 255, 0.05);
-    --table-border-color: rgba(229, 229, 229, 0.12);
-    --table-stripe-color: rgba(255, 255, 255, 0.025);
-    color-scheme: dark;
-
     /* design tokens */
     --box-border-radius: var(--space-xs);
     --inline-border-radius: calc(var(--space-xs) / 2);
@@ -111,13 +94,33 @@ html {
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    /* dark theme colors */
+    --background-color: #1c1e26;
+    --background-alt-color: #242630;
+    --highlight-alt-color: #3e7073;
+    --highlight-color: #8bbfc0;
+    --link-hover-color: #acd1d1;
+    --emphasis-color: #c9868c;
+    --text-alt-color: #d0d0d0;
+    --text-alt-color-2: #bdbdbd;
+    --text-alt-color-3: #a8a8a8;
+    --text-color: #e5e5e5;
+    --code-regular-color: #d0d0d0;
+    --on-highlight-color: var(--text-color);
+    --dot-color: rgba(255, 255, 255, 0.05);
+    --divider-color:rgba(229, 229, 229, 0.12);
+    --table-border-color: rgba(229, 229, 229, 0.12);
+    --table-stripe-color: rgba(255, 255, 255, 0.025);
+    color-scheme: dark;
 }
 
 html.light {
-    --background-color: #f1e9d9;
-    --background-alt-color: #e7dcc8;
-    --highlight-alt-color: #163d59;
-    --highlight-color: #245676;
+    --background-color: #fafaf8;
+    --background-alt-color: #f1f1ee;
+    --highlight-alt-color: #205477;
+    --highlight-color: #286a94;
+    --link-hover-color: var(--highlight-alt-color);
     --emphasis-color: #204b70;
     --text-alt-color: #37352f;
     --text-alt-color-2: #4a453d;
@@ -141,7 +144,7 @@ a {
 }
 
 a:hover {
-    color: var(--highlight-alt-color);
+    color: var(--link-hover-color);
 }
 
 a:active {
@@ -177,12 +180,12 @@ code {
 }
 
 pre {
-    /* Keep code blocks and syntax highlighting dark in both page themes. */
+    /* Keep code blocks dark in both themes, with muted teal and rose syntax. */
     --background-alt-color: #242630;
-    --highlight-alt-color: #51aaac;
-    --highlight-color: #74c7c9;
-    --emphasis-color: #dc7279;
+    --highlight-color: #8bbfc0;
+    --emphasis-color: #c9868c;
     --code-regular-color: #d0d0d0;
+    --code-comment-color: #89adae;
 
     color: #e5e5e5;
     background-color: var(--background-alt-color);
@@ -229,7 +232,7 @@ h2 {
 h2 {
     color: var(--text-alt-color);
     margin-top: var(--space-xl);
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-md);
 }
 
 h3 {
@@ -354,7 +357,7 @@ tbody tr:nth-child(even) {
         display: flex;
         flex-flow: column wrap;
         justify-content: space-between;
-        margin-bottom: var(--space-xl);
+        margin-bottom: var(--space-sm);
         margin-right: var(--space-md);
     }
 
@@ -375,14 +378,11 @@ tbody tr:nth-child(even) {
         outline-offset: 2px;
     }
 
-    .nav-home {
-        font-size: 1.1rem;
-    }
-
     .theme-switch {
+        align-items: center;
+        color: var(--text-alt-color-2);
+        display: flex;
         font-family: var(--font-mono);
-        font-size: 0.85rem;
-        margin-right: var(--space-md);
     }
 
     .theme-switch button {
@@ -391,7 +391,6 @@ tbody tr:nth-child(even) {
         color: var(--text-alt-color-2);
         cursor: pointer;
         font: inherit;
-        padding: var(--space-xs);
     }
 
     .theme-switch button[aria-pressed="true"] {
@@ -421,21 +420,32 @@ tbody tr:nth-child(even) {
     line-height: 1.6;
     max-width: var(--content-limit);
     min-width: 0;
-    overflow-x: auto;
+    overflow-x: clip;
     width: 100%;
+}
+
+/* Native fallback for paragraphs enhanced by Justif. Leave dates and post lists alone. */
+.page-main article > p:not(.page-title-date),
+.page-main > p:not(.blog-description),
+.blogroll-content > p {
+    text-align: justify;
+    hyphens: auto;
+    /* Hanging punctuation can spill outside the measure and trigger a scrollbar. */
+    --justif-protrusion: none;
+    --justif-hanging-punctuation: none;
 }
 
 .page-bottom-separator {
     font-size: 1.5rem;
     grid-area: separator;
-    margin: var(--space-md);
+    margin: var(--space-xl) 0 var(--space-md);
     text-align: center;
 }
 
 .page-footer {
     font-family: var(--font-mono);
     grid-area: footer;
-    margin-top: var(--space-xl);
+    margin-top: var(--space-md);
 
     a {
         border-radius: var(--box-border-radius);
@@ -537,7 +547,10 @@ tbody tr:nth-child(even) {
     margin-top: var(--space-xl);
 
     hr {
-        color: var(--divider-color);
+        border: 0;
+        border-top: 1px solid var(--divider-color);
+        margin: 0 auto var(--space-md);
+        width: 3rem;
     }
 
     code {
@@ -570,23 +583,13 @@ tbody tr:nth-child(even) {
 
 .blog-description {
     font-size: 1.2rem;
-    margin-bottom: var(--space-3xl);
+    margin-bottom: var(--space-2xl);
     margin-top: var(--space-md);
-}
-
-.view-all-posts {
-    font-size: 0.8rem;
-    margin-top: var(--space-lg);
 }
 
 @media screen and (max-width: 479px) {
     h1 {
         margin-bottom: var(--space-lg);
-    }
-
-    h2 {
-        margin-bottom: var(--space-md);
-        margin-top: var(--space-xl);
     }
 
     .page-body {
@@ -603,10 +606,6 @@ tbody tr:nth-child(even) {
 
     .blog-description {
         margin-bottom: var(--space-xl);
-    }
-
-    .page-bottom-separator {
-        margin-top: var(--space-2xl);
     }
 
 }
@@ -672,10 +671,6 @@ tbody tr:nth-child(even) {
             gap: var(--space-sm);
             justify-content: space-between;
             margin-bottom: var(--space-sm);
-        }
-
-        .theme-switch {
-            margin-bottom: var(--space-xl);
         }
 
         .nav-pages {
