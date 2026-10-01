@@ -110,28 +110,30 @@ html {
     --on-highlight-color: var(--text-color);
     --dot-color: rgba(255, 255, 255, 0.05);
     --divider-color:rgba(229, 229, 229, 0.12);
+    --input-border-color: rgba(229, 229, 229, 0.22);
     --table-border-color: rgba(229, 229, 229, 0.12);
     --table-stripe-color: rgba(255, 255, 255, 0.025);
     color-scheme: dark;
 }
 
 html.light {
-    --background-color: #fafaf8;
-    --background-alt-color: #f1f1ee;
-    --highlight-alt-color: #205477;
-    --highlight-color: #286a94;
+    --background-color: #fafafa;
+    --background-alt-color: #efefef;
+    --highlight-alt-color: #2449a3;
+    --highlight-color: #365fc4;
     --link-hover-color: var(--highlight-alt-color);
-    --emphasis-color: #204b70;
-    --text-alt-color: #37352f;
-    --text-alt-color-2: #4a453d;
-    --text-alt-color-3: #5b544a;
-    --text-color: #24221f;
-    --code-regular-color: #24221f;
+    --emphasis-color: #304b91;
+    --text-alt-color: #2d2f2b;
+    --text-alt-color-2: #494a46;
+    --text-alt-color-3: #5b5c56;
+    --text-color: #222421;
+    --code-regular-color: #222421;
     --on-highlight-color: #fff;
-    --divider-color: rgba(36, 34, 31, 0.2);
-    --dot-color: rgba(60, 48, 32, 0.09);
-    --table-border-color: rgba(36, 34, 31, 0.16);
-    --table-stripe-color: rgba(60, 48, 32, 0.04);
+    --divider-color: rgba(34, 34, 34, 0.09);
+    --input-border-color: rgba(34, 34, 34, 0.18);
+    --dot-color: rgba(48, 48, 48, 0.09);
+    --table-border-color: rgba(34, 34, 34, 0.16);
+    --table-stripe-color: rgba(48, 48, 48, 0.04);
     color-scheme: light;
 }
 
@@ -436,10 +438,15 @@ tbody tr:nth-child(even) {
 }
 
 .page-bottom-separator {
-    font-size: 1.5rem;
     grid-area: separator;
     margin: var(--space-xl) 0 var(--space-md);
+    max-width: var(--content-limit);
+    width: 100%;
     text-align: center;
+
+    span {
+        font-size: 1.5rem;
+    }
 }
 
 .page-footer {
@@ -466,12 +473,17 @@ tbody tr:nth-child(even) {
         margin-bottom: var(--space-lg);
 
         input[type="email"] {
-            background-color: var(--background-alt-color);
-            border: 1px solid var(--text-alt-color-3);
+            background-color: transparent;
+            border: 1px solid var(--input-border-color);
             border-radius: var(--box-border-radius);
             color: var(--text-color);
             padding: var(--space-sm) var(--space-sm);
             width: 12rem;
+        }
+
+        input[type="email"]:focus-visible {
+            outline: 2px solid var(--highlight-color);
+            outline-offset: 2px;
         }
 
         input[type="submit"] {
@@ -506,12 +518,13 @@ tbody tr:nth-child(even) {
 
 .page-title {
     margin-top: 0;
+    text-wrap: balance;
 }
 
 .page-title-date {
     align-items: baseline;
     color: var(--text-alt-color-2);
-    column-gap: var(--space-xs);
+    column-gap: var(--space-sm);
     display: flex;
     flex-wrap: wrap;
     font-size: var(--font-size);
@@ -525,7 +538,7 @@ tbody tr:nth-child(even) {
 
     .post-audience::before {
         content: "·";
-        margin-right: var(--space-xs);
+        margin-right: var(--space-sm);
     }
 }
 
@@ -548,7 +561,7 @@ tbody tr:nth-child(even) {
 
     hr {
         border: 0;
-        border-top: 1px solid var(--divider-color);
+        border-top: 2px solid var(--divider-color);
         margin: 0 auto var(--space-md);
         width: 3rem;
     }
