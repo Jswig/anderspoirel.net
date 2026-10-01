@@ -3,8 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {{ $css := "css/styles.css" | relURL }}
-    <link rel="stylesheet" href="{{ $css }}">
+    <link rel="stylesheet" href="{{ relURL "css/styles.css" }}">
+    <script src="{{ relURL "js/theme.js" }}" defer></script>
+    <script type="module"
+      src="{{ relURL "vendor/justif-0.9.1.min.js" }}"
+      data-justif-selector=".page-main article > p:not(.page-title-date), .page-main > p:not(.blog-description), .blogroll-content > p"
+    ></script>
     <title>{{ .Title }} - {{ .Site.Title }}</title>
   </head>
   <body class="page-body">
@@ -19,13 +23,17 @@
           {{ range after 1 .Site.Menus.main }}
           <a href="{{ .URL }}">{{ .Name | safeHTML }}</a>
           {{ end }}
+          <div class="theme-switch" role="group" aria-label="Color theme">
+            <button type="button" data-theme="light" aria-pressed="false" onclick="setTheme('light')">○light</button> |
+            <button type="button" data-theme="dark" aria-pressed="true" onclick="setTheme('dark')">●dark</button>
+          </div>
         </div>
       </nav>
     </header>
     <main class="page-main">
       {{ block "main" . }}{{ end }}
     </main>
-    <div class="page-bottom-separator">***</div>
+    <div class="page-bottom-separator"><span>***</span></div>
     <footer class="page-footer">
       <p>Comments? <a href="mailto:contact@anderspoirel.net">Send me an email.</a></p>
       <form
@@ -42,5 +50,6 @@
       </form>
       <p>© 2022-{{ now.Format "2006" }} by Anders Poirel</p>
     </footer>
+    <script>setTheme(document.documentElement.classList.contains('light') ? 'light' : 'dark');</script>
   </body>
 </html>
