@@ -3,14 +3,14 @@
 /* Background */ .bg { color:#e5e5e5;background-color: var(--background-alt-color); }
 /* PreWrapper */ .chroma { color:#e5e5e5;background-color: var(--background-alt-color); }
 /* Other */ .chroma .x {  }
-/* Error */ .chroma .err { color:#f00 }
+/* Error */ .chroma .err { color:#cf9498 }
 /* CodeLine */ .chroma .cl {  }
 /* LineLink */ .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
 /* LineTableTD */ .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
 /* LineTable */ .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0; }
-/* LineHighlight */ .chroma .hl { background-color:#191919 }
-/* LineNumbersTable */ .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272 }
-/* LineNumbers */ .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272 }
+/* LineHighlight */ .chroma .hl { background-color:#30343c }
+/* LineNumbersTable */ .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#858a90 }
+/* LineNumbers */ .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#858a90 }
 /* Line */ .chroma .line { display:flex; }
 /* Keyword */ .chroma .k { color:var(--code-regular-color);font-weight:bold }
 /* KeywordConstant */ .chroma .kc { color:var(--code-regular-color);font-weight:bold }
@@ -20,7 +20,7 @@
 /* KeywordReserved */ .chroma .kr { color:var(--code-regular-color);font-weight:bold }
 /* KeywordType */ .chroma .kt { color:var(--code-regular-color);font-weight:bold }
 /* Name */ .chroma .n {  }
-/* NameAttribute */ .chroma .na { color: var(--highlight-alt-color) }
+/* NameAttribute */ .chroma .na { color: var(--highlight-color) }
 /* NameBuiltin */ .chroma .nb { color: var(--code-regular-color) }
 /* NameBuiltinPseudo */ .chroma .bp {  }
 /* NameClass */ .chroma .nc {  }
@@ -66,13 +66,13 @@
 /* Operator */ .chroma .o {  }
 /* OperatorWord */ .chroma .ow {  }
 /* Punctuation */ .chroma .p {  }
-/* Comment */ .chroma .c { color: var(--highlight-alt-color) }
-/* CommentHashbang */ .chroma .ch { color: var(--highlight-alt-color) }
-/* CommentMultiline */ .chroma .cm { color: var(--highlight-alt-color) }
-/* CommentSingle */ .chroma .c1 { color: var(--highlight-alt-color) }
-/* CommentSpecial */ .chroma .cs { color: var(--highlight-alt-color) }
-/* CommentPreproc */ .chroma .cp { color:#0f0 }
-/* CommentPreprocFile */ .chroma .cpf { color:#0f0 }
+/* Comment */ .chroma .c { color: var(--code-comment-color) }
+/* CommentHashbang */ .chroma .ch { color: var(--code-comment-color) }
+/* CommentMultiline */ .chroma .cm { color: var(--code-comment-color) }
+/* CommentSingle */ .chroma .c1 { color: var(--code-comment-color) }
+/* CommentSpecial */ .chroma .cs { color: var(--code-comment-color) }
+/* CommentPreproc */ .chroma .cp { color: var(--code-comment-color) }
+/* CommentPreprocFile */ .chroma .cpf { color: var(--code-comment-color) }
 /* Generic */ .chroma .g {  }
 /* GenericDeleted */ .chroma .gd {  }
 /* GenericEmph */ .chroma .ge {  }
