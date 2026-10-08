@@ -5,15 +5,14 @@ title: "CV"
 ## Technical Expertise
 
 I'm a software engineer and data professional. I usually find myself enabling and doing
-"data work" writ large, whether this means building tool libraries, designing a data
-architecture, standing up platforms and infrastructure, analyzing data or building
-a statistical model.
+"data work" writ large, whether this means designing a data architecture, standing up
+platforms and infrastructure, analyzing data or building a statistical model.
 
-***Languages & tools***: Python (especially the data stack), Go, SQL,
-dbt, Docker, Terraform, Spark, AWS, Snowflake, Databricks
+***Languages & tools***: Python, Go, SQL, dbt, Docker, Terraform, Spark, AWS, Snowflake,
+Databricks.
 
-***Domains***: data engineering & analytics engineering, CI/CD, back-end engineering,
-business intelligence, statistics. Occasional ML and frontend work.
+***Domains***: data engineering & analytics engineering, CI/CD, statistics, back-end
+engineering. Occasional frontend and ML.
 
 ## Work
 
@@ -39,5 +38,4 @@ business intelligence, statistics. Occasional ML and frontend work.
 
 - BA computer science *(cum laude)*
 - BA mathematics *(cum laude)*
-- graduate coursework in statistics, analysis and optimization
-
+- graduate coursework in statistics and optimization
