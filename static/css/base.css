@@ -140,9 +140,7 @@ html.light {
 a {
     color: var(--highlight-color);
     text-decoration: none;
-    transition:
-        color 0.3s ease,
-        background-color 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 a:hover {
@@ -209,6 +207,7 @@ hr {
 }
 
 h1 {
+    font-size: 1.75em;
     margin-bottom: var(--space-xl);
 }
 
@@ -518,6 +517,7 @@ tbody tr:nth-child(even) {
 
 .page-title {
     margin-top: 0;
+    margin-bottom: var(--space-sm);
     text-wrap: balance;
 }
 
@@ -529,8 +529,7 @@ tbody tr:nth-child(even) {
     flex-wrap: wrap;
     font-size: var(--font-size);
     font-weight: normal;
-    margin-top: calc(-1 * var(--space-lg));
-    /*margin-bottom: var(--space-xl);*/
+    margin-top: 0;
 
     .post-audience {
         font-size: 0.9em;
@@ -601,10 +600,6 @@ tbody tr:nth-child(even) {
 }
 
 @media screen and (max-width: 479px) {
-    h1 {
-        margin-bottom: var(--space-lg);
-    }
-
     .page-body {
         --toplevel-margin: var(--space-md);
     }
@@ -613,7 +608,7 @@ tbody tr:nth-child(even) {
         flex-basis: 100%;
     }
 
-    .post-audience::before {
+    .page-title-date .post-audience::before {
         content: none;
     }
 
@@ -683,7 +678,7 @@ tbody tr:nth-child(even) {
             flex-flow: row wrap;
             gap: var(--space-sm);
             justify-content: space-between;
-            margin-bottom: var(--space-sm);
+            margin-bottom: var(--space-md);
         }
 
         .nav-pages {
