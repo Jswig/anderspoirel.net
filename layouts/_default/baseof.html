@@ -3,12 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- ensure correct theme is set before CSS is loaded--> 
+    <script>
+      try {
+        document.documentElement.classList.toggle('light', localStorage.getItem('theme') === 'light');
+      } catch (_) {}
+    </script>
     <link rel="stylesheet" href="{{ relURL "css/styles.css" }}">
     <script src="{{ relURL "js/theme.js" }}" defer></script>
-    <script type="module"
-      src="{{ relURL "vendor/justif-0.9.1.min.js" }}"
-      data-justif-selector=".page-main article > p:not(.page-title-date), .page-main > p:not(.blog-description), .blogroll-content > p"
-    ></script>
     <title>{{ .Title }} - {{ .Site.Title }}</title>
   </head>
   <body class="page-body">
@@ -50,6 +52,5 @@
       </form>
       <p>© 2022-{{ now.Format "2006" }} by Anders Poirel</p>
     </footer>
-    <script>setTheme(document.documentElement.classList.contains('light') ? 'light' : 'dark');</script>
   </body>
 </html>
