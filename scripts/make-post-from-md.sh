@@ -22,11 +22,11 @@ fi
 input_file="$1"
 
 if [[ ! -f "$input_file" ]]; then
-    echo "Error: File '$input_file' not found" >&2
+    echo "error: File '$input_file' not found" >&2
     exit 1
 fi
 
-echo -n "Enter post slug (e.g., 'my-awesome-post'): "
+echo -n "enter post slug (e.g., 'my-awesome-post'): "
 read -r slug
 
 hugo new "posts/${slug}.md"
@@ -37,4 +37,3 @@ post_file="content/posts/${slug}.md"
 echo "" >> "$post_file"
 echo "$formatted_content" >> "$post_file"
 
-echo "✓ Post created successfully at: $post_file"
