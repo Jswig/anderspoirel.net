@@ -10,14 +10,10 @@ architecture, standing up platforms and infrastructure, analyzing data or fittin
 occasional model.
 
 ***Languages & tools***: Python (especially the data stack), Go, SQL,
-Apache Spark & Delta Lake, Snowflake, dbt, Docker, Terraform, AWS.
+Apache Spark, Snowflake, Databricks, dbt, Docker, Terraform, AWS.
 
 ***Domains***: data engineering & analytics engineering, CI/CD, back-end engineering,
 business intelligence, machine learning.
-
-I've also dabbled in statistics (insofar as it's a distinct topic from ML), front-end
-(especially for data visualization) and infrastructure engineering
-(a.k.a. YAML templating for the uncharitable).
 
 ## Work
 
@@ -41,6 +37,6 @@ I've also dabbled in statistics (insofar as it's a distinct topic from ML), fron
 
 **University of California, Santa Cruz** *(2017 - 2021)*
 
-- BA computer science *(cum laude)*
-- BA mathematics *(cum laude)*
-- graduate coursework in statistics, analysis and optimization
+- BA computer science *(cum laude)*.
+- BA mathematics *(cum laude)*.
+- Graduate coursework in statistics, analysis and optimization.

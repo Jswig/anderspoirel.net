@@ -62,21 +62,19 @@ class Order:
 
 ## Why use a `dataclass` instead a `dict`?
 
-Data classes have a few distinct advantages over dictionaries.
 
 ### Readability
 
-First, a `dataclass` can be more readable than a `dict`. When you see a `dataclass` like
-`Order`, reading its definition tells you which fields it contains [^1]. On the other
+Dataclasses often make for more readable code than a dictionaries. A `dataclass` like
+`Order` makes the fields it contains immediately clear to the reader[^1]. On the other
 hand, items can be added or removed from a `dict` at various points in the code, which
 means you have to potentially read through much more code to know the shape of the data.
 While this can be avoided with discipline (for instance, you can avoid inserting new
-items into a `dict` after it's instantiated), `dataclass` helps enforce this discipline
-automatically.
+items into a `dict` after it's instantiated), dataclasses avoid the problem entirely.
 
 ### Error checking & debugging
 
-Representing data as a `dataclass` also makes debugging faster. For example, using the
+Representing data as a `dataclass` also speeds up debugging. For example, using the
 same `Order` class as before, if you forgot to provide `customer_id` when instantiating,
 it raises an error with the exact line where you forgot to provide the `customer_id`:
 

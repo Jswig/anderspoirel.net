@@ -55,14 +55,11 @@ from support_tickets tablesample reservoir(100 rows)
 This will give you a much higher chance of finding problems, since you're not
 arbitrarily biasing the data subset you're inspecting.
 
-Of course, random sampling won't uncover everything, but in my experience it's very
-effective at surfacing issues I wouldn't otherwise discover during development. In
-practice, this looks like alternating between taking random samples to discover new
-problematic rows, and building a follow-up query to discover variations of this problem
-and help me iterate on my pipeline's logic.
+In my own experience, random sampling is very effective at surfacing issues during
+development compared to inspecting the top N rows.
 
-[^1]: The query shown here uses DuckDB syntax for random sampling, but most SQL
-dialects ([Snowflake](https://docs.snowflake.com/en/sql-reference/constructs/sample),
+[^1]: This query uss DuckDB syntax for random sampling, but most SQL dialects 
+([Snowflake](https://docs.snowflake.com/en/sql-reference/constructs/sample),
 [Apache Spark](https://spark.apache.org/docs/latest/sql-ref-syntax-qry-select-sampling.html),
 [Postgres](https://www.postgresql.org/docs/current/sql-select.html)) support a similar
 statement. Annoyingly, none of this is standardized in ANSI SQL.
