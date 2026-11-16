@@ -1,5 +1,5 @@
 ---
-title: "Are MD5 hashes a good default for surrogate keys?"
+title: "Is a full MD5 hash the best default for surrogate keys?"
 date: 2026-05-16T20:36:23-07:00
 tags: []
 draft: false
@@ -7,10 +7,10 @@ favorite: true
 assumed_audience: "data and analytics engineers"
 ---
 
-In the extra-load-transform (ELT) paradigm of data engineering, a popular method to
-generate surrogate keys in the transformation step is to compute a
+In the extra-load-transform (ELT) paradigm of data engineering, it's common to generate
+generate surrogate keys in the transformation step with an
 [MD5 hash](https://en.wikipedia.org/wiki/MD5) of uniquely identifying columns and store
-it as a string. This is the approach of dbt's built-in
+it as a string. This what dbt does in its built-in
 [generate_surrogate_key](https://docs.getdbt.com/blog/sql-surrogate-keys?version=1.11)
 macro.
 
@@ -66,15 +66,11 @@ The source code for the benchmark is available
 | 10 | 366ms | 259ms | 29.2% |
 | **Average** | **363.2ms** | **246.9ms** | **30.35%** |
 
-That's a ~30% speedup. Of course, there is a lot variation between data warehouses in
-how they implement join strategies, vectorization and compression, which will affect the
-magnitude of the speedup. However, the broad strokes of modern "shared-nothing" data
-warehouse systems are similar enough that I would expect the performance improvement to
-remain noticeable across systems.
+That's a ~25-30% speedup.
 
 ## Key collisions
 
-A MD5 hash has 128 bits of entropy. Plugging this into a hash collision calculator, even
+A MD5 hash has 128 bits of entropy. Using a hash collision calculator, even
 at 100 trillion rows in a table the collision chance is less than 1 in a billion, which
 is to say that it "just works" for any practical dataset[^4].
 A 64-bit truncated version on the other hand has a ~2.7% chance at 1,000,000,000 rows,

@@ -53,10 +53,10 @@ rows = [{"user_id": r[0], "created_at": r[1]} for r in result]
 ```
 
 However, this becomes impractical once your query includes dozens of columns or even a
-`SELECT *`[^1].
+`SELECT *`.
 
 Using `Cursor.description`, you can retreive column names automatically without reaching
-for [SQLAlchemy](https://www.sqlalchemy.org/)[^2]. `description` is a sequence of column
+for [SQLAlchemy](https://www.sqlalchemy.org/)[^1]. `description` is a sequence of column
 desciptions for the result of the last query executed. Since first element of each
 column description is the column's name, you can get all the column names like this:
 
@@ -82,10 +82,7 @@ def execute_query(connection, query):
     ]
 ```
 
-[^1]: Before you balk that it should not be used in practice, `SELECT *` is very, very
-convenient for data exploration.
-
-[^2]: `SQLAlchemy` is a great fit for many workloads, especially if you limit yourself
+[^1]: `SQLAlchemy` is a great fit for many workloads, especially if you limit yourself
 to the [core](https://docs.sqlalchemy.org/en/20/core/) API! But it's also a large
 dependency with a bit of a
 [learning curve](https://lucumr.pocoo.org/2011/7/19/sqlachemy-and-you/), which I would
