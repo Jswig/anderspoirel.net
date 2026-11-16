@@ -3,14 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- ensure correct theme is set before CSS is loaded--> 
-    <script>
-      try {
-        document.documentElement.classList.toggle('light', localStorage.getItem('theme') === 'light');
-      } catch (_) {}
-    </script>
     <link rel="stylesheet" href="{{ relURL "css/styles.css" }}">
     <script src="{{ relURL "js/theme.js" }}" defer></script>
+    <script type="module" src="{{ relURL "js/vendor/justif-0.9.1.min.js" }}" data-justif-selector=".page-main article > p:not(.page-title-date), .page-main > p:not(.blog-description), .blogroll-content > p"></script>
     <title>{{ .Title }} - {{ .Site.Title }}</title>
   </head>
   <body class="page-body">
@@ -26,8 +21,9 @@
           <a href="{{ .URL }}">{{ .Name | safeHTML }}</a>
           {{ end }}
           <div class="theme-switch" role="group" aria-label="Color theme">
-            <button type="button" data-theme="light" aria-pressed="false" onclick="setTheme('light')">○light</button> |
-            <button type="button" data-theme="dark" aria-pressed="true" onclick="setTheme('dark')">●dark</button>
+            <button type="button" data-theme-value="light" aria-pressed="false" onclick="setTheme('light')">○light</button>
+            <span class="theme-separator" aria-hidden="true">|</span>
+            <button type="button" data-theme-value="dark" aria-pressed="false" onclick="setTheme('dark')">●dark</button>
           </div>
         </div>
       </nav>
