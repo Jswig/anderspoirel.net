@@ -1,18 +1,20 @@
-function setTheme(theme) {
-  document.documentElement.classList.toggle('light', theme === 'light');
-  document.querySelectorAll('.theme-switch button').forEach(button => {
-    button.setAttribute('aria-pressed', String(button.dataset.theme === theme));
-  });
+const validThemes = ['light', 'dark']
 
-  try {
-    localStorage.setItem('theme', theme);
-  } catch (_) { }
+function setTheme(theme) {
+  if (!validThemes.includes(theme)) {
+    return
+  }
+  document.documentElement.setAttribute('data-theme', theme)
+  localStorage.setItem('theme', theme);
+
+  document.querySelectorAll('.theme-switch button').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.themeValue === theme))
+  })
 }
 
-let savedTheme;
+function loadTheme() {
+  const savedTheme = localStorage.getItem('theme')
+  setTheme(validThemes.includes(savedTheme) ? savedTheme : 'light')
+}
 
-try {
-    savedTheme = localStorage.getItem('theme');
-} catch (_) { }
-
-setTheme(savedTheme === "light" ? "light" : "dark");
+loadTheme()

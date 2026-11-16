@@ -2,11 +2,9 @@
 <article>
     <h1 class="page-title">{{ .Title }}</h1>
     <p class="page-title-date">
-        <time datetime="{{ .PublishDate.Format "2006-01-02" }}">
-            <em>{{ .PublishDate.Format "2006-01-02" }}</em>
-        </time>
+        <time datetime="{{ .PublishDate.Format "2006-01-02" }}">{{ .PublishDate.Format "2006-01-02" }}</time>
         {{ with .Params.assumed_audience }}
-            <span class="post-audience">assumed audience: {{ . }}</span>
+            <span class="post-audience"><span aria-hidden="true" class="post-meta-separator">·</span> intended audience: {{ . }}</span>
         {{ end }}
     </p>
 

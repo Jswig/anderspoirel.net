@@ -1,6 +1,6 @@
 <p class="post-list-item">
   <time class="listed-post-date" datetime="{{ .PublishDate.Format "2006-01-02" }}">
-    <em>{{ .PublishDate.Format "2006-01-02" }}</em>
+    {{ .PublishDate.Format "2006-01-02" }}
   </time>
   <a href="{{ .RelPermalink }}">{{ .Title }}</a>
 </p>
